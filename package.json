@@ -1,5 +1,5 @@
 {
-  "name": "template",
+  "name": "capstone2",
   "version": "1.0.0",
   "description": "![](https://img.shields.io/badge/Microverse-blueviolet)",
   "main": "webpack.config.js",
@@ -62,5 +62,13 @@
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
     "gh-pages": "^4.0.0",
     "sass": "^1.54.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisDavidRodriguez/Capstone2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LuisDavidRodriguez/Capstone2/issues"
+  },
+  "homepage": "https://LuisDavidRodriguez.github.io/Capstone2"
 }
