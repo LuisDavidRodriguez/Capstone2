@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  padding-inline-start: 0;
+  list-style: none;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+a {
+  text-decoration: none;
+  word-wrap: break-word;
+}
+
+::before {
+  box-sizing: border-box;
+}
+
+::after {
+  box-sizing: border-box;
+}
+
+/*# sourceMappingURL=main.css.map */
