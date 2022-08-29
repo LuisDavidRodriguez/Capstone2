@@ -1,6 +1,4 @@
-const BASE_URL =
-  'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/';
-
+const BASE_URL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/';
 const GAME_ID = '3bifdQ3qgzMtAvx1V3Pc';
 
 const getLikes = async () => {
@@ -9,9 +7,9 @@ const getLikes = async () => {
   console.log(data);
 };
 
-const addLike = async (name) => {
+const addLike = async (id) => {
   const body = JSON.stringify({
-    item_id: 'item1',
+    item_id: id,
   });
   const headers = { 'Content-type': 'application/json; charset=UTF-8' }; 
   const result = await fetch(`${BASE_URL}${GAME_ID}/likes`, {
