@@ -1,13 +1,32 @@
-@import '../1_abstracts/functions';
-@import '../1_abstracts/variables';
-@import '../1_abstracts/mixin';
-@import '../2_base/config';
-@import '../2_base/fonts';
-@import '../3_layout/footer';
-@import '../3_layout/header';
 
 #comments-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  img {
+    width: 50%;
+  }
+
+  ul.details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 1rem;
+    column-gap: 5rem;
+  }
+
+  ul.comments {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 0.8rem;
+  }
+
+  form {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
 }
