@@ -1,6 +1,5 @@
+@import '1_abstracts/variables';
 @import '2_base/config';
-
-#comments-modal {
-    display: flex;
-    flex-direction: column;
-}
+@import '2_base/fonts';
+@import '3_layout/header';
+@import '3_layout/footer'
