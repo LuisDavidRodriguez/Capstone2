@@ -1,7 +1,7 @@
 @use '../1_abstracts/functions' as f;
 @use '../1_abstracts/variables' as v;
 
-.modal-container {
+#modal-container {
   // display: none;
   position: fixed;
   z-index: 1;
@@ -11,9 +11,9 @@
   height: 100%;
   overflow: auto;
   background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.6);
 
-  #comments-modal {
+  .comments-modal {
     background-color: f.getcolor('background');
     margin: 5% auto;
     padding: 20px;
