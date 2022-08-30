@@ -37,12 +37,13 @@
       under MIT license
     </footer>
 
-    <div id="modal-container"></div>
-    <!-- <div id="modal-container">
+    <div id="modal-generator"></div>
+
+    <!-- Template of the modal -->
+    <div class="modal-container" style="display: none">
       <div class="comments-modal">
         <button class="close-modal">X</button>
-        <img src="./assets/placeholder-image.webp" alt="" />
-        <h1>Item 1</h1>
+        <h1>Title</h1>
         <ul class="details">
           <li>Detail 1</li>
           <li>Detail 2</li>
@@ -57,12 +58,22 @@
         </ul>
         <h2>Add a comment</h2>
         <form action="submit">
-          <input type="text" id="name-input" placeholder="Your name" />
-          <textarea name="comment" id="comment-textarea" cols="30" rows="10"></textarea>
-          <button type="submit" id="submit-comment-button">Submit</button>
+          <input
+            type="text"
+            name="name"
+            id="name-input"
+            placeholder="Your name"
+          />
+          <textarea
+            name="comment"
+            id="comment-textarea"
+            cols="30"
+            rows="10"
+          ></textarea>
+          <button type="submit" id="submit-btn">Submit</button>
         </form>
       </div>
-    </div> -->
+    </div>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

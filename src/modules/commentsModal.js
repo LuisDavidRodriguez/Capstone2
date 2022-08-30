@@ -1,39 +1,77 @@
-const generateModal = () => {
-    const modalContainer = document.querySelector('#modal-container');
-    const commentsModal = document.createElement('div');
-    commentsModal.classList.add('comments-modal');
-    modalContainer.appendChild(commentsModal);
+const generateModal = (id) => {
+  // Grabs the modal generator
+  const modalGenerator = document.querySelector('#modal-generator');
 
-    const closeBtn = document.createElement('button');
-    closeBtn.classList.add('close-modal');
-    const closeBtnText = document.createTextNode('X');
-    closeBtn.appendChild(closeBtnText);
-    commentsModal.appendChild(closeBtn);
+  // Creates all elements for the modal
+  const modalContainer = document.createElement('div');
+  const commentsModal = document.createElement('div');
+  const closeBtn = document.createElement('button');
+  const img = document.createElement('img');
+  const title = document.createElement('h1');
+  const ulDetails = document.createElement('ul');
+  const liDetail1 = document.createElement('li');
+  const liDetail2 = document.createElement('li');
+  const h2Comments = document.createElement('h2');
+  const ulComments = document.createElement('ul');
+  // Here should be generated the comments from the API
+  // run a loop and create a li for each comment
+  const h2AddComment = document.createElement('h2');
+  const form = document.createElement('form');
+  const nameInput = document.createElement('input');
+  const commentTextArea = document.createElement('textarea');
+  const submitBtn = document.createElement('button');
 
-    const img = document.createElement('img');
-    commentsModal.appendChild(img);
+  // Adds classes to the elements
+  modalContainer.classList.add('modal-container');
+  commentsModal.classList.add('comments-modal');
+  closeBtn.classList.add('close-modal');
+  ulDetails.classList.add('details');
+  ulComments.classList.add('comments');
 
-    const title = document.createElement('h1');
-    const titleText = document.createTextNode('Title');
-    title.appendChild(titleText);
-    commentsModal.appendChild(title);
+  // Adds attributes to the elements
+  // img.src = data.image.medium;
+  form.setAttribute('action', '#');
+  form.setAttribute('method', 'POST');
+  nameInput.setAttribute('type', 'text');
+  nameInput.setAttribute('name', 'name');
+  nameInput.setAttribute('placeholder', 'Your name');
+  nameInput.id = 'name-input';
+  commentTextArea.setAttribute('name', 'comment');
+  commentTextArea.setAttribute('placeholder', 'Your comment');
+  commentTextArea.id = 'comment-textarea';
+  submitBtn.setAttribute('type', 'submit');
+  submitBtn.id = 'submit-btn';
 
-    const ulDetails = document.createElement('ul');
-    ulDetails.classList.add('details');
-    commentsModal.appendChild(ulDetails);
+  // Creates text nodes
+  const closeBtnText = document.createTextNode('X');
+  const titleText = document.createTextNode('Title');
+  const h2CommentsText = document.createTextNode(`Comments (n)`);
+  const h2AddCommentText = document.createTextNode('Add a comment');
+  const submitBtnText = document.createTextNode('Submit');
 
-    const liDetail1 = document.createElement('li');
-    ulDetails.appendChild(liDetail1);
+  // Appends text nodes to the elements
+  closeBtn.appendChild(closeBtnText);
+  title.appendChild(titleText);
+  h2Comments.appendChild(h2CommentsText);
+  h2AddComment.appendChild(h2AddCommentText);
+  submitBtn.appendChild(submitBtnText);
 
-    const liDetail2 = document.createElement('li');
-    ulDetails.appendChild(liDetail2);
+  // Appends elements to the modal
+  commentsModal.appendChild(closeBtn);
+  commentsModal.appendChild(img);
+  commentsModal.appendChild(title);
+  commentsModal.appendChild(ulDetails);
+  commentsModal.appendChild(h2Comments);
+  commentsModal.appendChild(ulComments);
+  commentsModal.appendChild(h2AddComment);
+  commentsModal.appendChild(form);
+  form.appendChild(nameInput);
+  form.appendChild(commentTextArea);
+  form.appendChild(submitBtn);
+  modalContainer.appendChild(commentsModal);
 
-    const h2Comments = document.createElement('h2');
-    const h2CommentsText = document.createTextNode(`Comments (n)`);
-    h2Comments.appendChild(h2CommentsText);
-    commentsModal.appendChild(h2Comments);
-
-
+  // Appends modalContainer to the modalGenerator
+  modalGenerator.appendChild(modalContainer);
 };
 
 export default generateModal;
