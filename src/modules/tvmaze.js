@@ -7,4 +7,4 @@ const getShows = async () => {
   console.log(data);
 };
 
-export { getShows };
+export default getShows;

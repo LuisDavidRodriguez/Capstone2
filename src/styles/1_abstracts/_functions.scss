@@ -1,7 +1,8 @@
 /// retreive color and validate the key
 /// @param {String} $key -  the color
 @use 'variables' as v;
-@function getColor($key: 'primary') {
+
+@function getcolor($key: 'primary') {
   @if map-has-key(v.$brand-color,  $key) {
     @return map-get(v.$brand-color, $key );
   }
@@ -9,5 +10,16 @@
   @else {
     @warn "Unfortunately, no value could be retreived with key: `#{$key}`."
       + " Available color are: #{map-keys(v.$brand-color)}.";
+  }
+}
+
+@function get-break-point($key: 'medium') {
+  @if map-has-key(v.$break-points,  $key) {
+    @return map-get(v.$break-points, $key );
+  }
+
+  @else {
+    @warn "Unfortunately, no value could be retreived with key: `#{$key}`."
+      + " Available color are: #{map-keys(v.$break-points)}.";
   }
 }

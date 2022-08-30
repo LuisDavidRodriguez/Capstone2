@@ -1,9 +1,10 @@
 @use '../1_abstracts/functions' as f;
 @use '../1_abstracts/variables' as v;
+
 header {
   display: flex;
   align-items: center;
-  background-color: f.getColor('primary');
+  background-color: f.getcolor('primary');
   width: 100%;
   height: v.$navHeight;
 
@@ -26,14 +27,13 @@ header .menu {
       align-items: center;
       height: 100%;
       padding: 5px;
-      color: f.getColor('background');
+      color: f.getcolor('background');
       font-family: v.$fontFamilyPharagraph;
       transition: all 0.5s linear;
-  
+
       &:hover {
-        background-color: f.getColor('accent');
+        background-color: f.getcolor('accent');
       }
     }
-    
   }
 }
