@@ -2,9 +2,18 @@ $brand-color: (
   'primary':    #003049,
   'secondary':  #fcbf49,
   'accent':     #d62828,
-  'background': #eae2B7,
+  'background': #eae2b7,
   'hover':      #f77f00,
+);
+
+$break-points: (
+  'base': 0,
+  'small': 480px,
+  'medium': 768px,
+  'large': 960px,
+  'xlarge': 1200px,
 );
 
 $fontFamilyPharagraph: 'Roboto', sans-serif;
 $fontFamilyTitle: 'Roboto Slab', serif;
+$navHeight: 80px;
