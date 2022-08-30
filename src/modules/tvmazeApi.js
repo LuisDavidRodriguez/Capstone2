@@ -17,4 +17,5 @@ const getShows = async (moviesManager) => {
   }
 };
 
+// eslint-disable-next-line import/prefer-default-export
 export { getShows };
