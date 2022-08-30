@@ -9,13 +9,17 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/main.scss */ "./src/styles/main.scss");
-/* harmony import */ var _modules_tvmaze__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/tvmaze */ "./src/modules/tvmaze.js");
-/* harmony import */ var _modules_involvementApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/involvementApi */ "./src/modules/involvementApi.js");
+/* harmony import */ var _modules_tvmazeApi_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/tvmazeApi.js */ "./src/modules/tvmazeApi.js");
+/* harmony import */ var _modules_involvementApi_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/involvementApi.js */ "./src/modules/involvementApi.js");
+/* harmony import */ var _modules_moviesManager_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/moviesManager.js */ "./src/modules/moviesManager.js");
 
 
 
-(0,_modules_tvmaze__WEBPACK_IMPORTED_MODULE_1__.getShows)();
-_modules_involvementApi__WEBPACK_IMPORTED_MODULE_2__.getLikes();
+
+var moviesContainer = document.getElementById('moviesSection');
+var moviesManager = new _modules_moviesManager_js__WEBPACK_IMPORTED_MODULE_3__["default"](moviesContainer);
+_modules_tvmazeApi_js__WEBPACK_IMPORTED_MODULE_1__.getShows(moviesManager.display);
+_modules_involvementApi_js__WEBPACK_IMPORTED_MODULE_2__.getLikes();
 
 /***/ }),
 
@@ -95,8 +99,9 @@ var addLike = /*#__PURE__*/function () {
 
           case 4:
             result = _context2.sent;
+            console.log(result);
 
-          case 5:
+          case 6:
           case "end":
             return _context2.stop();
         }
@@ -113,10 +118,137 @@ var addLike = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/modules/tvmaze.js":
-/*!*******************************!*\
-  !*** ./src/modules/tvmaze.js ***!
-  \*******************************/
+/***/ "./src/modules/moviesManager.js":
+/*!**************************************!*\
+  !*** ./src/modules/moviesManager.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ MoviesManager)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclaration(obj, privateSet); privateSet.add(obj); }
+
+function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
+
+function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+
+function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+
+function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"); _classApplyDescriptorSet(receiver, descriptor, value); return value; }
+
+function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
+
+function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
+
+var _parentContainer = /*#__PURE__*/new WeakMap();
+
+var _createMovie = /*#__PURE__*/new WeakSet();
+
+var _createMovieBody = /*#__PURE__*/new WeakSet();
+
+var _createFooter = /*#__PURE__*/new WeakSet();
+
+var MoviesManager = /*#__PURE__*/function () {
+  function MoviesManager(container) {
+    _classCallCheck(this, MoviesManager);
+
+    _classPrivateMethodInitSpec(this, _createFooter);
+
+    _classPrivateMethodInitSpec(this, _createMovieBody);
+
+    _classPrivateMethodInitSpec(this, _createMovie);
+
+    _classPrivateFieldInitSpec(this, _parentContainer, {
+      writable: true,
+      value: void 0
+    });
+
+    _classPrivateFieldSet(this, _parentContainer, container);
+  }
+
+  _createClass(MoviesManager, [{
+    key: "display",
+    value: function display(data) {
+      var _this = this;
+
+      data.forEach(function (item) {
+        var movie = _classPrivateMethodGet(_this, _createMovie, _createMovie2).call(_this, item);
+
+        _classPrivateFieldGet(_this, _parentContainer).append(movie);
+      });
+    } // eslint-disable-next-line class-methods-use-this
+
+  }]);
+
+  return MoviesManager;
+}();
+
+function _createMovie2(data) {
+  var movieContainer = document.createElement('article');
+  var img = document.createElement('img');
+
+  var movieBody = _classPrivateMethodGet(this, _createMovieBody, _createMovieBody2).call(this);
+
+  var footerMovie = _classPrivateMethodGet(this, _createFooter, _createFooter2).call(this);
+
+  movieContainer.className = 'movie';
+  img.className = 'movie__img';
+  movieContainer.append(img, movieBody, footerMovie);
+  return movieContainer;
+}
+
+function _createMovieBody2() {
+  var movieBody = document.createElement('section');
+  var title = document.createElement('h3');
+  var description = document.createElement('p');
+  movieBody.className = 'movie__body';
+  title.className = 'movie__body__title';
+  description.className = 'movie__body__description';
+  movieBody.append(title, description);
+  return movieBody;
+}
+
+function _createFooter2() {
+  var footer = document.createElement('section');
+  var auxiliarDiv1 = document.createElement('div');
+  var auxiliarDiv2 = document.createElement('div');
+  var starInfo = document.createElement('span');
+  var likeInfo = document.createElement('span');
+  var starIcon = document.createElement('i');
+  var likeIcon = document.createElement('i');
+  footer.className = 'movie__footer';
+  starIcon.className = 'fa-solid fa-star star-btn';
+  likeIcon.className = 'fa-solid fa-heart like-btn'; // starInfo.id = 'starInfo';
+  // likeInfo.id = 'likeInfo';
+  // starIcon.id = 'starBtn';
+  // likeIcon.id = 'likeBtn';
+
+  auxiliarDiv1.append(starInfo, starIcon);
+  auxiliarDiv2.append(likeInfo, likeIcon);
+  footer.append(auxiliarDiv1, auxiliarDiv2);
+  return footer;
+}
+
+
+
+/***/ }),
+
+/***/ "./src/modules/tvmazeApi.js":
+/*!**********************************!*\
+  !*** ./src/modules/tvmazeApi.js ***!
+  \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -134,34 +266,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var BASE_URL = 'https://api.tvmaze.com/shows';
 
 var getShows = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var result, data;
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(displayCallBack) {
+    var result, data, status;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
+            _context.prev = 0;
+            _context.next = 3;
             return fetch(BASE_URL);
 
-          case 2:
+          case 3:
             result = _context.sent;
-            _context.next = 5;
+            _context.next = 6;
             return result.json();
 
-          case 5:
+          case 6:
             data = _context.sent;
+            status = result.status;
+
+            if (!(status !== 200)) {
+              _context.next = 10;
+              break;
+            }
+
+            throw new Error('The pitition did not return 200');
+
+          case 10:
             console.log(result);
             console.log(data);
+            displayCallBack(data);
+            _context.next = 18;
+            break;
 
-          case 8:
+          case 15:
+            _context.prev = 15;
+            _context.t0 = _context["catch"](0);
+            console.log(_context.t0);
+
+          case 18:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee);
+    }, _callee, null, [[0, 15]]);
   }));
 
-  return function getShows() {
+  return function getShows(_x) {
     return _ref.apply(this, arguments);
   };
 }();
@@ -190,7 +341,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nul {\n  padding-inline-start: 0;\n  list-style: none;\n  margin-block-start: 0;\n  margin-block-end: 0;\n}\n\na {\n  text-decoration: none;\n  word-wrap: break-word;\n}\n\n::before {\n  box-sizing: border-box;\n}\n\n::after {\n  box-sizing: border-box;\n}\n\nheader {\n  display: flex;\n  align-items: center;\n  background-color: #003049;\n  width: 100%;\n  height: 80px;\n}\nheader .logo {\n  display: inline-block;\n  height: 80%;\n}\n\nheader .menu {\n  display: flex;\n  margin-left: 5%;\n  height: 100%;\n}\nheader .menu ul {\n  display: flex;\n}\nheader .menu ul a {\n  display: flex;\n  align-items: center;\n  height: 100%;\n  padding: 5px;\n  color: #eae2B7;\n  font-family: \"Roboto\", sans-serif;\n  transition: all 0.5s linear;\n}\nheader .menu ul a:hover {\n  background-color: #d62828;\n}", "",{"version":3,"sources":["webpack://./src/styles/2_base/_config.scss","webpack://./src/styles/main.scss","webpack://./src/styles/3_layout/_header.scss","webpack://./src/styles/1_abstracts/_variables.scss"],"names":[],"mappings":"AACA;EACE,SAAA;EACA,UAAA;EACA,sBAAA;ACCF;;ADGA;EACE,uBAAA;EACA,gBAAA;EACA,qBAAA;EACA,mBAAA;ACAF;;ADGA;EACE,qBAAA;EACA,qBAAA;ACAF;;ADGA;EACE,sBAAA;ACAF;;ADGA;EACE,sBAAA;ACAF;;ACvBA;EACE,aAAA;EACA,mBAAA;EACA,yBAAA;EACA,WAAA;EACA,YCIU;AFsBZ;ACxBE;EACE,qBAAA;EACA,WAAA;AD0BJ;;ACtBA;EACE,aAAA;EACA,eAAA;EACA,YAAA;ADyBF;ACvBE;EACE,aAAA;ADyBJ;ACvBI;EACE,aAAA;EACA,mBAAA;EACA,YAAA;EACA,YAAA;EACA,cAAA;EACA,iCCrBiB;EDsBjB,2BAAA;ADyBN;ACvBM;EACE,yBAAA;ADyBR","sourcesContent":["@use '../1_abstracts/functions' as f;\r\n* {\r\n  margin: 0;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\n//yeah I get ride of that hideous padding once and for all for all my ul!!\r\nul {\r\n  padding-inline-start: 0;\r\n  list-style: none;\r\n  margin-block-start: 0;\r\n  margin-block-end: 0;\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  word-wrap: break-word;\r\n}\r\n\r\n::before {\r\n  box-sizing: border-box;\r\n}\r\n\r\n::after {\r\n  box-sizing: border-box;\r\n}\r\n","@import url(\"https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,700&display=swap\");\n* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nul {\n  padding-inline-start: 0;\n  list-style: none;\n  margin-block-start: 0;\n  margin-block-end: 0;\n}\n\na {\n  text-decoration: none;\n  word-wrap: break-word;\n}\n\n::before {\n  box-sizing: border-box;\n}\n\n::after {\n  box-sizing: border-box;\n}\n\nheader {\n  display: flex;\n  align-items: center;\n  background-color: #003049;\n  width: 100%;\n  height: 80px;\n}\nheader .logo {\n  display: inline-block;\n  height: 80%;\n}\n\nheader .menu {\n  display: flex;\n  margin-left: 5%;\n  height: 100%;\n}\nheader .menu ul {\n  display: flex;\n}\nheader .menu ul a {\n  display: flex;\n  align-items: center;\n  height: 100%;\n  padding: 5px;\n  color: #eae2B7;\n  font-family: \"Roboto\", sans-serif;\n  transition: all 0.5s linear;\n}\nheader .menu ul a:hover {\n  background-color: #d62828;\n}","@use '../1_abstracts/functions' as f;\n@use '../1_abstracts/variables' as v;\nheader {\n  display: flex;\n  align-items: center;\n  background-color: f.getcolor('primary');\n  width: 100%;\n  height: v.$navHeight;\n\n  .logo {\n    display: inline-block;\n    height: 80%;\n  }\n}\n\nheader .menu {\n  display: flex;\n  margin-left: 5%;\n  height: 100%;\n\n  ul {\n    display: flex;\n\n    a {\n      display: flex;\n      align-items: center;\n      height: 100%;\n      padding: 5px;\n      color: f.getcolor('background');\n      font-family: v.$fontFamilyPharagraph;\n      transition: all 0.5s linear;\n  \n      &:hover {\n        background-color: f.getcolor('accent');\n      }\n    }\n\n  }\n}","$brand-color: (\n  'primary':    #003049,\n  'secondary':  #fcbf49,\n  'accent':     #d62828,\n  'background': #eae2B7,\n  'hover':      #f77f00,\n);\n\n$fontFamilyPharagraph: 'Roboto', sans-serif;\n$fontFamilyTitle: 'Roboto Slab', serif;\n\n$navHeight: 80px;"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nul {\n  padding-inline-start: 0;\n  list-style: none;\n  margin-block-start: 0;\n  margin-block-end: 0;\n}\n\na {\n  text-decoration: none;\n  word-wrap: break-word;\n}\n\n::before {\n  box-sizing: border-box;\n}\n\n::after {\n  box-sizing: border-box;\n}\n\nheader {\n  display: flex;\n  align-items: center;\n  background-color: #003049;\n  height: 80px;\n}\nheader .logo {\n  margin-left: 5%;\n  display: inline-block;\n  height: 80%;\n}\n\nheader .menu {\n  display: flex;\n  margin-left: 5%;\n  height: 100%;\n}\nheader .menu ul {\n  display: flex;\n}\nheader .menu ul a {\n  display: flex;\n  align-items: center;\n  height: 100%;\n  padding: 5px;\n  color: #eae2b7;\n  font-family: \"Roboto\", sans-serif;\n  transition: all 0.5s linear;\n}\nheader .menu ul a:hover {\n  background-color: #d62828;\n}\n\nfooter {\n  font-family: \"Roboto\", sans-serif;\n  height: 80px;\n  background-color: #003049;\n  color: #eae2b7;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding-left: 5%;\n}\nfooter a {\n  font-weight: bold;\n  color: #fcbf49;\n}\n\n.movies-section {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-gap: 30px 30px;\n  margin: 30px 10px;\n  justify-items: center;\n}\n@media screen and (min-width: 480px) {\n  .movies-section {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n@media screen and (min-width: 768px) {\n  .movies-section {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n@media screen and (min-width: 960px) {\n  .movies-section {\n    grid-template-columns: repeat(4, 1fr);\n  }\n}\n@media screen and (min-width: 1200px) {\n  .movies-section {\n    grid-template-columns: repeat(5, 1fr);\n  }\n}\n\n.movie {\n  width: 250px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  box-shadow: 2px 2px 5px 2px #d62828;\n  border-radius: 5px 5px 30px 5px;\n  transition: transform 0.1s linear;\n}\n.movie:hover {\n  cursor: pointer;\n  transform: scale(1.005);\n}\n.movie__img {\n  display: block;\n  min-height: 60%;\n  padding: 5px;\n}\n.movie__body {\n  height: 30%;\n  padding: 5px;\n  text-align: center;\n}\n.movie__body__title {\n  color: #003049;\n  font-family: \"Roboto Slab\", serif;\n}\n.movie__body__description {\n  margin-top: 5px;\n  font-family: \"Roboto\", sans-serif;\n  color: #004163;\n}\n.movie__footer {\n  display: flex;\n  align-items: center;\n  justify-content: space-evenly;\n  height: 10%;\n  width: 100%;\n  background-color: rgba(214, 40, 40, 0.3);\n  border-radius: 0 0 30px 5px;\n}\n.movie__footer .star-btn, .movie__footer .like-btn {\n  transition: all 0.5s ease-in-out;\n}\n.movie__footer .star-btn:hover, .movie__footer .like-btn:hover {\n  color: #d62828;\n  cursor: pointer;\n  transform: scale(1.5);\n}", "",{"version":3,"sources":["webpack://./src/styles/2_base/_config.scss","webpack://./src/styles/main.scss","webpack://./src/styles/3_layout/_header.scss","webpack://./src/styles/1_abstracts/_variables.scss","webpack://./src/styles/3_layout/_footer.scss","webpack://./src/styles/3_layout/_movies-section.scss","webpack://./src/styles/1_abstracts/_mixin.scss","webpack://./src/styles/4_components/_cards.scss"],"names":[],"mappings":"AAEA;EACE,SAAA;EACA,UAAA;EACA,sBAAA;ACAF;;ADIA;EACE,uBAAA;EACA,gBAAA;EACA,qBAAA;EACA,mBAAA;ACDF;;ADIA;EACE,qBAAA;EACA,qBAAA;ACDF;;ADIA;EACE,sBAAA;ACDF;;ADIA;EACE,sBAAA;ACDF;;ACtBA;EACE,aAAA;EACA,mBAAA;EACA,yBAAA;EACA,YCWU;AFcZ;ACvBE;EACE,eAAA;EACA,qBAAA;EACA,WAAA;ADyBJ;;ACrBA;EACE,aAAA;EACA,eAAA;EACA,YAAA;ADwBF;ACtBE;EACE,aAAA;ADwBJ;ACtBI;EACE,aAAA;EACA,mBAAA;EACA,YAAA;EACA,YAAA;EACA,cAAA;EACA,iCCdiB;EDejB,2BAAA;ADwBN;ACtBM;EACE,yBAAA;ADwBR;;AGvDA;EACE,iCDYqB;ECXrB,YDaU;ECZV,yBAAA;EACA,cAAA;EACA,aAAA;EACA,mBAAA;EACA,QAAA;EACA,gBAAA;AH0DF;AGxDE;EACE,iBAAA;EACA,cAAA;AH0DJ;;AIvEA;EACE,aAAA;EACA,0BAAA;EACA,mBAAA;EACA,iBAAA;EACA,qBAAA;AJ0EF;AKxEE;EDPF;IAQI,qCAAA;EJ2EF;AACF;AKtEE;EDdF;IAYI,qCAAA;EJ4EF;AACF;AKrEE;EDpBF;IAgBI,qCAAA;EJ6EF;AACF;AKpEE;ED1BF;IAoBI,qCAAA;EJ8EF;AACF;;AMvFA;EACE,YAAA;EACA,aAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,mCAAA;EAbE,+BAAA;EAeF,iCAAA;AN0FF;AMxFE;EACE,eAAA;EACA,uBAAA;AN0FJ;AMvFE;EACE,cAAA;EACA,eAAA;EACA,YAAA;ANyFJ;AMtFE;EACE,WAAA;EACA,YAAA;EACA,kBAAA;ANwFJ;AMtFI;EACE,cAAA;EACA,iCJzBY;AFiHlB;AMrFI;EACE,eAAA;EACA,iCJ/BiB;EIgCjB,cAAA;ANuFN;AMnFE;EACE,aAAA;EACA,mBAAA;EACA,6BAAA;EACA,WAAA;EACA,WAAA;EACA,wCAAA;EAhDA,2BAAA;ANsIJ;AMnFI;EACE,gCAAA;ANqFN;AMnFM;EACE,cAAA;EACA,eAAA;EACA,qBAAA;ANqFR","sourcesContent":["@use '../1_abstracts/functions' as f;\r\n\r\n* {\r\n  margin: 0;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\n//yeah I get ride of that hideous padding once and for all for all my ul!!\r\nul {\r\n  padding-inline-start: 0;\r\n  list-style: none;\r\n  margin-block-start: 0;\r\n  margin-block-end: 0;\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  word-wrap: break-word;\r\n}\r\n\r\n::before {\r\n  box-sizing: border-box;\r\n}\r\n\r\n::after {\r\n  box-sizing: border-box;\r\n}\r\n","@import url(\"https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,700&display=swap\");\n* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nul {\n  padding-inline-start: 0;\n  list-style: none;\n  margin-block-start: 0;\n  margin-block-end: 0;\n}\n\na {\n  text-decoration: none;\n  word-wrap: break-word;\n}\n\n::before {\n  box-sizing: border-box;\n}\n\n::after {\n  box-sizing: border-box;\n}\n\nheader {\n  display: flex;\n  align-items: center;\n  background-color: #003049;\n  height: 80px;\n}\nheader .logo {\n  margin-left: 5%;\n  display: inline-block;\n  height: 80%;\n}\n\nheader .menu {\n  display: flex;\n  margin-left: 5%;\n  height: 100%;\n}\nheader .menu ul {\n  display: flex;\n}\nheader .menu ul a {\n  display: flex;\n  align-items: center;\n  height: 100%;\n  padding: 5px;\n  color: #eae2b7;\n  font-family: \"Roboto\", sans-serif;\n  transition: all 0.5s linear;\n}\nheader .menu ul a:hover {\n  background-color: #d62828;\n}\n\nfooter {\n  font-family: \"Roboto\", sans-serif;\n  height: 80px;\n  background-color: #003049;\n  color: #eae2b7;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding-left: 5%;\n}\nfooter a {\n  font-weight: bold;\n  color: #fcbf49;\n}\n\n.movies-section {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-gap: 30px 30px;\n  margin: 30px 10px;\n  justify-items: center;\n}\n@media screen and (min-width: 480px) {\n  .movies-section {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n@media screen and (min-width: 768px) {\n  .movies-section {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n@media screen and (min-width: 960px) {\n  .movies-section {\n    grid-template-columns: repeat(4, 1fr);\n  }\n}\n@media screen and (min-width: 1200px) {\n  .movies-section {\n    grid-template-columns: repeat(5, 1fr);\n  }\n}\n\n.movie {\n  width: 250px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  box-shadow: 2px 2px 5px 2px #d62828;\n  border-radius: 5px 5px 30px 5px;\n  transition: transform 0.1s linear;\n}\n.movie:hover {\n  cursor: pointer;\n  transform: scale(1.005);\n}\n.movie__img {\n  display: block;\n  min-height: 60%;\n  padding: 5px;\n}\n.movie__body {\n  height: 30%;\n  padding: 5px;\n  text-align: center;\n}\n.movie__body__title {\n  color: #003049;\n  font-family: \"Roboto Slab\", serif;\n}\n.movie__body__description {\n  margin-top: 5px;\n  font-family: \"Roboto\", sans-serif;\n  color: #004163;\n}\n.movie__footer {\n  display: flex;\n  align-items: center;\n  justify-content: space-evenly;\n  height: 10%;\n  width: 100%;\n  background-color: rgba(214, 40, 40, 0.3);\n  border-radius: 0 0 30px 5px;\n}\n.movie__footer .star-btn, .movie__footer .like-btn {\n  transition: all 0.5s ease-in-out;\n}\n.movie__footer .star-btn:hover, .movie__footer .like-btn:hover {\n  color: #d62828;\n  cursor: pointer;\n  transform: scale(1.5);\n}","@use '../1_abstracts/functions' as f;\r\n@use '../1_abstracts/variables' as v;\r\n\r\nheader {\r\n  display: flex;\r\n  align-items: center;\r\n  background-color: f.getcolor('primary');\r\n  height: v.$navHeight;\r\n\r\n  .logo {\r\n    margin-left: 5%;\r\n    display: inline-block;\r\n    height: 80%;\r\n  }\r\n}\r\n\r\nheader .menu {\r\n  display: flex;\r\n  margin-left: 5%;\r\n  height: 100%;\r\n\r\n  ul {\r\n    display: flex;\r\n\r\n    a {\r\n      display: flex;\r\n      align-items: center;\r\n      height: 100%;\r\n      padding: 5px;\r\n      color: f.getcolor('background');\r\n      font-family: v.$fontFamilyPharagraph;\r\n      transition: all 0.5s linear;\r\n\r\n      &:hover {\r\n        background-color: f.getcolor('accent');\r\n      }\r\n    }\r\n  }\r\n}\r\n","$brand-color: (\r\n  'primary':    #003049,\r\n  'secondary':  #fcbf49,\r\n  'accent':     #d62828,\r\n  'background': #eae2b7,\r\n  'hover':      #f77f00,\r\n);\r\n\r\n$break-points: (\r\n  'base': 0,\r\n  'small': 480px,\r\n  'medium': 768px,\r\n  'large': 960px,\r\n  'xlarge': 1200px,\r\n);\r\n\r\n$fontFamilyPharagraph: 'Roboto', sans-serif;\r\n$fontFamilyTitle: 'Roboto Slab', serif;\r\n$navHeight: 80px;\r\n","@use '../1_abstracts/functions' as f;\r\n@use '../1_abstracts/variables' as v;\r\n\r\nfooter {\r\n  font-family: $fontFamilyPharagraph;\r\n  height: v.$navHeight;\r\n  background-color: f.getcolor('primary');\r\n  color: f.getcolor('background');\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 5px;\r\n  padding-left: 5%;\r\n\r\n  a {\r\n    font-weight: bold;\r\n    color: f.getcolor('secondary');\r\n  }\r\n}\r\n","@use '../1_abstracts/mixin';\n\n.movies-section {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-gap: 30px 30px;\n  margin: 30px 10px;\n  justify-items: center;\n\n  @include mixin.small {\n    grid-template-columns: repeat(2, 1fr);\n  }\n\n  @include mixin.medium {\n    grid-template-columns: repeat(3, 1fr);\n  }\n\n  @include mixin.large {\n    grid-template-columns: repeat(4, 1fr);\n  }\n\n  @include mixin.xlarge {\n    grid-template-columns: repeat(5, 1fr);\n  }\n}\n","@use 'functions' as f;\r\n\r\n@mixin base {\r\n  @media screen and (min-width: f.get-break-point('base')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin small {\r\n  @media screen and (min-width: f.get-break-point('small')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n// desktop\r\n@mixin medium {\r\n  @media screen and (min-width: f.get-break-point('medium')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin large {\r\n  @media screen and (min-width: f.get-break-point('large')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin xlarge {\r\n  @media screen and (min-width: f.get-break-point('xlarge')) {\r\n    @content;\r\n  }\r\n}\r\n","@use '../1_abstracts/mixin';\n@use '../1_abstracts/functions' as f;\n@use '../1_abstracts/variables' as v;\n\n@mixin border-radius ($card: true) {\n  @if $card == true {\n    // this porder is for all the body\n    border-radius: 5px 5px 30px 5px;\n  }@else {\n    // i will add also a border radious to the footer\n    border-radius: 0 0 30px 5px;\n  }\n}\n\n.movie {\n  width: 250px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  box-shadow: 2px 2px 5px 2px f.getcolor('accent');\n  @include border-radius();\n  transition: transform 0.1s linear;\n\n  &:hover {\n    cursor: pointer;\n    transform: scale(1.005);\n  }\n\n  &__img {\n    display: block;\n    min-height: 60%;\n    padding: 5px;\n  }\n\n  &__body {\n    height: 30%;\n    padding: 5px;\n    text-align: center;\n\n    &__title {\n      color: f.getcolor('primary');\n      font-family: v.$fontFamilyTitle;\n    }\n\n    &__description {\n      margin-top: 5px;\n      font-family: v.$fontFamilyPharagraph;\n      color: lighten(f.getcolor('primary'), 5%);\n    }    \n  }\n\n  &__footer {\n    display: flex;\n    align-items: center;\n    justify-content: space-evenly;\n    height: 10%;\n    width: 100%;\n    background-color: transparentize(f.getcolor('accent'), 0.7);\n    @include border-radius(false);\n\n    .star-btn {\n      transition: all 0.5s ease-in-out;\n\n      &:hover {\n        color: f.getcolor('accent');\n        cursor: pointer;\n        transform: scale(1.5);\n      }\n    }\n\n    .like-btn {\n      @extend .star-btn;\n    }\n  }\n\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

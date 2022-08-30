@@ -1,0 +1,77 @@
+@use '../1_abstracts/mixin';
+@use '../1_abstracts/functions' as f;
+@use '../1_abstracts/variables' as v;
+
+@mixin border-radius ($card: true) {
+  @if $card == true {
+    // this porder is for all the body
+    border-radius: 5px 5px 30px 5px;
+  }@else {
+    // i will add also a border radious to the footer
+    border-radius: 0 0 30px 5px;
+  }
+}
+
+.movie {
+  width: 250px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 2px 2px 5px 2px f.getcolor('accent');
+  @include border-radius();
+  transition: transform 0.5s linear;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.01);
+  }
+
+  &__img {
+    display: block;
+    min-height: 60%;
+    padding: 5px;
+  }
+
+  &__body {
+    height: 30%;
+    padding: 5px;
+    text-align: center;
+
+    &__title {
+      color: f.getcolor('primary');
+      font-family: v.$fontFamilyTitle;
+    }
+
+    &__description {
+      margin-top: 5px;
+      font-family: v.$fontFamilyPharagraph;
+      color: lighten(f.getcolor('primary'), 5%);
+    }    
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 10%;
+    width: 100%;
+    background-color: transparentize(f.getcolor('accent'), 0.7);
+    @include border-radius(false);
+
+    .star-btn {
+      transition: all 0.5s ease-in-out;
+
+      &:hover {
+        color: f.getcolor('accent');
+        cursor: pointer;
+        transform: scale(1.5);
+      }
+    }
+
+    .like-btn {
+      @extend .star-btn;
+    }
+  }
+
+}
