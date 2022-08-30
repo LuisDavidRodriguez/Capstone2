@@ -1,0 +1,13 @@
+@import '../1_abstracts/functions';
+@import '../1_abstracts/variables';
+@import '../1_abstracts/mixin';
+@import '../2_base/config';
+@import '../2_base/fonts';
+@import '../3_layout/footer';
+@import '../3_layout/header';
+
+#comments-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

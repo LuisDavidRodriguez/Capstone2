@@ -1,3 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+ul {
+  padding-inline-start: 0;
+  list-style: none;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+a {
+  text-decoration: none;
+  word-wrap: break-word;
+}
+
+::before {
+  box-sizing: border-box;
+}
+
+::after {
+  box-sizing: border-box;
+}
+
+footer {
+  font-family: "Roboto", sans-serif;
+  height: 80px;
+  background-color: #003049;
+  color: #eae2b7;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-left: 5%;
+}
+footer a {
+  font-weight: bold;
+  color: #fcbf49;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  background-color: #003049;
+  height: 80px;
+}
+header .logo {
+  margin-left: 5%;
+  display: inline-block;
+  height: 80%;
+}
+
+header .menu {
+  display: flex;
+  margin-left: 5%;
+  height: 100%;
+}
+header .menu ul {
+  display: flex;
+}
+header .menu ul a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 5px;
+  color: #eae2b7;
+  font-family: "Roboto", sans-serif;
+  transition: all 0.5s linear;
+}
+header .menu ul a:hover {
+  background-color: #d62828;
+}
+
+#comments-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 /*# sourceMappingURL=_commentsModal.css.map */
