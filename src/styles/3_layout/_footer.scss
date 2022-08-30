@@ -2,16 +2,17 @@
 @use '../1_abstracts/variables' as v;
 
 footer {
-    font-family: $fontFamilyPharagraph;
-    height: v.$navHeight;
-    background-color: f.getcolor('primary');
-    color: f.getcolor('background');
-    display: flex;
-    align-items: center;  
-    gap: 5px;
-    padding-left: 5%;
-    a {
-        font-weight: bold;
-        color: f.getcolor('secondary');
-    }
+  font-family: $fontFamilyPharagraph;
+  height: v.$navHeight;
+  background-color: f.getcolor('primary');
+  color: f.getcolor('background');
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-left: 5%;
+
+  a {
+    font-weight: bold;
+    color: f.getcolor('secondary');
+  }
 }
