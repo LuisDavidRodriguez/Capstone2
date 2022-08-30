@@ -4,6 +4,7 @@ const GAME_ID = '3bifdQ3qgzMtAvx1V3Pc';
 const getLikes = async () => {
   const result = await fetch(`${BASE_URL}${GAME_ID}/likes`);
   const data = await result.json();
+  console.log(data);
 };
 
 const addLike = async (id) => {
@@ -16,6 +17,7 @@ const addLike = async (id) => {
     body,
     headers,
   });
+  console.log(result);
 };
 
 export { getLikes, addLike };
