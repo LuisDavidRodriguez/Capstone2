@@ -18,14 +18,14 @@ export default class MoviesManager {
     const movieContainer = document.createElement('article');
     const img = document.createElement('img');
     const movieBody = this.#createMovieBody(data);
-    const footerMovie = this.#createFooter();
+    const footerMovie = this.#createFooter(data);
 
     movieContainer.className = 'movie';
     img.className = 'movie__img';
 
     img.src = data.image.medium;
 
-    movieContainer.id = `movie${data.id}`;
+    movieContainer.id = `movieContainer-${data.id}`;
 
     movieContainer.append(img, movieBody, footerMovie);
     return movieContainer;
@@ -57,7 +57,7 @@ export default class MoviesManager {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  #createFooter() {
+  #createFooter({ id }) {
     const footer = document.createElement('section');
     const auxiliarDiv1 = document.createElement('div');
     const auxiliarDiv2 = document.createElement('div');
@@ -72,8 +72,8 @@ export default class MoviesManager {
 
     // starInfo.id = 'starInfo';
     // likeInfo.id = 'likeInfo';
-    // starIcon.id = 'starBtn';
-    // likeIcon.id = 'likeBtn';
+    starIcon.id = `starBtn-${id}`;
+    likeIcon.id = `likeBtn-${id}`;
 
     auxiliarDiv1.append(starInfo, starIcon);
     auxiliarDiv2.append(likeInfo, likeIcon);
