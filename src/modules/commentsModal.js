@@ -14,6 +14,7 @@ const generateModal = (id) => {
     const closeBtn = document.createElement('button');
     const img = document.createElement('img');
     const title = document.createElement('h1');
+    const summary = document.createElement('p');
     const ulDetails = document.createElement('ul');
     const genres = document.createElement('li');
     const premiered = document.createElement('li');
@@ -56,6 +57,7 @@ const generateModal = (id) => {
     // Creates text nodes
     const closeBtnText = document.createTextNode('X');
     const titleText = document.createTextNode(`${showData.name}`);
+    summary.innerHTML = showData.summary;
     const genresText = document.createTextNode(`Genre: ${showData.genres[0]}`);
     const premieredText = document.createTextNode(`Premiered: ${showData.premiered}`);
     const statusText = document.createTextNode(`Status: ${showData.status}`);
@@ -83,6 +85,7 @@ const generateModal = (id) => {
     commentsModal.appendChild(closeBtn);
     commentsModal.appendChild(img);
     commentsModal.appendChild(title);
+    commentsModal.appendChild(summary);
     commentsModal.appendChild(ulDetails);
     commentsModal.appendChild(h2Comments);
     commentsModal.appendChild(ulComments);
