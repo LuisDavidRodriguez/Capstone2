@@ -42,14 +42,13 @@ moviesContainer.addEventListener('click', (event) => {
 
     // call your modal here my friend
     // openModal(id);    or openModal(parseInt(id, 10)) to assure tha it is a num.
-    console.log('click on the movie id: ', id);
     generateModal(id);
   }
 });
 
 // An event listener for the close modal button
 modalGenerator.addEventListener('click', (event) => {
-  if (event.target.classList.contains('close-modal')) {
+  if (event.target.classList.contains('close-modal') || event.target.classList.contains('modal-container')) {
     const modalContainer = document.querySelector('.modal-container');
     modalContainer.remove();
   }
