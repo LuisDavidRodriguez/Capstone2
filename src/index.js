@@ -2,10 +2,11 @@ import './styles/main.scss';
 import * as tvMazeApi from './modules/tvmazeApi.js';
 import * as invApi from './modules/involvementApi.js';
 import MoviesManager from './modules/moviesManager.js';
+import generateModal from './modules/commentsModal';
 
 const moviesContainer = document.getElementById('moviesSection');
 const moviesManager = new MoviesManager(moviesContainer);
-
+const modalGenerator = document.getElementById('modal-generator');
 tvMazeApi.getShows(moviesManager);
 invApi.getLikes();
 
@@ -18,11 +19,15 @@ moviesContainer.addEventListener('click', (event) => {
   const arrMovie = event.path.filter((item) => /movieContainer-\d+/.test(item.id));
 
   /*
-  * inside of each movieContainer we have 2 icons that will be clickable
-  * we have a footer too so I dont want to open the modal that
-  * if the user clicks either on an icon or the footer with the class movie__footer
-  */
-  if (/starBtn-\d+/.test(event.target.id) || /likeBtn-\d+/.test(event.target.id) || event.target.classList.contains('movie__footer')) {
+   * inside of each movieContainer we have 2 icons that will be clickable
+   * we have a footer too so I dont want to open the modal that
+   * if the user clicks either on an icon or the footer with the class movie__footer
+   */
+  if (
+    /starBtn-\d+/.test(event.target.id)
+    || /likeBtn-\d+/.test(event.target.id)
+    || event.target.classList.contains('movie__footer')
+  ) {
     console.log('click on icons or footer');
     return;
   }
@@ -34,6 +39,14 @@ moviesContainer.addEventListener('click', (event) => {
 
     // call your modal here my friend
     // openModal(id);    or openModal(parseInt(id, 10)) to assure tha it is a num.
-    console.log('click on the movie id: ', id);
+    generateModal(id);
+  }
+});
+
+// An event listener for the close modal button
+modalGenerator.addEventListener('click', (event) => {
+  if (event.target.classList.contains('close-modal') || event.target.classList.contains('modal-container')) {
+    const modalContainer = document.querySelector('.modal-container');
+    modalContainer.remove();
   }
 });
