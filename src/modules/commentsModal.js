@@ -62,7 +62,7 @@ const generateModal = (id) => {
     const premieredText = document.createTextNode(`Premiered: ${showData.premiered}`);
     const statusText = document.createTextNode(`Status: ${showData.status}`);
     const urlText = document.createTextNode('More information');
-    const h2CommentsText = document.createTextNode(`Comments (n)`);
+    const h2CommentsText = document.createTextNode('Comments (n)');
     const h2AddCommentText = document.createTextNode('Add a comment');
     const submitBtnText = document.createTextNode('Submit');
 

@@ -9,8 +9,8 @@ const getShows = async (moviesManager) => {
     if (status !== 200) throw new Error('The pitition did not return 200');
 
     console.log(result);
-    console.log("Fabio prints data:" ,data);
-    
+    console.log('Fabio prints data:', data);
+
     moviesManager.display(data);
   } catch (error) {
     console.log(error);

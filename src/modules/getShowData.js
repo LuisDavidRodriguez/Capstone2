@@ -7,7 +7,7 @@ const getShow = async (id) => {
     const data = await result.json();
     return data;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };
 

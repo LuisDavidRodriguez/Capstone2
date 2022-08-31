@@ -4,7 +4,6 @@ import * as invApi from './modules/involvementApi.js';
 import MoviesManager from './modules/moviesManager.js';
 import generateModal from './modules/commentsModal';
 
-
 const moviesContainer = document.getElementById('moviesSection');
 const moviesManager = new MoviesManager(moviesContainer);
 const modalGenerator = document.getElementById('modal-generator');
@@ -17,9 +16,7 @@ moviesContainer.addEventListener('click', (event) => {
   // so using the path and then filtering that path against a regex we check if the
   // click was in a movie container
   // then i will check if the array is empty the click did not happend on a movie.
-  const arrMovie = event.path.filter((item) =>
-    /movieContainer-\d+/.test(item.id)
-  );
+  const arrMovie = event.path.filter((item) => /movieContainer-\d+/.test(item.id));
 
   /*
    * inside of each movieContainer we have 2 icons that will be clickable
@@ -27,9 +24,9 @@ moviesContainer.addEventListener('click', (event) => {
    * if the user clicks either on an icon or the footer with the class movie__footer
    */
   if (
-    /starBtn-\d+/.test(event.target.id) ||
-    /likeBtn-\d+/.test(event.target.id) ||
-    event.target.classList.contains('movie__footer')
+    /starBtn-\d+/.test(event.target.id)
+    || /likeBtn-\d+/.test(event.target.id)
+    || event.target.classList.contains('movie__footer')
   ) {
     console.log('click on icons or footer');
     return;
