@@ -4,9 +4,13 @@ import * as invApi from './modules/involvementApi.js';
 import MoviesManager from './modules/moviesManager.js';
 
 const moviesContainer = document.getElementById('moviesSection');
-const moviesManager = new MoviesManager(moviesContainer);
+const moviesManager = new MoviesManager(moviesContainer, invApi.addLike);
 
-tvMazeApi.getShows(moviesManager);
+tvMazeApi.getShows().then((movies) => {
+  invApi.getLikesHome().then((likes) => {
+    moviesManager.display(movies, likes);
+  });
+});
 invApi.getLikes();
 
 moviesContainer.addEventListener('click', (event) => {

@@ -68,18 +68,38 @@
       cursor: default;
     }
 
-    .star-btn {
-      transition: all 0.5s ease-in-out;
+    div {
+      width: 100%;
 
-      &:hover {
+      & span {
+        text-align: end;
+        display: inline-block;
+        width: 42%;
+        font-family: v.$fontFamilyPharagraph;
+        margin: 0 10px 0 0;
         color: f.getcolor('accent');
-        cursor: pointer;
-        transform: scale(1.5);
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
       }
-    }
 
-    .like-btn {
-      @extend .star-btn;
+      & .like-btn {
+        transition: all 0.5s ease-in-out;
+
+        &.active {
+          color: f.getcolor('accent');
+          cursor: pointer;
+        }
+
+        &:hover {
+          color: f.getcolor('accent');
+          cursor: pointer;
+          transform: scale(1.2);
+        }
+      }
+
+      .star-btn {
+        @extend .star-btn;
+      }
     }
   }
 }
