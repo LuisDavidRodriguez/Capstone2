@@ -1,24 +1,29 @@
 export default class MoviesManager {
   #parentContainer;
 
-  constructor(container) {
+  #callBackAddLikeAsync;
+
+  constructor(container, addLikeAsync) {
     this.#parentContainer = container;
+    this.#callBackAddLikeAsync = addLikeAsync;
   }
 
-  display(data) {
-    console.log(data);
+  display(data, likes) {
     data.forEach((item) => {
-      const movie = this.#createMovie(item);
+      const { id: movieID } = item;
+      // eslint-disable-next-line camelcase
+      const movieLikes = likes.filter(({ item_id }) => item_id === movieID);
+      const movie = this.#createMovie(item, movieLikes);
       this.#parentContainer.append(movie);
     });
   }
 
   // eslint-disable-next-line class-methods-use-this
-  #createMovie(data) {
+  #createMovie(data, movieLikes) {
     const movieContainer = document.createElement('article');
     const img = document.createElement('img');
     const movieBody = this.#createMovieBody(data);
-    const footerMovie = this.#createFooter(data);
+    const footerMovie = this.#createFooter(data, movieLikes);
 
     movieContainer.className = 'movie';
     img.className = 'movie__img';
@@ -57,7 +62,7 @@ export default class MoviesManager {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  #createFooter({ id }) {
+  #createFooter({ id }, arrLikes) {
     const footer = document.createElement('section');
     const auxiliarDiv1 = document.createElement('div');
     const auxiliarDiv2 = document.createElement('div');
@@ -69,16 +74,47 @@ export default class MoviesManager {
     footer.className = 'movie__footer';
     starIcon.className = 'fa-solid fa-star star-btn';
     likeIcon.className = 'fa-solid fa-heart like-btn';
+    starInfo.className = 'info';
 
     // starInfo.id = 'starInfo';
     // likeInfo.id = 'likeInfo';
     starIcon.id = `starBtn-${id}`;
     likeIcon.id = `likeBtn-${id}`;
 
+    // check if the movie has info about likes first
+    if (arrLikes.length !== 0) {
+      const { likes, stars } = arrLikes[0];
+      starInfo.textContent = stars;
+      likeInfo.textContent = likes;
+    }
+
+    likeIcon.addEventListener('click', () => {
+      likeIcon.classList.add('fa-beat', 'active');
+      likeIcon.style = '--fa-animation-duration: 0.5s;';
+      const promise = this.#callBackAddLikeAsync(id);
+
+      promise.then((result) => {
+        const { status } = result;
+        if (status === 201) {
+          const previousLikes = parseInt(likeInfo.textContent, 10) || 0;
+          likeInfo.textContent = 'added!';
+
+          setTimeout(() => {
+            likeInfo.textContent = previousLikes + 1;
+          }, 1200);
+        }
+      });
+
+      promise.finally(() => {
+        likeIcon.classList.remove('fa-beat', 'active');
+        likeIcon.style = '';
+      });
+    });
+
     auxiliarDiv1.append(starInfo, starIcon);
     auxiliarDiv2.append(likeInfo, likeIcon);
 
-    footer.append(auxiliarDiv1, auxiliarDiv2);
+    footer.append(auxiliarDiv2);
     return footer;
   }
 }

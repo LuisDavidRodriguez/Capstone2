@@ -5,11 +5,15 @@ import MoviesManager from './modules/moviesManager.js';
 import generateModal from './modules/commentsModal.js';
 
 const moviesContainer = document.getElementById('moviesSection');
-const moviesManager = new MoviesManager(moviesContainer);
+const moviesManager = new MoviesManager(moviesContainer, invApi.addLike);
 const modalGenerator = document.getElementById('modal-generator');
 // const submitBtn = document.getElementById('submit-btn');
 
-tvMazeApi.getShows(moviesManager);
+tvMazeApi.getShows().then((movies) => {
+  invApi.getLikesHome().then((likes) => {
+    moviesManager.display(movies, likes);
+  });
+});
 invApi.getLikes();
 
 moviesContainer.addEventListener('click', (event) => {

@@ -18,8 +18,43 @@ __webpack_require__.r(__webpack_exports__);
 
 var moviesContainer = document.getElementById('moviesSection');
 var moviesManager = new _modules_moviesManager_js__WEBPACK_IMPORTED_MODULE_3__["default"](moviesContainer);
-_modules_tvmazeApi_js__WEBPACK_IMPORTED_MODULE_1__.getShows(moviesManager.display);
+_modules_tvmazeApi_js__WEBPACK_IMPORTED_MODULE_1__.getShows().then(function (movies) {
+  console.log('in index movies: ', movies);
+  _modules_involvementApi_js__WEBPACK_IMPORTED_MODULE_2__.getLikesHome().then(function (likes) {
+    console.log('in index likes: ', likes);
+    moviesManager.display(movies, likes);
+  });
+});
 _modules_involvementApi_js__WEBPACK_IMPORTED_MODULE_2__.getLikes();
+moviesContainer.addEventListener('click', function (event) {
+  // we must look for the click but in the parent container the movieContainer
+  // because when you click in the movie you click also in the image or text or title etc
+  // so using the path and then filtering that path against a regex we check if the
+  // click was in a movie container
+  // then i will check if the array is empty the click did not happend on a movie.
+  var arrMovie = event.path.filter(function (item) {
+    return /movieContainer-\d+/.test(item.id);
+  });
+  /*
+  * inside of each movieContainer we have 2 icons that will be clickable
+  * we have a footer too so I dont want to open the modal that
+  * if the user clicks either on an icon or the footer with the class movie__footer
+  */
+
+  if (/starBtn-\d+/.test(event.target.id) || /likeBtn-\d+/.test(event.target.id) || event.target.classList.contains('movie__footer')) {
+    console.log('click on icons or footer');
+    return;
+  }
+
+  if (arrMovie.length !== 0) {
+    // get the id of the movie
+    var movieId = arrMovie[0].id;
+    var id = movieId.match(/\d+$/)[0]; // call your modal here my friend
+    // openModal(id);    or openModal(parseInt(id, 10)) to assure tha it is a num.
+
+    console.log('click on the movie id: ', id);
+  }
+});
 
 /***/ }),
 
@@ -32,7 +67,8 @@ _modules_involvementApi_js__WEBPACK_IMPORTED_MODULE_2__.getLikes();
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addLike": () => (/* binding */ addLike),
-/* harmony export */   "getLikes": () => (/* binding */ getLikes)
+/* harmony export */   "getLikes": () => (/* binding */ getLikes),
+/* harmony export */   "getLikesHome": () => (/* binding */ getLikesHome)
 /* harmony export */ });
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
@@ -77,12 +113,61 @@ var getLikes = /*#__PURE__*/function () {
   };
 }();
 
-var addLike = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(id) {
-    var body, headers, result;
+var getLikesHome = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+    var result, data, status;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return fetch("".concat(BASE_URL).concat(GAME_ID, "/likes"));
+
+          case 3:
+            result = _context2.sent;
+            _context2.next = 6;
+            return result.json();
+
+          case 6:
+            data = _context2.sent;
+            status = result.status;
+
+            if (!(status !== 200)) {
+              _context2.next = 10;
+              break;
+            }
+
+            throw new Error('The pitition did not return 200');
+
+          case 10:
+            return _context2.abrupt("return", data);
+
+          case 13:
+            _context2.prev = 13;
+            _context2.t0 = _context2["catch"](0);
+            console.log(_context2.t0);
+            return _context2.abrupt("return", []);
+
+          case 17:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, null, [[0, 13]]);
+  }));
+
+  return function getLikesHome() {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+var addLike = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(id) {
+    var body, headers, result;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
           case 0:
             body = JSON.stringify({
               item_id: id
@@ -90,7 +175,7 @@ var addLike = /*#__PURE__*/function () {
             headers = {
               'Content-type': 'application/json; charset=UTF-8'
             };
-            _context2.next = 4;
+            _context3.next = 4;
             return fetch("".concat(BASE_URL).concat(GAME_ID, "/likes"), {
               method: 'POST',
               body: body,
@@ -98,19 +183,19 @@ var addLike = /*#__PURE__*/function () {
             });
 
           case 4:
-            result = _context2.sent;
+            result = _context3.sent;
             console.log(result);
 
           case 6:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
       }
-    }, _callee2);
+    }, _callee3);
   }));
 
   return function addLike(_x) {
-    return _ref2.apply(this, arguments);
+    return _ref3.apply(this, arguments);
   };
 }();
 
@@ -180,11 +265,19 @@ var MoviesManager = /*#__PURE__*/function () {
 
   _createClass(MoviesManager, [{
     key: "display",
-    value: function display(data) {
+    value: function display(data, likes) {
       var _this = this;
 
+      console.log(data);
       data.forEach(function (item) {
-        var movie = _classPrivateMethodGet(_this, _createMovie, _createMovie2).call(_this, item);
+        var movieID = item.id; // eslint-disable-next-line camelcase
+
+        var movieLikes = likes.filter(function (_ref) {
+          var item_id = _ref.item_id;
+          return item_id === movieID;
+        });
+
+        var movie = _classPrivateMethodGet(_this, _createMovie, _createMovie2).call(_this, item, movieLikes);
 
         _classPrivateFieldGet(_this, _parentContainer).append(movie);
       });
@@ -195,32 +288,47 @@ var MoviesManager = /*#__PURE__*/function () {
   return MoviesManager;
 }();
 
-function _createMovie2(data) {
+function _createMovie2(data, movieLikes) {
   var movieContainer = document.createElement('article');
   var img = document.createElement('img');
 
-  var movieBody = _classPrivateMethodGet(this, _createMovieBody, _createMovieBody2).call(this);
+  var movieBody = _classPrivateMethodGet(this, _createMovieBody, _createMovieBody2).call(this, data);
 
-  var footerMovie = _classPrivateMethodGet(this, _createFooter, _createFooter2).call(this);
+  var footerMovie = _classPrivateMethodGet(this, _createFooter, _createFooter2).call(this, data, movieLikes);
 
   movieContainer.className = 'movie';
   img.className = 'movie__img';
+  img.src = data.image.medium;
+  movieContainer.id = "movieContainer-".concat(data.id);
   movieContainer.append(img, movieBody, footerMovie);
   return movieContainer;
 }
 
-function _createMovieBody2() {
+function _createMovieBody2(_ref2) {
+  var name = _ref2.name,
+      summary = _ref2.summary;
   var movieBody = document.createElement('section');
   var title = document.createElement('h3');
   var description = document.createElement('p');
   movieBody.className = 'movie__body';
   title.className = 'movie__body__title';
   description.className = 'movie__body__description';
+  /*
+    the api delivers inside the summary some html items
+    <p><b>Under the Dome</b> is the story of a small town that is su
+    I will delete them well I will keep the <b> tags, I dont like to much cause
+    i must use innerHtml
+  */
+
+  summary = summary.replace(/<[^b]>|<\/[^b]>/g, '');
+  title.textContent = name;
+  description.innerHTML = "".concat(summary.substring(0, 70), "...");
   movieBody.append(title, description);
   return movieBody;
 }
 
-function _createFooter2() {
+function _createFooter2(_ref3, arrLikes) {
+  var id = _ref3.id;
   var footer = document.createElement('section');
   var auxiliarDiv1 = document.createElement('div');
   var auxiliarDiv2 = document.createElement('div');
@@ -230,10 +338,20 @@ function _createFooter2() {
   var likeIcon = document.createElement('i');
   footer.className = 'movie__footer';
   starIcon.className = 'fa-solid fa-star star-btn';
-  likeIcon.className = 'fa-solid fa-heart like-btn'; // starInfo.id = 'starInfo';
+  likeIcon.className = 'fa-solid fa-heart like-btn';
+  starInfo.className = 'info'; // starInfo.id = 'starInfo';
   // likeInfo.id = 'likeInfo';
-  // starIcon.id = 'starBtn';
-  // likeIcon.id = 'likeBtn';
+
+  starIcon.id = "starBtn-".concat(id);
+  likeIcon.id = "likeBtn-".concat(id); // check if the movie has info about likes first
+
+  if (arrLikes.length !== 0) {
+    var _arrLikes$ = arrLikes[0],
+        likes = _arrLikes$.likes,
+        stars = _arrLikes$.stars;
+    starInfo.textContent = stars;
+    likeInfo.textContent = likes;
+  }
 
   auxiliarDiv1.append(starInfo, starIcon);
   auxiliarDiv2.append(likeInfo, likeIcon);
@@ -266,7 +384,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var BASE_URL = 'https://api.tvmaze.com/shows';
 
 var getShows = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(displayCallBack) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
     var result, data, status;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) {
@@ -293,29 +411,27 @@ var getShows = /*#__PURE__*/function () {
             throw new Error('The pitition did not return 200');
 
           case 10:
-            console.log(result);
-            console.log(data);
-            displayCallBack(data);
-            _context.next = 18;
-            break;
+            return _context.abrupt("return", data);
 
-          case 15:
-            _context.prev = 15;
+          case 13:
+            _context.prev = 13;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
+            return _context.abrupt("return", []);
 
-          case 18:
+          case 17:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 15]]);
+    }, _callee, null, [[0, 13]]);
   }));
 
-  return function getShows(_x) {
+  return function getShows() {
     return _ref.apply(this, arguments);
   };
-}();
+}(); // eslint-disable-next-line import/prefer-default-export
+
 
 
 
@@ -341,7 +457,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nul {\n  padding-inline-start: 0;\n  list-style: none;\n  margin-block-start: 0;\n  margin-block-end: 0;\n}\n\na {\n  text-decoration: none;\n  word-wrap: break-word;\n}\n\n::before {\n  box-sizing: border-box;\n}\n\n::after {\n  box-sizing: border-box;\n}\n\nheader {\n  display: flex;\n  align-items: center;\n  background-color: #003049;\n  height: 80px;\n}\nheader .logo {\n  margin-left: 5%;\n  display: inline-block;\n  height: 80%;\n}\n\nheader .menu {\n  display: flex;\n  margin-left: 5%;\n  height: 100%;\n}\nheader .menu ul {\n  display: flex;\n}\nheader .menu ul a {\n  display: flex;\n  align-items: center;\n  height: 100%;\n  padding: 5px;\n  color: #eae2b7;\n  font-family: \"Roboto\", sans-serif;\n  transition: all 0.5s linear;\n}\nheader .menu ul a:hover {\n  background-color: #d62828;\n}\n\nfooter {\n  font-family: \"Roboto\", sans-serif;\n  height: 80px;\n  background-color: #003049;\n  color: #eae2b7;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding-left: 5%;\n}\nfooter a {\n  font-weight: bold;\n  color: #fcbf49;\n}\n\n.movies-section {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-gap: 30px 30px;\n  margin: 30px 10px;\n  justify-items: center;\n}\n@media screen and (min-width: 480px) {\n  .movies-section {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n@media screen and (min-width: 768px) {\n  .movies-section {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n@media screen and (min-width: 960px) {\n  .movies-section {\n    grid-template-columns: repeat(4, 1fr);\n  }\n}\n@media screen and (min-width: 1200px) {\n  .movies-section {\n    grid-template-columns: repeat(5, 1fr);\n  }\n}\n\n.movie {\n  width: 250px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  box-shadow: 2px 2px 5px 2px #d62828;\n  border-radius: 5px 5px 30px 5px;\n  transition: transform 0.1s linear;\n}\n.movie:hover {\n  cursor: pointer;\n  transform: scale(1.005);\n}\n.movie__img {\n  display: block;\n  min-height: 60%;\n  padding: 5px;\n}\n.movie__body {\n  height: 30%;\n  padding: 5px;\n  text-align: center;\n}\n.movie__body__title {\n  color: #003049;\n  font-family: \"Roboto Slab\", serif;\n}\n.movie__body__description {\n  margin-top: 5px;\n  font-family: \"Roboto\", sans-serif;\n  color: #004163;\n}\n.movie__footer {\n  display: flex;\n  align-items: center;\n  justify-content: space-evenly;\n  height: 10%;\n  width: 100%;\n  background-color: rgba(214, 40, 40, 0.3);\n  border-radius: 0 0 30px 5px;\n}\n.movie__footer .star-btn, .movie__footer .like-btn {\n  transition: all 0.5s ease-in-out;\n}\n.movie__footer .star-btn:hover, .movie__footer .like-btn:hover {\n  color: #d62828;\n  cursor: pointer;\n  transform: scale(1.5);\n}", "",{"version":3,"sources":["webpack://./src/styles/2_base/_config.scss","webpack://./src/styles/main.scss","webpack://./src/styles/3_layout/_header.scss","webpack://./src/styles/1_abstracts/_variables.scss","webpack://./src/styles/3_layout/_footer.scss","webpack://./src/styles/3_layout/_movies-section.scss","webpack://./src/styles/1_abstracts/_mixin.scss","webpack://./src/styles/4_components/_cards.scss"],"names":[],"mappings":"AAEA;EACE,SAAA;EACA,UAAA;EACA,sBAAA;ACAF;;ADIA;EACE,uBAAA;EACA,gBAAA;EACA,qBAAA;EACA,mBAAA;ACDF;;ADIA;EACE,qBAAA;EACA,qBAAA;ACDF;;ADIA;EACE,sBAAA;ACDF;;ADIA;EACE,sBAAA;ACDF;;ACtBA;EACE,aAAA;EACA,mBAAA;EACA,yBAAA;EACA,YCWU;AFcZ;ACvBE;EACE,eAAA;EACA,qBAAA;EACA,WAAA;ADyBJ;;ACrBA;EACE,aAAA;EACA,eAAA;EACA,YAAA;ADwBF;ACtBE;EACE,aAAA;ADwBJ;ACtBI;EACE,aAAA;EACA,mBAAA;EACA,YAAA;EACA,YAAA;EACA,cAAA;EACA,iCCdiB;EDejB,2BAAA;ADwBN;ACtBM;EACE,yBAAA;ADwBR;;AGvDA;EACE,iCDYqB;ECXrB,YDaU;ECZV,yBAAA;EACA,cAAA;EACA,aAAA;EACA,mBAAA;EACA,QAAA;EACA,gBAAA;AH0DF;AGxDE;EACE,iBAAA;EACA,cAAA;AH0DJ;;AIvEA;EACE,aAAA;EACA,0BAAA;EACA,mBAAA;EACA,iBAAA;EACA,qBAAA;AJ0EF;AKxEE;EDPF;IAQI,qCAAA;EJ2EF;AACF;AKtEE;EDdF;IAYI,qCAAA;EJ4EF;AACF;AKrEE;EDpBF;IAgBI,qCAAA;EJ6EF;AACF;AKpEE;ED1BF;IAoBI,qCAAA;EJ8EF;AACF;;AMvFA;EACE,YAAA;EACA,aAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,mCAAA;EAbE,+BAAA;EAeF,iCAAA;AN0FF;AMxFE;EACE,eAAA;EACA,uBAAA;AN0FJ;AMvFE;EACE,cAAA;EACA,eAAA;EACA,YAAA;ANyFJ;AMtFE;EACE,WAAA;EACA,YAAA;EACA,kBAAA;ANwFJ;AMtFI;EACE,cAAA;EACA,iCJzBY;AFiHlB;AMrFI;EACE,eAAA;EACA,iCJ/BiB;EIgCjB,cAAA;ANuFN;AMnFE;EACE,aAAA;EACA,mBAAA;EACA,6BAAA;EACA,WAAA;EACA,WAAA;EACA,wCAAA;EAhDA,2BAAA;ANsIJ;AMnFI;EACE,gCAAA;ANqFN;AMnFM;EACE,cAAA;EACA,eAAA;EACA,qBAAA;ANqFR","sourcesContent":["@use '../1_abstracts/functions' as f;\r\n\r\n* {\r\n  margin: 0;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\n//yeah I get ride of that hideous padding once and for all for all my ul!!\r\nul {\r\n  padding-inline-start: 0;\r\n  list-style: none;\r\n  margin-block-start: 0;\r\n  margin-block-end: 0;\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  word-wrap: break-word;\r\n}\r\n\r\n::before {\r\n  box-sizing: border-box;\r\n}\r\n\r\n::after {\r\n  box-sizing: border-box;\r\n}\r\n","@import url(\"https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,700&display=swap\");\n* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nul {\n  padding-inline-start: 0;\n  list-style: none;\n  margin-block-start: 0;\n  margin-block-end: 0;\n}\n\na {\n  text-decoration: none;\n  word-wrap: break-word;\n}\n\n::before {\n  box-sizing: border-box;\n}\n\n::after {\n  box-sizing: border-box;\n}\n\nheader {\n  display: flex;\n  align-items: center;\n  background-color: #003049;\n  height: 80px;\n}\nheader .logo {\n  margin-left: 5%;\n  display: inline-block;\n  height: 80%;\n}\n\nheader .menu {\n  display: flex;\n  margin-left: 5%;\n  height: 100%;\n}\nheader .menu ul {\n  display: flex;\n}\nheader .menu ul a {\n  display: flex;\n  align-items: center;\n  height: 100%;\n  padding: 5px;\n  color: #eae2b7;\n  font-family: \"Roboto\", sans-serif;\n  transition: all 0.5s linear;\n}\nheader .menu ul a:hover {\n  background-color: #d62828;\n}\n\nfooter {\n  font-family: \"Roboto\", sans-serif;\n  height: 80px;\n  background-color: #003049;\n  color: #eae2b7;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding-left: 5%;\n}\nfooter a {\n  font-weight: bold;\n  color: #fcbf49;\n}\n\n.movies-section {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-gap: 30px 30px;\n  margin: 30px 10px;\n  justify-items: center;\n}\n@media screen and (min-width: 480px) {\n  .movies-section {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n@media screen and (min-width: 768px) {\n  .movies-section {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n@media screen and (min-width: 960px) {\n  .movies-section {\n    grid-template-columns: repeat(4, 1fr);\n  }\n}\n@media screen and (min-width: 1200px) {\n  .movies-section {\n    grid-template-columns: repeat(5, 1fr);\n  }\n}\n\n.movie {\n  width: 250px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  box-shadow: 2px 2px 5px 2px #d62828;\n  border-radius: 5px 5px 30px 5px;\n  transition: transform 0.1s linear;\n}\n.movie:hover {\n  cursor: pointer;\n  transform: scale(1.005);\n}\n.movie__img {\n  display: block;\n  min-height: 60%;\n  padding: 5px;\n}\n.movie__body {\n  height: 30%;\n  padding: 5px;\n  text-align: center;\n}\n.movie__body__title {\n  color: #003049;\n  font-family: \"Roboto Slab\", serif;\n}\n.movie__body__description {\n  margin-top: 5px;\n  font-family: \"Roboto\", sans-serif;\n  color: #004163;\n}\n.movie__footer {\n  display: flex;\n  align-items: center;\n  justify-content: space-evenly;\n  height: 10%;\n  width: 100%;\n  background-color: rgba(214, 40, 40, 0.3);\n  border-radius: 0 0 30px 5px;\n}\n.movie__footer .star-btn, .movie__footer .like-btn {\n  transition: all 0.5s ease-in-out;\n}\n.movie__footer .star-btn:hover, .movie__footer .like-btn:hover {\n  color: #d62828;\n  cursor: pointer;\n  transform: scale(1.5);\n}","@use '../1_abstracts/functions' as f;\r\n@use '../1_abstracts/variables' as v;\r\n\r\nheader {\r\n  display: flex;\r\n  align-items: center;\r\n  background-color: f.getcolor('primary');\r\n  height: v.$navHeight;\r\n\r\n  .logo {\r\n    margin-left: 5%;\r\n    display: inline-block;\r\n    height: 80%;\r\n  }\r\n}\r\n\r\nheader .menu {\r\n  display: flex;\r\n  margin-left: 5%;\r\n  height: 100%;\r\n\r\n  ul {\r\n    display: flex;\r\n\r\n    a {\r\n      display: flex;\r\n      align-items: center;\r\n      height: 100%;\r\n      padding: 5px;\r\n      color: f.getcolor('background');\r\n      font-family: v.$fontFamilyPharagraph;\r\n      transition: all 0.5s linear;\r\n\r\n      &:hover {\r\n        background-color: f.getcolor('accent');\r\n      }\r\n    }\r\n  }\r\n}\r\n","$brand-color: (\r\n  'primary':    #003049,\r\n  'secondary':  #fcbf49,\r\n  'accent':     #d62828,\r\n  'background': #eae2b7,\r\n  'hover':      #f77f00,\r\n);\r\n\r\n$break-points: (\r\n  'base': 0,\r\n  'small': 480px,\r\n  'medium': 768px,\r\n  'large': 960px,\r\n  'xlarge': 1200px,\r\n);\r\n\r\n$fontFamilyPharagraph: 'Roboto', sans-serif;\r\n$fontFamilyTitle: 'Roboto Slab', serif;\r\n$navHeight: 80px;\r\n","@use '../1_abstracts/functions' as f;\r\n@use '../1_abstracts/variables' as v;\r\n\r\nfooter {\r\n  font-family: $fontFamilyPharagraph;\r\n  height: v.$navHeight;\r\n  background-color: f.getcolor('primary');\r\n  color: f.getcolor('background');\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 5px;\r\n  padding-left: 5%;\r\n\r\n  a {\r\n    font-weight: bold;\r\n    color: f.getcolor('secondary');\r\n  }\r\n}\r\n","@use '../1_abstracts/mixin';\n\n.movies-section {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-gap: 30px 30px;\n  margin: 30px 10px;\n  justify-items: center;\n\n  @include mixin.small {\n    grid-template-columns: repeat(2, 1fr);\n  }\n\n  @include mixin.medium {\n    grid-template-columns: repeat(3, 1fr);\n  }\n\n  @include mixin.large {\n    grid-template-columns: repeat(4, 1fr);\n  }\n\n  @include mixin.xlarge {\n    grid-template-columns: repeat(5, 1fr);\n  }\n}\n","@use 'functions' as f;\r\n\r\n@mixin base {\r\n  @media screen and (min-width: f.get-break-point('base')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin small {\r\n  @media screen and (min-width: f.get-break-point('small')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n// desktop\r\n@mixin medium {\r\n  @media screen and (min-width: f.get-break-point('medium')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin large {\r\n  @media screen and (min-width: f.get-break-point('large')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin xlarge {\r\n  @media screen and (min-width: f.get-break-point('xlarge')) {\r\n    @content;\r\n  }\r\n}\r\n","@use '../1_abstracts/mixin';\n@use '../1_abstracts/functions' as f;\n@use '../1_abstracts/variables' as v;\n\n@mixin border-radius ($card: true) {\n  @if $card == true {\n    // this porder is for all the body\n    border-radius: 5px 5px 30px 5px;\n  }@else {\n    // i will add also a border radious to the footer\n    border-radius: 0 0 30px 5px;\n  }\n}\n\n.movie {\n  width: 250px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  box-shadow: 2px 2px 5px 2px f.getcolor('accent');\n  @include border-radius();\n  transition: transform 0.1s linear;\n\n  &:hover {\n    cursor: pointer;\n    transform: scale(1.005);\n  }\n\n  &__img {\n    display: block;\n    min-height: 60%;\n    padding: 5px;\n  }\n\n  &__body {\n    height: 30%;\n    padding: 5px;\n    text-align: center;\n\n    &__title {\n      color: f.getcolor('primary');\n      font-family: v.$fontFamilyTitle;\n    }\n\n    &__description {\n      margin-top: 5px;\n      font-family: v.$fontFamilyPharagraph;\n      color: lighten(f.getcolor('primary'), 5%);\n    }    \n  }\n\n  &__footer {\n    display: flex;\n    align-items: center;\n    justify-content: space-evenly;\n    height: 10%;\n    width: 100%;\n    background-color: transparentize(f.getcolor('accent'), 0.7);\n    @include border-radius(false);\n\n    .star-btn {\n      transition: all 0.5s ease-in-out;\n\n      &:hover {\n        color: f.getcolor('accent');\n        cursor: pointer;\n        transform: scale(1.5);\n      }\n    }\n\n    .like-btn {\n      @extend .star-btn;\n    }\n  }\n\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nul {\n  padding-inline-start: 0;\n  list-style: none;\n  margin-block-start: 0;\n  margin-block-end: 0;\n}\n\na {\n  text-decoration: none;\n  word-wrap: break-word;\n}\n\n::before {\n  box-sizing: border-box;\n}\n\n::after {\n  box-sizing: border-box;\n}\n\nheader {\n  display: flex;\n  align-items: center;\n  background-color: #003049;\n  height: 80px;\n}\nheader .logo {\n  margin-left: 5%;\n  display: inline-block;\n  height: 80%;\n}\n\nheader .menu {\n  display: flex;\n  margin-left: 5%;\n  height: 100%;\n}\nheader .menu ul {\n  display: flex;\n}\nheader .menu ul a {\n  display: flex;\n  align-items: center;\n  height: 100%;\n  padding: 5px;\n  color: #eae2b7;\n  font-family: \"Roboto\", sans-serif;\n  transition: all 0.5s linear;\n}\nheader .menu ul a:hover {\n  background-color: #d62828;\n}\n\nfooter {\n  font-family: \"Roboto\", sans-serif;\n  height: 80px;\n  background-color: #003049;\n  color: #eae2b7;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding-left: 5%;\n}\nfooter a {\n  font-weight: bold;\n  color: #fcbf49;\n}\n\n.movies-section {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-gap: 30px 30px;\n  margin: 30px 10px;\n  justify-items: center;\n}\n@media screen and (min-width: 480px) {\n  .movies-section {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n@media screen and (min-width: 768px) {\n  .movies-section {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n@media screen and (min-width: 960px) {\n  .movies-section {\n    grid-template-columns: repeat(4, 1fr);\n  }\n}\n@media screen and (min-width: 1200px) {\n  .movies-section {\n    grid-template-columns: repeat(5, 1fr);\n  }\n}\n\n.movie {\n  width: 250px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  box-shadow: 2px 2px 5px 2px #d62828;\n  border-radius: 5px 5px 30px 5px;\n  transition: transform 0.5s linear;\n}\n.movie:hover {\n  cursor: pointer;\n  transform: scale(1.01);\n}\n.movie__img {\n  display: block;\n  min-height: 60%;\n  padding: 5px;\n}\n.movie__body {\n  height: 30%;\n  padding: 5px;\n  text-align: center;\n}\n.movie__body__title {\n  color: #003049;\n  font-family: \"Roboto Slab\", serif;\n}\n.movie__body__description {\n  margin-top: 5px;\n  font-family: \"Roboto\", sans-serif;\n  color: #004163;\n}\n.movie__footer {\n  display: flex;\n  align-items: center;\n  justify-content: space-evenly;\n  height: 10%;\n  width: 100%;\n  background-color: rgba(214, 40, 40, 0.3);\n  border-radius: 0 0 30px 5px;\n}\n.movie__footer span {\n  font-family: \"Roboto\", sans-serif;\n  margin: 0 10px 0 0;\n  color: #d62828;\n  font-weight: 600;\n}\n.movie__footer:hover {\n  cursor: default;\n}\n.movie__footer .star-btn, .movie__footer .like-btn {\n  transition: all 0.5s ease-in-out;\n}\n.movie__footer .star-btn:hover, .movie__footer .like-btn:hover {\n  color: #d62828;\n  cursor: pointer;\n  transform: scale(1.5);\n}", "",{"version":3,"sources":["webpack://./src/styles/2_base/_config.scss","webpack://./src/styles/main.scss","webpack://./src/styles/3_layout/_header.scss","webpack://./src/styles/1_abstracts/_variables.scss","webpack://./src/styles/3_layout/_footer.scss","webpack://./src/styles/3_layout/_movies-section.scss","webpack://./src/styles/1_abstracts/_mixin.scss","webpack://./src/styles/4_components/_cards.scss"],"names":[],"mappings":"AAEA;EACE,SAAA;EACA,UAAA;EACA,sBAAA;ACAF;;ADIA;EACE,uBAAA;EACA,gBAAA;EACA,qBAAA;EACA,mBAAA;ACDF;;ADIA;EACE,qBAAA;EACA,qBAAA;ACDF;;ADIA;EACE,sBAAA;ACDF;;ADIA;EACE,sBAAA;ACDF;;ACtBA;EACE,aAAA;EACA,mBAAA;EACA,yBAAA;EACA,YCWU;AFcZ;ACvBE;EACE,eAAA;EACA,qBAAA;EACA,WAAA;ADyBJ;;ACrBA;EACE,aAAA;EACA,eAAA;EACA,YAAA;ADwBF;ACtBE;EACE,aAAA;ADwBJ;ACtBI;EACE,aAAA;EACA,mBAAA;EACA,YAAA;EACA,YAAA;EACA,cAAA;EACA,iCCdiB;EDejB,2BAAA;ADwBN;ACtBM;EACE,yBAAA;ADwBR;;AGvDA;EACE,iCDYqB;ECXrB,YDaU;ECZV,yBAAA;EACA,cAAA;EACA,aAAA;EACA,mBAAA;EACA,QAAA;EACA,gBAAA;AH0DF;AGxDE;EACE,iBAAA;EACA,cAAA;AH0DJ;;AIvEA;EACE,aAAA;EACA,0BAAA;EACA,mBAAA;EACA,iBAAA;EACA,qBAAA;AJ0EF;AKxEE;EDPF;IAQI,qCAAA;EJ2EF;AACF;AKtEE;EDdF;IAYI,qCAAA;EJ4EF;AACF;AKrEE;EDpBF;IAgBI,qCAAA;EJ6EF;AACF;AKpEE;ED1BF;IAoBI,qCAAA;EJ8EF;AACF;;AMrFA;EACE,YAAA;EACA,aAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,mCAAA;EAfE,+BAAA;EAmBF,iCAAA;ANsFF;AMpFE;EACE,eAAA;EACA,sBAAA;ANsFJ;AMnFE;EACE,cAAA;EACA,eAAA;EACA,YAAA;ANqFJ;AMlFE;EACE,WAAA;EACA,YAAA;EACA,kBAAA;ANoFJ;AMlFI;EACE,cAAA;EACA,iCJ7BY;AFiHlB;AMjFI;EACE,eAAA;EACA,iCJnCiB;EIoCjB,cAAA;ANmFN;AM/EE;EACE,aAAA;EACA,mBAAA;EACA,6BAAA;EACA,WAAA;EACA,WAAA;EACA,wCAAA;EAlDA,2BAAA;ANoIJ;AM/EI;EACE,iCJlDiB;EImDjB,kBAAA;EACA,cAAA;EACA,gBAAA;ANiFN;AM9EI;EACE,eAAA;ANgFN;AM7EI;EACE,gCAAA;AN+EN;AM7EM;EACE,cAAA;EACA,eAAA;EACA,qBAAA;AN+ER","sourcesContent":["@use '../1_abstracts/functions' as f;\r\n\r\n* {\r\n  margin: 0;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\n//yeah I get ride of that hideous padding once and for all for all my ul!!\r\nul {\r\n  padding-inline-start: 0;\r\n  list-style: none;\r\n  margin-block-start: 0;\r\n  margin-block-end: 0;\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  word-wrap: break-word;\r\n}\r\n\r\n::before {\r\n  box-sizing: border-box;\r\n}\r\n\r\n::after {\r\n  box-sizing: border-box;\r\n}\r\n","@import url(\"https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,700&display=swap\");\n* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nul {\n  padding-inline-start: 0;\n  list-style: none;\n  margin-block-start: 0;\n  margin-block-end: 0;\n}\n\na {\n  text-decoration: none;\n  word-wrap: break-word;\n}\n\n::before {\n  box-sizing: border-box;\n}\n\n::after {\n  box-sizing: border-box;\n}\n\nheader {\n  display: flex;\n  align-items: center;\n  background-color: #003049;\n  height: 80px;\n}\nheader .logo {\n  margin-left: 5%;\n  display: inline-block;\n  height: 80%;\n}\n\nheader .menu {\n  display: flex;\n  margin-left: 5%;\n  height: 100%;\n}\nheader .menu ul {\n  display: flex;\n}\nheader .menu ul a {\n  display: flex;\n  align-items: center;\n  height: 100%;\n  padding: 5px;\n  color: #eae2b7;\n  font-family: \"Roboto\", sans-serif;\n  transition: all 0.5s linear;\n}\nheader .menu ul a:hover {\n  background-color: #d62828;\n}\n\nfooter {\n  font-family: \"Roboto\", sans-serif;\n  height: 80px;\n  background-color: #003049;\n  color: #eae2b7;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding-left: 5%;\n}\nfooter a {\n  font-weight: bold;\n  color: #fcbf49;\n}\n\n.movies-section {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-gap: 30px 30px;\n  margin: 30px 10px;\n  justify-items: center;\n}\n@media screen and (min-width: 480px) {\n  .movies-section {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n@media screen and (min-width: 768px) {\n  .movies-section {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n@media screen and (min-width: 960px) {\n  .movies-section {\n    grid-template-columns: repeat(4, 1fr);\n  }\n}\n@media screen and (min-width: 1200px) {\n  .movies-section {\n    grid-template-columns: repeat(5, 1fr);\n  }\n}\n\n.movie {\n  width: 250px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  box-shadow: 2px 2px 5px 2px #d62828;\n  border-radius: 5px 5px 30px 5px;\n  transition: transform 0.5s linear;\n}\n.movie:hover {\n  cursor: pointer;\n  transform: scale(1.01);\n}\n.movie__img {\n  display: block;\n  min-height: 60%;\n  padding: 5px;\n}\n.movie__body {\n  height: 30%;\n  padding: 5px;\n  text-align: center;\n}\n.movie__body__title {\n  color: #003049;\n  font-family: \"Roboto Slab\", serif;\n}\n.movie__body__description {\n  margin-top: 5px;\n  font-family: \"Roboto\", sans-serif;\n  color: #004163;\n}\n.movie__footer {\n  display: flex;\n  align-items: center;\n  justify-content: space-evenly;\n  height: 10%;\n  width: 100%;\n  background-color: rgba(214, 40, 40, 0.3);\n  border-radius: 0 0 30px 5px;\n}\n.movie__footer span {\n  font-family: \"Roboto\", sans-serif;\n  margin: 0 10px 0 0;\n  color: #d62828;\n  font-weight: 600;\n}\n.movie__footer:hover {\n  cursor: default;\n}\n.movie__footer .star-btn, .movie__footer .like-btn {\n  transition: all 0.5s ease-in-out;\n}\n.movie__footer .star-btn:hover, .movie__footer .like-btn:hover {\n  color: #d62828;\n  cursor: pointer;\n  transform: scale(1.5);\n}","@use '../1_abstracts/functions' as f;\r\n@use '../1_abstracts/variables' as v;\r\n\r\nheader {\r\n  display: flex;\r\n  align-items: center;\r\n  background-color: f.getcolor('primary');\r\n  height: v.$navHeight;\r\n\r\n  .logo {\r\n    margin-left: 5%;\r\n    display: inline-block;\r\n    height: 80%;\r\n  }\r\n}\r\n\r\nheader .menu {\r\n  display: flex;\r\n  margin-left: 5%;\r\n  height: 100%;\r\n\r\n  ul {\r\n    display: flex;\r\n\r\n    a {\r\n      display: flex;\r\n      align-items: center;\r\n      height: 100%;\r\n      padding: 5px;\r\n      color: f.getcolor('background');\r\n      font-family: v.$fontFamilyPharagraph;\r\n      transition: all 0.5s linear;\r\n\r\n      &:hover {\r\n        background-color: f.getcolor('accent');\r\n      }\r\n    }\r\n  }\r\n}\r\n","$brand-color: (\r\n  'primary':    #003049,\r\n  'secondary':  #fcbf49,\r\n  'accent':     #d62828,\r\n  'background': #eae2b7,\r\n  'hover':      #f77f00,\r\n);\r\n\r\n$break-points: (\r\n  'base': 0,\r\n  'small': 480px,\r\n  'medium': 768px,\r\n  'large': 960px,\r\n  'xlarge': 1200px,\r\n);\r\n\r\n$fontFamilyPharagraph: 'Roboto', sans-serif;\r\n$fontFamilyTitle: 'Roboto Slab', serif;\r\n$navHeight: 80px;\r\n","@use '../1_abstracts/functions' as f;\r\n@use '../1_abstracts/variables' as v;\r\n\r\nfooter {\r\n  font-family: $fontFamilyPharagraph;\r\n  height: v.$navHeight;\r\n  background-color: f.getcolor('primary');\r\n  color: f.getcolor('background');\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 5px;\r\n  padding-left: 5%;\r\n\r\n  a {\r\n    font-weight: bold;\r\n    color: f.getcolor('secondary');\r\n  }\r\n}\r\n","@use '../1_abstracts/mixin';\r\n\r\n.movies-section {\r\n  display: grid;\r\n  grid-template-columns: 1fr;\r\n  grid-gap: 30px 30px;\r\n  margin: 30px 10px;\r\n  justify-items: center;\r\n\r\n  @include mixin.small {\r\n    grid-template-columns: repeat(2, 1fr);\r\n  }\r\n\r\n  @include mixin.medium {\r\n    grid-template-columns: repeat(3, 1fr);\r\n  }\r\n\r\n  @include mixin.large {\r\n    grid-template-columns: repeat(4, 1fr);\r\n  }\r\n\r\n  @include mixin.xlarge {\r\n    grid-template-columns: repeat(5, 1fr);\r\n  }\r\n}\r\n","@use 'functions' as f;\r\n\r\n@mixin base {\r\n  @media screen and (min-width: f.get-break-point('base')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin small {\r\n  @media screen and (min-width: f.get-break-point('small')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n// desktop\r\n@mixin medium {\r\n  @media screen and (min-width: f.get-break-point('medium')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin large {\r\n  @media screen and (min-width: f.get-break-point('large')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin xlarge {\r\n  @media screen and (min-width: f.get-break-point('xlarge')) {\r\n    @content;\r\n  }\r\n}\r\n","@use '../1_abstracts/mixin';\r\n@use '../1_abstracts/functions' as f;\r\n@use '../1_abstracts/variables' as v;\r\n\r\n@mixin border-radius ($card: true) {\r\n  @if $card == true {\r\n    // this porder is for all the body\r\n    border-radius: 5px 5px 30px 5px;\r\n  }\r\n\r\n  @else {\r\n    // i will add also a border radious to the footer\r\n    border-radius: 0 0 30px 5px;\r\n  }\r\n}\r\n\r\n.movie {\r\n  width: 250px;\r\n  height: 500px;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  box-shadow: 2px 2px 5px 2px f.getcolor('accent');\r\n\r\n  @include border-radius();\r\n\r\n  transition: transform 0.5s linear;\r\n\r\n  &:hover {\r\n    cursor: pointer;\r\n    transform: scale(1.01);\r\n  }\r\n\r\n  &__img {\r\n    display: block;\r\n    min-height: 60%;\r\n    padding: 5px;\r\n  }\r\n\r\n  &__body {\r\n    height: 30%;\r\n    padding: 5px;\r\n    text-align: center;\r\n\r\n    &__title {\r\n      color: f.getcolor('primary');\r\n      font-family: v.$fontFamilyTitle;\r\n    }\r\n\r\n    &__description {\r\n      margin-top: 5px;\r\n      font-family: v.$fontFamilyPharagraph;\r\n      color: lighten(f.getcolor('primary'), 5%);\r\n    }\r\n  }\r\n\r\n  &__footer {\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: space-evenly;\r\n    height: 10%;\r\n    width: 100%;\r\n    background-color: transparentize(f.getcolor('accent'), 0.7);\r\n    @include border-radius(false);\r\n\r\n    & span {\r\n      font-family: v.$fontFamilyPharagraph;\r\n      margin: 0 10px 0 0;\r\n      color: f.getcolor('accent');\r\n      font-weight: 600;\r\n    }\r\n\r\n    &:hover {\r\n      cursor: default;\r\n    }\r\n\r\n    .star-btn {\r\n      transition: all 0.5s ease-in-out;\r\n\r\n      &:hover {\r\n        color: f.getcolor('accent');\r\n        cursor: pointer;\r\n        transform: scale(1.5);\r\n      }\r\n    }\r\n\r\n    .like-btn {\r\n      @extend .star-btn;\r\n    }\r\n  }\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
