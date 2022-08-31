@@ -3,6 +3,7 @@
 
 #modal-generator {
   .modal-container {
+    font-family: v.$fontFamilyPharagraph;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -60,6 +61,11 @@
         flex-direction: column;
         gap: 0.8rem;
       }
+    }
+
+    h1,
+    h2 {
+      font-family: v.$fontFamilyTitle;
     }
   }
 }
