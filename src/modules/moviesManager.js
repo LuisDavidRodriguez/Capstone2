@@ -3,12 +3,21 @@ export default class MoviesManager {
 
   #callBackAddLikeAsync;
 
-  constructor(container, addLikeAsync) {
+  #totalItems = 0;
+
+  #actualPage = 0;
+
+  constructor(container, callBackAddLikeAsync) {
     this.#parentContainer = container;
-    this.#callBackAddLikeAsync = addLikeAsync;
+    this.#callBackAddLikeAsync = callBackAddLikeAsync;
+  }
+
+  get totalItems() {
+    return this.#totalItems;
   }
 
   display(data, likes) {
+    this.#totalItems = data.length;
     data.forEach((item) => {
       const { id: movieID } = item;
       // eslint-disable-next-line camelcase

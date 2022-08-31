@@ -70,6 +70,7 @@
 
     div {
       width: 100%;
+      pointer-events: none;
 
       & span {
         text-align: end;
@@ -84,6 +85,7 @@
 
       & .like-btn {
         transition: all 0.5s ease-in-out;
+        pointer-events: auto;
 
         &.active {
           color: f.getcolor('accent');
