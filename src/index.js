@@ -7,6 +7,8 @@ import generateModal from './modules/commentsModal';
 const moviesContainer = document.getElementById('moviesSection');
 const moviesManager = new MoviesManager(moviesContainer);
 const modalGenerator = document.getElementById('modal-generator');
+const submitBtn = document.getElementById('submit-btn');
+
 tvMazeApi.getShows(moviesManager);
 invApi.getLikes();
 
@@ -50,3 +52,6 @@ modalGenerator.addEventListener('click', (event) => {
     modalContainer.remove();
   }
 });
+
+
+

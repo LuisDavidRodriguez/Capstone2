@@ -2,8 +2,6 @@ import getShowData from './getShowData.js';
 import { getComments } from './getShowComments.js';
 
 const generateModal = (id) => {
-  // get the show data
-
   // Grabs the modal generator
   const modalGenerator = document.querySelector('#modal-generator');
 
@@ -105,6 +103,28 @@ const generateModal = (id) => {
 
   // Appends modalContainer to the modalGenerator
   modalGenerator.appendChild(modalContainer);
+
+  // fetch comments from the API
+  const promiseComments = getComments(id);
+
+  promiseComments.then((comments) => {
+    if (comments.error) {
+      const li = document.createElement('li');
+      const liText = document.createTextNode(`No comments yet, be the first!`);
+      li.appendChild(liText);
+      ulComments.appendChild(li);
+    } else {
+      comments.forEach((comment) => {
+        const li = document.createElement('li');
+        const liText = document.createTextNode(
+          `${comment.username} on ${comment.creation_date}: ${comment.comment}`
+        );
+        li.appendChild(liText);
+        ulComments.appendChild(li);
+      });
+      // <li>Luis on Aug 30: Comment 3</li>
+    }
+  });
 };
 
 export default generateModal;
