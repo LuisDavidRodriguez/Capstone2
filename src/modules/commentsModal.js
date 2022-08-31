@@ -62,7 +62,7 @@ const generateModal = (id) => {
     summary.innerHTML = showData.summary;
     const genresText = document.createTextNode(`Genre: ${showData.genres[0]}`);
     const premieredText = document.createTextNode(
-      `Premiered: ${showData.premiered}`
+      `Premiered: ${showData.premiered}`,
     );
     const statusText = document.createTextNode(`Status: ${showData.status}`);
     const urlText = document.createTextNode('More information');
@@ -110,14 +110,14 @@ const generateModal = (id) => {
   promiseComments.then((comments) => {
     if (comments.error) {
       const li = document.createElement('li');
-      const liText = document.createTextNode(`No comments yet, be the first!`);
+      const liText = document.createTextNode('No comments yet, be the first!');
       li.appendChild(liText);
       ulComments.appendChild(li);
     } else {
       comments.forEach((comment) => {
         const li = document.createElement('li');
         const liText = document.createTextNode(
-          `${comment.username} on ${comment.creation_date}: ${comment.comment}`
+          `${comment.username} on ${comment.creation_date}: ${comment.comment}`,
         );
         li.appendChild(liText);
         ulComments.appendChild(li);

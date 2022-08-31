@@ -2,12 +2,12 @@ import './styles/main.scss';
 import * as tvMazeApi from './modules/tvmazeApi.js';
 import * as invApi from './modules/involvementApi.js';
 import MoviesManager from './modules/moviesManager.js';
-import generateModal from './modules/commentsModal';
+import generateModal from './modules/commentsModal.js';
 
 const moviesContainer = document.getElementById('moviesSection');
 const moviesManager = new MoviesManager(moviesContainer);
 const modalGenerator = document.getElementById('modal-generator');
-const submitBtn = document.getElementById('submit-btn');
+// const submitBtn = document.getElementById('submit-btn');
 
 tvMazeApi.getShows(moviesManager);
 invApi.getLikes();
@@ -52,6 +52,3 @@ modalGenerator.addEventListener('click', (event) => {
     modalContainer.remove();
   }
 });
-
-
-
