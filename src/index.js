@@ -3,18 +3,23 @@ import * as tvMazeApi from './modules/tvmazeApi.js';
 import * as invApi from './modules/involvementApi.js';
 import MoviesManager from './modules/moviesManager.js';
 import generateModal from './modules/commentsModal.js';
+import createPages from './modules/paginator.js';
 
 const moviesContainer = document.getElementById('moviesSection');
-const moviesManager = new MoviesManager(moviesContainer, invApi.addLike);
 const modalGenerator = document.getElementById('modal-generator');
+const moviesManager = new MoviesManager(moviesContainer, invApi.addLike);
 // const submitBtn = document.getElementById('submit-btn');
 
 tvMazeApi.getShows().then((movies) => {
+  moviesManager.movies = movies;
+
   invApi.getLikesHome().then((likes) => {
-    moviesManager.display(movies, likes);
+    moviesManager.likes = likes;
+    moviesManager.pageStep = 35;
+    moviesManager.display();
+    createPages(moviesManager);
   });
 });
-invApi.getLikes();
 
 moviesContainer.addEventListener('click', (event) => {
   // we must look for the click but in the parent container the movieContainer
@@ -34,7 +39,6 @@ moviesContainer.addEventListener('click', (event) => {
     || /likeBtn-\d+/.test(event.target.id)
     || event.target.classList.contains('movie__footer')
   ) {
-    console.log('click on icons or footer');
     return;
   }
 

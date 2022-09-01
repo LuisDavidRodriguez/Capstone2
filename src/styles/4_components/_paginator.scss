@@ -1,0 +1,45 @@
+@use '../1_abstracts/functions' as f;
+@use '../1_abstracts/mixin';
+@use '../1_abstracts/variables' as v;
+
+.paginator {
+  margin: 10px;
+  height: 40px;
+  background-color: f.getcolor('background');
+  font-family: v.$fontFamilyPharagraph;
+  font-size: 0.7em;
+  display: flex;
+  align-items: center;
+
+  &__info {
+    margin: 0 10px;
+  }
+
+  &__info > span {
+    display: block;
+  }
+
+  &__list {
+    height: 100%;
+    display: flex;
+  }
+
+  .li-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 5px;
+    min-width: 30px;
+    transition: all 0.5s linear;
+
+    &.active {
+      background-color: f.getcolor('hover');
+    }
+
+    &:hover {
+      background-color: f.getcolor('hover');
+      cursor: pointer;
+    }
+  }
+}

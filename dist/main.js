@@ -13,21 +13,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_involvementApi_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/involvementApi.js */ "./src/modules/involvementApi.js");
 /* harmony import */ var _modules_moviesManager_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/moviesManager.js */ "./src/modules/moviesManager.js");
 /* harmony import */ var _modules_commentsModal_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/commentsModal.js */ "./src/modules/commentsModal.js");
+/* harmony import */ var _modules_paginator_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/paginator.js */ "./src/modules/paginator.js");
+
 
 
 
 
 
 var moviesContainer = document.getElementById('moviesSection');
-var moviesManager = new _modules_moviesManager_js__WEBPACK_IMPORTED_MODULE_3__["default"](moviesContainer, _modules_involvementApi_js__WEBPACK_IMPORTED_MODULE_2__.addLike);
-var modalGenerator = document.getElementById('modal-generator'); // const submitBtn = document.getElementById('submit-btn');
+var modalGenerator = document.getElementById('modal-generator');
+var moviesManager = new _modules_moviesManager_js__WEBPACK_IMPORTED_MODULE_3__["default"](moviesContainer, _modules_involvementApi_js__WEBPACK_IMPORTED_MODULE_2__.addLike); // const submitBtn = document.getElementById('submit-btn');
 
 _modules_tvmazeApi_js__WEBPACK_IMPORTED_MODULE_1__.getShows().then(function (movies) {
+  moviesManager.movies = movies;
   _modules_involvementApi_js__WEBPACK_IMPORTED_MODULE_2__.getLikesHome().then(function (likes) {
-    moviesManager.display(movies, likes);
+    moviesManager.likes = likes;
+    moviesManager.pageStep = 35;
+    moviesManager.display();
+    (0,_modules_paginator_js__WEBPACK_IMPORTED_MODULE_5__["default"])(moviesManager);
   });
 });
-_modules_involvementApi_js__WEBPACK_IMPORTED_MODULE_2__.getLikes();
 moviesContainer.addEventListener('click', function (event) {
   // we must look for the click but in the parent container the movieContainer
   // because when you click in the movie you click also in the image or text or title etc
@@ -514,6 +519,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ MoviesManager)
 /* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -526,11 +535,11 @@ function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedec
 
 function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
 
+function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+
 function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
 
 function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
-
-function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
 
 function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"); _classApplyDescriptorSet(receiver, descriptor, value); return value; }
 
@@ -542,14 +551,35 @@ var _parentContainer = /*#__PURE__*/new WeakMap();
 
 var _callBackAddLikeAsync = /*#__PURE__*/new WeakMap();
 
+var _totalItems = /*#__PURE__*/new WeakMap();
+
+var _actualPage = /*#__PURE__*/new WeakMap();
+
+var _rangeDisplayed = /*#__PURE__*/new WeakMap();
+
+var _itemsDisplayed = /*#__PURE__*/new WeakMap();
+
+var _totalPages = /*#__PURE__*/new WeakMap();
+
+var _pageStep = /*#__PURE__*/new WeakMap();
+
+var _movies = /*#__PURE__*/new WeakMap();
+
+var _likes = /*#__PURE__*/new WeakMap();
+
+var _paginate = /*#__PURE__*/new WeakSet();
+
 var _createMovie = /*#__PURE__*/new WeakSet();
 
 var _createMovieBody = /*#__PURE__*/new WeakSet();
 
 var _createFooter = /*#__PURE__*/new WeakSet();
 
+/* eslint-disable no-plusplus */
+
+/* eslint-disable no-await-in-loop */
 var MoviesManager = /*#__PURE__*/function () {
-  function MoviesManager(container, addLikeAsync) {
+  function MoviesManager(container, callBackAddLikeAsync) {
     _classCallCheck(this, MoviesManager);
 
     _classPrivateMethodInitSpec(this, _createFooter);
@@ -557,6 +587,8 @@ var MoviesManager = /*#__PURE__*/function () {
     _classPrivateMethodInitSpec(this, _createMovieBody);
 
     _classPrivateMethodInitSpec(this, _createMovie);
+
+    _classPrivateMethodInitSpec(this, _paginate);
 
     _classPrivateFieldInitSpec(this, _parentContainer, {
       writable: true,
@@ -568,42 +600,205 @@ var MoviesManager = /*#__PURE__*/function () {
       value: void 0
     });
 
+    _classPrivateFieldInitSpec(this, _totalItems, {
+      writable: true,
+      value: 0
+    });
+
+    _classPrivateFieldInitSpec(this, _actualPage, {
+      writable: true,
+      value: 1
+    });
+
+    _classPrivateFieldInitSpec(this, _rangeDisplayed, {
+      writable: true,
+      value: ''
+    });
+
+    _classPrivateFieldInitSpec(this, _itemsDisplayed, {
+      writable: true,
+      value: 0
+    });
+
+    _classPrivateFieldInitSpec(this, _totalPages, {
+      writable: true,
+      value: 0
+    });
+
+    _classPrivateFieldInitSpec(this, _pageStep, {
+      writable: true,
+      value: 30
+    });
+
+    _classPrivateFieldInitSpec(this, _movies, {
+      writable: true,
+      value: []
+    });
+
+    _classPrivateFieldInitSpec(this, _likes, {
+      writable: true,
+      value: []
+    });
+
     _classPrivateFieldSet(this, _parentContainer, container);
 
-    _classPrivateFieldSet(this, _callBackAddLikeAsync, addLikeAsync);
+    _classPrivateFieldSet(this, _callBackAddLikeAsync, callBackAddLikeAsync);
   }
 
   _createClass(MoviesManager, [{
+    key: "movies",
+    set: function set(movies) {
+      _classPrivateFieldSet(this, _movies, movies);
+
+      _classPrivateFieldSet(this, _totalItems, movies.length);
+    }
+  }, {
+    key: "likes",
+    set: function set(likes) {
+      _classPrivateFieldSet(this, _likes, likes);
+    }
+  }, {
+    key: "pageStep",
+    set: function set(step) {
+      _classPrivateFieldSet(this, _pageStep, step);
+    }
+  }, {
+    key: "parentContainer",
+    get: function get() {
+      return _classPrivateFieldGet(this, _parentContainer);
+    }
+  }, {
+    key: "totalItems",
+    get: function get() {
+      return _classPrivateFieldGet(this, _totalItems);
+    }
+  }, {
+    key: "totalPages",
+    get: function get() {
+      return _classPrivateFieldGet(this, _totalPages);
+    }
+  }, {
+    key: "actualPage",
+    get: function get() {
+      return _classPrivateFieldGet(this, _actualPage);
+    }
+  }, {
+    key: "itemsDisplayed",
+    get: function get() {
+      return _classPrivateFieldGet(this, _itemsDisplayed);
+    }
+  }, {
+    key: "rangeDisplayed",
+    get: function get() {
+      return _classPrivateFieldGet(this, _rangeDisplayed);
+    }
+  }, {
+    key: "getArrPages",
+    value: /*#__PURE__*/_regeneratorRuntime().mark(function getArrPages() {
+      var i;
+      return _regeneratorRuntime().wrap(function getArrPages$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              i = 1;
+
+            case 1:
+              if (!(i <= _classPrivateFieldGet(this, _totalPages))) {
+                _context.next = 7;
+                break;
+              }
+
+              _context.next = 4;
+              return i;
+
+            case 4:
+              i++;
+              _context.next = 1;
+              break;
+
+            case 7:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, getArrPages, this);
+    }) // eslint-disable-next-line class-methods-use-this
+    // moviesReady() {
+    //   // check if we have already receive data and we are ready to display
+    //   this
+    //   // const wait = () => new Promise((resolve) => {
+    //   //   setTimeout(() => {
+    //   //     resolve();
+    //   //   }, 1000);
+    //   // });
+    //   // (async () => {
+    //   //   let result;
+    //   //   for (let i = 0; i < 100; i++) {
+    //   //     if (this.#totalItems > 500) {
+    //   //       return true;
+    //   //     }
+    //   //     console.log('iterval');
+    //   //     result = await wait;
+    //   //   }
+    //   // })();
+    //   return result;
+    // }
+
+  }, {
     key: "display",
-    value: function display(data, likes) {
+    value: function display() {
       var _this = this;
 
-      data.forEach(function (item) {
-        var movieID = item.id; // eslint-disable-next-line camelcase
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-        var movieLikes = likes.filter(function (_ref) {
-          var item_id = _ref.item_id;
-          return item_id === movieID;
-        });
+      var arr = _classPrivateMethodGet(this, _paginate, _paginate2).call(this, page);
 
-        var movie = _classPrivateMethodGet(_this, _createMovie, _createMovie2).call(_this, item, movieLikes);
+      arr.forEach(function (item) {
+        var movie = _classPrivateMethodGet(_this, _createMovie, _createMovie2).call(_this, item);
 
         _classPrivateFieldGet(_this, _parentContainer).append(movie);
       });
-    } // eslint-disable-next-line class-methods-use-this
-
+    }
+  }, {
+    key: "clearParent",
+    value: function clearParent() {
+      _classPrivateFieldGet(this, _parentContainer).textContent = '';
+    }
   }]);
 
   return MoviesManager;
 }();
 
-function _createMovie2(data, movieLikes) {
+function _paginate2() {
+  var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+  var initialIndex = 0;
+  var finalIndex = 0;
+  finalIndex = _classPrivateFieldGet(this, _pageStep) * page;
+  initialIndex = finalIndex - _classPrivateFieldGet(this, _pageStep); // in case final index is out of the boundaries of the arr
+
+  if (finalIndex > _classPrivateFieldGet(this, _totalItems)) {
+    finalIndex = _classPrivateFieldGet(this, _totalItems);
+  }
+
+  _classPrivateFieldSet(this, _actualPage, page);
+
+  _classPrivateFieldSet(this, _itemsDisplayed, finalIndex - initialIndex);
+
+  _classPrivateFieldSet(this, _rangeDisplayed, "".concat(initialIndex, " to ").concat(finalIndex));
+
+  _classPrivateFieldSet(this, _totalPages, Math.ceil(_classPrivateFieldGet(this, _totalItems) / _classPrivateFieldGet(this, _pageStep)) || 0);
+
+  console.log('paginate from: ', initialIndex, 'to: ', finalIndex, 'actual page: ', _classPrivateFieldGet(this, _actualPage));
+  return _classPrivateFieldGet(this, _movies).slice(initialIndex, finalIndex);
+}
+
+function _createMovie2(data) {
   var movieContainer = document.createElement('article');
   var img = document.createElement('img');
 
   var movieBody = _classPrivateMethodGet(this, _createMovieBody, _createMovieBody2).call(this, data);
 
-  var footerMovie = _classPrivateMethodGet(this, _createFooter, _createFooter2).call(this, data, movieLikes);
+  var footerMovie = _classPrivateMethodGet(this, _createFooter, _createFooter2).call(this, data.id);
 
   movieContainer.className = 'movie';
   img.className = 'movie__img';
@@ -613,9 +808,9 @@ function _createMovie2(data, movieLikes) {
   return movieContainer;
 }
 
-function _createMovieBody2(_ref2) {
-  var name = _ref2.name,
-      summary = _ref2.summary;
+function _createMovieBody2(_ref) {
+  var name = _ref.name,
+      summary = _ref.summary;
   var movieBody = document.createElement('section');
   var title = document.createElement('h3');
   var description = document.createElement('p');
@@ -636,10 +831,15 @@ function _createMovieBody2(_ref2) {
   return movieBody;
 }
 
-function _createFooter2(_ref3, arrLikes) {
+function _createFooter2(id) {
   var _this2 = this;
 
-  var id = _ref3.id;
+  // eslint-disable-next-line camelcase
+  var arrLikes = _classPrivateFieldGet(this, _likes).filter(function (_ref2) {
+    var item_id = _ref2.item_id;
+    return item_id === id;
+  });
+
   var footer = document.createElement('section');
   var auxiliarDiv1 = document.createElement('div');
   var auxiliarDiv2 = document.createElement('div');
@@ -693,6 +893,102 @@ function _createFooter2(_ref3, arrLikes) {
 }
 
 
+
+/***/ }),
+
+/***/ "./src/modules/paginator.js":
+/*!**********************************!*\
+  !*** ./src/modules/paginator.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _involvementApi_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./involvementApi.js */ "./src/modules/involvementApi.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+/* eslint-disable no-use-before-define */
+
+/* eslint-disable no-plusplus */
+
+var paginatorInfo = document.getElementById('paginatorInfo');
+var paginatorList = document.getElementById('paginatorList');
+var text1 = document.createElement('span');
+var text2 = document.createElement('span');
+paginatorInfo.append(text1, text2);
+
+var createPages = function createPages(moviesManager) {
+  var arrPages = _toConsumableArray(moviesManager.getArrPages());
+
+  text1.textContent = "page: ".concat(moviesManager.actualPage, ", showing ").concat(moviesManager.itemsDisplayed, " titles");
+  text2.textContent = "from ".concat(moviesManager.rangeDisplayed, ". Total titles: ").concat(moviesManager.totalItems);
+  arrPages.forEach(function (page) {
+    var li = document.createElement('li');
+    li.className = 'li-page';
+    li.textContent = page;
+    li.addEventListener('click', function () {
+      pageClickHandler(moviesManager, li, page);
+    });
+    paginatorList.append(li);
+  });
+  var first = paginatorList.querySelectorAll('li')[0];
+  first.classList.add('active');
+};
+
+var pageClickHandler = function pageClickHandler(moviesManager, li, page) {
+  var parentContainer = moviesManager.parentContainer; // select the previous element with the class active and remove it
+
+  var arrItems = paginatorList.querySelectorAll('.active');
+  arrItems.forEach(function (item) {
+    return item.classList.remove('active');
+  });
+  li.classList.add('active'); // every time the user change a page i want to get again the likes in case other
+  // users have added more likes
+
+  _involvementApi_js__WEBPACK_IMPORTED_MODULE_0__.getLikesHome().then(function (likes) {
+    moviesManager.likes = likes;
+  });
+  runAnimation(parentContainer).then(function () {
+    window.scrollTo(0, 0);
+    moviesManager.clearParent();
+    moviesManager.display(page);
+    text1.textContent = "page: ".concat(moviesManager.actualPage, ", showing ").concat(moviesManager.itemsDisplayed, " titles");
+    text2.textContent = "from ".concat(moviesManager.rangeDisplayed, ". Total titles: ").concat(moviesManager.totalItems);
+    window.history.pushState({
+      prevUrl: window.location.href
+    }, 'title', "page-".concat(page));
+  });
+};
+
+var runAnimation = function runAnimation(parentContainer) {
+  // add a class to all the cards
+  var movies = parentContainer.querySelectorAll('.movie');
+  movies.forEach(function (movie) {
+    return movie.classList.add('animationOut');
+  }); // once the animation is done we resolve the promise
+  // I just want to practise with promises jajajajajajajaja
+  // it is not nessesarly at all
+
+  return new Promise(function (resolve) {
+    setTimeout(function () {
+      resolve();
+    }, 500);
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createPages);
 
 /***/ }),
 
@@ -790,7 +1086,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nul {\n  padding-inline-start: 0;\n  list-style: none;\n  margin-block-start: 0;\n  margin-block-end: 0;\n}\n\na {\n  text-decoration: none;\n  word-wrap: break-word;\n}\n\n::before {\n  box-sizing: border-box;\n}\n\n::after {\n  box-sizing: border-box;\n}\n\nheader {\n  display: flex;\n  align-items: center;\n  background-color: #003049;\n  height: 80px;\n}\nheader .logo {\n  margin-left: 5%;\n  display: inline-block;\n  height: 80%;\n}\n\nheader .menu {\n  display: flex;\n  margin-left: 5%;\n  height: 100%;\n}\nheader .menu ul {\n  display: flex;\n}\nheader .menu ul a {\n  display: flex;\n  align-items: center;\n  height: 100%;\n  padding: 5px;\n  color: #eae2b7;\n  font-family: \"Roboto\", sans-serif;\n  transition: all 0.5s linear;\n}\nheader .menu ul a:hover {\n  background-color: #d62828;\n}\n\nfooter {\n  font-family: \"Roboto\", sans-serif;\n  height: 80px;\n  background-color: #003049;\n  color: #eae2b7;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding-left: 5%;\n}\nfooter a {\n  font-weight: bold;\n  color: #fcbf49;\n}\n\n#modal-generator .modal-container {\n  font-family: \"Roboto\", sans-serif;\n  position: fixed;\n  z-index: 1;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  overflow: auto;\n  background-color: rgb(0, 0, 0);\n  background-color: rgba(0, 0, 0, 0.6);\n}\n#modal-generator .modal-container .comments-modal {\n  background-color: #eae2b7;\n  margin: 5% auto;\n  padding: 20px;\n  border: 1px solid #888;\n  width: 70%;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 1rem;\n}\n#modal-generator .modal-container .comments-modal .close-modal {\n  position: absolute;\n  top: 15%;\n  right: 20%;\n  padding: 0.5rem 0.8rem;\n  border: none;\n  background-color: #fcbf49;\n  color: #003049;\n  font-weight: bolder;\n  border-radius: 5px;\n  font-size: larger;\n}\n#modal-generator .modal-container .comments-modal img {\n  width: 50%;\n}\n#modal-generator .modal-container .comments-modal ul.details {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  row-gap: 1rem;\n  column-gap: 5rem;\n}\n#modal-generator .modal-container .comments-modal ul.comments {\n  display: flex;\n  flex-direction: column;\n  gap: 0.8rem;\n}\n#modal-generator .modal-container .comments-modal form {\n  margin-top: 1rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.8rem;\n}\n#modal-generator .modal-container h1,\n#modal-generator .modal-container h2 {\n  font-family: \"Roboto Slab\", serif;\n}\n\n.movies-section {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-gap: 30px 30px;\n  margin: 30px 10px;\n  justify-items: center;\n}\n@media screen and (min-width: 480px) {\n  .movies-section {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n@media screen and (min-width: 768px) {\n  .movies-section {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n@media screen and (min-width: 960px) {\n  .movies-section {\n    grid-template-columns: repeat(4, 1fr);\n  }\n}\n@media screen and (min-width: 1200px) {\n  .movies-section {\n    grid-template-columns: repeat(5, 1fr);\n  }\n}\n\n.movie {\n  width: 250px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  box-shadow: 2px 2px 5px 2px #d62828;\n  border-radius: 5px 5px 30px 5px;\n  transition: transform 0.5s linear;\n}\n.movie:hover {\n  cursor: pointer;\n  transform: scale(1.01);\n}\n.movie__img {\n  display: block;\n  min-height: 60%;\n  padding: 5px;\n}\n.movie__body {\n  height: 30%;\n  padding: 5px;\n  text-align: center;\n}\n.movie__body__title {\n  color: #003049;\n  font-family: \"Roboto Slab\", serif;\n}\n.movie__body__description {\n  margin-top: 5px;\n  font-family: \"Roboto\", sans-serif;\n  color: #004163;\n}\n.movie__footer {\n  display: flex;\n  align-items: center;\n  justify-content: space-evenly;\n  height: 10%;\n  width: 100%;\n  background-color: rgba(214, 40, 40, 0.3);\n  border-radius: 0 0 30px 5px;\n}\n.movie__footer:hover {\n  cursor: default;\n}\n.movie__footer div {\n  width: 100%;\n}\n.movie__footer div span {\n  text-align: end;\n  display: inline-block;\n  width: 42%;\n  font-family: \"Roboto\", sans-serif;\n  margin: 0 10px 0 0;\n  color: #d62828;\n  font-weight: 600;\n  transition: all 0.2s ease-in-out;\n}\n.movie__footer div .like-btn {\n  transition: all 0.5s ease-in-out;\n}\n.movie__footer div .like-btn.active {\n  color: #d62828;\n  cursor: pointer;\n}\n.movie__footer div .like-btn:hover {\n  color: #d62828;\n  cursor: pointer;\n  transform: scale(1.2);\n}", "",{"version":3,"sources":["webpack://./src/styles/2_base/_config.scss","webpack://./src/styles/main.scss","webpack://./src/styles/3_layout/_header.scss","webpack://./src/styles/1_abstracts/_variables.scss","webpack://./src/styles/3_layout/_footer.scss","webpack://./src/styles/3_layout/_comments-modal.scss","webpack://./src/styles/3_layout/_movies-section.scss","webpack://./src/styles/1_abstracts/_mixin.scss","webpack://./src/styles/4_components/_cards.scss"],"names":[],"mappings":"AAEA;EACE,SAAA;EACA,UAAA;EACA,sBAAA;ACAF;;ADIA;EACE,uBAAA;EACA,gBAAA;EACA,qBAAA;EACA,mBAAA;ACDF;;ADIA;EACE,qBAAA;EACA,qBAAA;ACDF;;ADIA;EACE,sBAAA;ACDF;;ADIA;EACE,sBAAA;ACDF;;ACtBA;EACE,aAAA;EACA,mBAAA;EACA,yBAAA;EACA,YCWU;AFcZ;ACvBE;EACE,eAAA;EACA,qBAAA;EACA,WAAA;ADyBJ;;ACrBA;EACE,aAAA;EACA,eAAA;EACA,YAAA;ADwBF;ACtBE;EACE,aAAA;ADwBJ;ACtBI;EACE,aAAA;EACA,mBAAA;EACA,YAAA;EACA,YAAA;EACA,cAAA;EACA,iCCdiB;EDejB,2BAAA;ADwBN;ACtBM;EACE,yBAAA;ADwBR;;AGvDA;EACE,iCDYqB;ECXrB,YDaU;ECZV,yBAAA;EACA,cAAA;EACA,aAAA;EACA,mBAAA;EACA,QAAA;EACA,gBAAA;AH0DF;AGxDE;EACE,iBAAA;EACA,cAAA;AH0DJ;;AIrEE;EACE,iCFWmB;EEVnB,eAAA;EACA,UAAA;EACA,OAAA;EACA,MAAA;EACA,WAAA;EACA,YAAA;EACA,cAAA;EACA,8BAAA;EACA,oCAAA;AJwEJ;AItEI;EACE,yBAAA;EACA,eAAA;EACA,aAAA;EACA,sBAAA;EACA,UAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,SAAA;AJwEN;AItEM;EACE,kBAAA;EACA,QAAA;EACA,UAAA;EACA,sBAAA;EACA,YAAA;EACA,yBAAA;EACA,cAAA;EACA,mBAAA;EACA,kBAAA;EACA,iBAAA;AJwER;AIrEM;EACE,UAAA;AJuER;AIpEM;EACE,aAAA;EACA,qCAAA;EACA,aAAA;EACA,gBAAA;AJsER;AInEM;EACE,aAAA;EACA,sBAAA;EACA,WAAA;AJqER;AIlEM;EACE,gBAAA;EACA,aAAA;EACA,sBAAA;EACA,WAAA;AJoER;AIhEI;;EAEE,iCFlDY;AFoHlB;;AKnIA;EACE,aAAA;EACA,0BAAA;EACA,mBAAA;EACA,iBAAA;EACA,qBAAA;ALsIF;AMpIE;EDPF;IAQI,qCAAA;ELuIF;AACF;AMlIE;EDdF;IAYI,qCAAA;ELwIF;AACF;AMjIE;EDpBF;IAgBI,qCAAA;ELyIF;AACF;AMhIE;ED1BF;IAoBI,qCAAA;EL0IF;AACF;;AOjJA;EACE,YAAA;EACA,aAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,mCAAA;EAfE,+BAAA;EAmBF,iCAAA;APkJF;AOhJE;EACE,eAAA;EACA,sBAAA;APkJJ;AO/IE;EACE,cAAA;EACA,eAAA;EACA,YAAA;APiJJ;AO9IE;EACE,WAAA;EACA,YAAA;EACA,kBAAA;APgJJ;AO9II;EACE,cAAA;EACA,iCL7BY;AF6KlB;AO7II;EACE,eAAA;EACA,iCLnCiB;EKoCjB,cAAA;AP+IN;AO3IE;EACE,aAAA;EACA,mBAAA;EACA,6BAAA;EACA,WAAA;EACA,WAAA;EACA,wCAAA;EAlDA,2BAAA;APgMJ;AO1II;EACE,eAAA;AP4IN;AOzII;EACE,WAAA;AP2IN;AOzIM;EACE,eAAA;EACA,qBAAA;EACA,UAAA;EACA,iCL7De;EK8Df,kBAAA;EACA,cAAA;EACA,gBAAA;EACA,gCAAA;AP2IR;AOxIM;EACE,gCAAA;AP0IR;AOxIQ;EACE,cAAA;EACA,eAAA;AP0IV;AOvIQ;EACE,cAAA;EACA,eAAA;EACA,qBAAA;APyIV","sourcesContent":["@use '../1_abstracts/functions' as f;\r\n\r\n* {\r\n  margin: 0;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\n//yeah I get ride of that hideous padding once and for all for all my ul!!\r\nul {\r\n  padding-inline-start: 0;\r\n  list-style: none;\r\n  margin-block-start: 0;\r\n  margin-block-end: 0;\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  word-wrap: break-word;\r\n}\r\n\r\n::before {\r\n  box-sizing: border-box;\r\n}\r\n\r\n::after {\r\n  box-sizing: border-box;\r\n}\r\n","@import url(\"https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,700&display=swap\");\n* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nul {\n  padding-inline-start: 0;\n  list-style: none;\n  margin-block-start: 0;\n  margin-block-end: 0;\n}\n\na {\n  text-decoration: none;\n  word-wrap: break-word;\n}\n\n::before {\n  box-sizing: border-box;\n}\n\n::after {\n  box-sizing: border-box;\n}\n\nheader {\n  display: flex;\n  align-items: center;\n  background-color: #003049;\n  height: 80px;\n}\nheader .logo {\n  margin-left: 5%;\n  display: inline-block;\n  height: 80%;\n}\n\nheader .menu {\n  display: flex;\n  margin-left: 5%;\n  height: 100%;\n}\nheader .menu ul {\n  display: flex;\n}\nheader .menu ul a {\n  display: flex;\n  align-items: center;\n  height: 100%;\n  padding: 5px;\n  color: #eae2b7;\n  font-family: \"Roboto\", sans-serif;\n  transition: all 0.5s linear;\n}\nheader .menu ul a:hover {\n  background-color: #d62828;\n}\n\nfooter {\n  font-family: \"Roboto\", sans-serif;\n  height: 80px;\n  background-color: #003049;\n  color: #eae2b7;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding-left: 5%;\n}\nfooter a {\n  font-weight: bold;\n  color: #fcbf49;\n}\n\n#modal-generator .modal-container {\n  font-family: \"Roboto\", sans-serif;\n  position: fixed;\n  z-index: 1;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  overflow: auto;\n  background-color: rgb(0, 0, 0);\n  background-color: rgba(0, 0, 0, 0.6);\n}\n#modal-generator .modal-container .comments-modal {\n  background-color: #eae2b7;\n  margin: 5% auto;\n  padding: 20px;\n  border: 1px solid #888;\n  width: 70%;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 1rem;\n}\n#modal-generator .modal-container .comments-modal .close-modal {\n  position: absolute;\n  top: 15%;\n  right: 20%;\n  padding: 0.5rem 0.8rem;\n  border: none;\n  background-color: #fcbf49;\n  color: #003049;\n  font-weight: bolder;\n  border-radius: 5px;\n  font-size: larger;\n}\n#modal-generator .modal-container .comments-modal img {\n  width: 50%;\n}\n#modal-generator .modal-container .comments-modal ul.details {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  row-gap: 1rem;\n  column-gap: 5rem;\n}\n#modal-generator .modal-container .comments-modal ul.comments {\n  display: flex;\n  flex-direction: column;\n  gap: 0.8rem;\n}\n#modal-generator .modal-container .comments-modal form {\n  margin-top: 1rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.8rem;\n}\n#modal-generator .modal-container h1,\n#modal-generator .modal-container h2 {\n  font-family: \"Roboto Slab\", serif;\n}\n\n.movies-section {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-gap: 30px 30px;\n  margin: 30px 10px;\n  justify-items: center;\n}\n@media screen and (min-width: 480px) {\n  .movies-section {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n@media screen and (min-width: 768px) {\n  .movies-section {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n@media screen and (min-width: 960px) {\n  .movies-section {\n    grid-template-columns: repeat(4, 1fr);\n  }\n}\n@media screen and (min-width: 1200px) {\n  .movies-section {\n    grid-template-columns: repeat(5, 1fr);\n  }\n}\n\n.movie {\n  width: 250px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  box-shadow: 2px 2px 5px 2px #d62828;\n  border-radius: 5px 5px 30px 5px;\n  transition: transform 0.5s linear;\n}\n.movie:hover {\n  cursor: pointer;\n  transform: scale(1.01);\n}\n.movie__img {\n  display: block;\n  min-height: 60%;\n  padding: 5px;\n}\n.movie__body {\n  height: 30%;\n  padding: 5px;\n  text-align: center;\n}\n.movie__body__title {\n  color: #003049;\n  font-family: \"Roboto Slab\", serif;\n}\n.movie__body__description {\n  margin-top: 5px;\n  font-family: \"Roboto\", sans-serif;\n  color: #004163;\n}\n.movie__footer {\n  display: flex;\n  align-items: center;\n  justify-content: space-evenly;\n  height: 10%;\n  width: 100%;\n  background-color: rgba(214, 40, 40, 0.3);\n  border-radius: 0 0 30px 5px;\n}\n.movie__footer:hover {\n  cursor: default;\n}\n.movie__footer div {\n  width: 100%;\n}\n.movie__footer div span {\n  text-align: end;\n  display: inline-block;\n  width: 42%;\n  font-family: \"Roboto\", sans-serif;\n  margin: 0 10px 0 0;\n  color: #d62828;\n  font-weight: 600;\n  transition: all 0.2s ease-in-out;\n}\n.movie__footer div .like-btn {\n  transition: all 0.5s ease-in-out;\n}\n.movie__footer div .like-btn.active {\n  color: #d62828;\n  cursor: pointer;\n}\n.movie__footer div .like-btn:hover {\n  color: #d62828;\n  cursor: pointer;\n  transform: scale(1.2);\n}","@use '../1_abstracts/functions' as f;\r\n@use '../1_abstracts/variables' as v;\r\n\r\nheader {\r\n  display: flex;\r\n  align-items: center;\r\n  background-color: f.getcolor('primary');\r\n  height: v.$navHeight;\r\n\r\n  .logo {\r\n    margin-left: 5%;\r\n    display: inline-block;\r\n    height: 80%;\r\n  }\r\n}\r\n\r\nheader .menu {\r\n  display: flex;\r\n  margin-left: 5%;\r\n  height: 100%;\r\n\r\n  ul {\r\n    display: flex;\r\n\r\n    a {\r\n      display: flex;\r\n      align-items: center;\r\n      height: 100%;\r\n      padding: 5px;\r\n      color: f.getcolor('background');\r\n      font-family: v.$fontFamilyPharagraph;\r\n      transition: all 0.5s linear;\r\n\r\n      &:hover {\r\n        background-color: f.getcolor('accent');\r\n      }\r\n    }\r\n  }\r\n}\r\n","$brand-color: (\r\n  'primary':    #003049,\r\n  'secondary':  #fcbf49,\r\n  'accent':     #d62828,\r\n  'background': #eae2b7,\r\n  'hover':      #f77f00,\r\n);\r\n\r\n$break-points: (\r\n  'base': 0,\r\n  'small': 480px,\r\n  'medium': 768px,\r\n  'large': 960px,\r\n  'xlarge': 1200px,\r\n);\r\n\r\n$fontFamilyPharagraph: 'Roboto', sans-serif;\r\n$fontFamilyTitle: 'Roboto Slab', serif;\r\n$navHeight: 80px;\r\n","@use '../1_abstracts/functions' as f;\r\n@use '../1_abstracts/variables' as v;\r\n\r\nfooter {\r\n  font-family: $fontFamilyPharagraph;\r\n  height: v.$navHeight;\r\n  background-color: f.getcolor('primary');\r\n  color: f.getcolor('background');\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 5px;\r\n  padding-left: 5%;\r\n\r\n  a {\r\n    font-weight: bold;\r\n    color: f.getcolor('secondary');\r\n  }\r\n}\r\n","@use '../1_abstracts/functions' as f;\n@use '../1_abstracts/variables' as v;\n\n#modal-generator {\n  .modal-container {\n    font-family: v.$fontFamilyPharagraph;\n    position: fixed;\n    z-index: 1;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    overflow: auto;\n    background-color: rgb(0, 0, 0);\n    background-color: rgba(0, 0, 0, 0.6);\n\n    .comments-modal {\n      background-color: f.getcolor('background');\n      margin: 5% auto;\n      padding: 20px;\n      border: 1px solid #888;\n      width: 70%;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      gap: 1rem;\n\n      .close-modal {\n        position: absolute;\n        top: 15%;\n        right: 20%;\n        padding: 0.5rem 0.8rem;\n        border: none;\n        background-color: f.getcolor('secondary');\n        color: f.getcolor('primary');\n        font-weight: bolder;\n        border-radius: 5px;\n        font-size: larger;\n      }\n\n      img {\n        width: 50%;\n      }\n\n      ul.details {\n        display: grid;\n        grid-template-columns: repeat(2, 1fr);\n        row-gap: 1rem;\n        column-gap: 5rem;\n      }\n\n      ul.comments {\n        display: flex;\n        flex-direction: column;\n        gap: 0.8rem;\n      }\n\n      form {\n        margin-top: 1rem;\n        display: flex;\n        flex-direction: column;\n        gap: 0.8rem;\n      }\n    }\n\n    h1,\n    h2 {\n      font-family: v.$fontFamilyTitle;\n    }\n  }\n}\n","@use '../1_abstracts/mixin';\r\n\r\n.movies-section {\r\n  display: grid;\r\n  grid-template-columns: 1fr;\r\n  grid-gap: 30px 30px;\r\n  margin: 30px 10px;\r\n  justify-items: center;\r\n\r\n  @include mixin.small {\r\n    grid-template-columns: repeat(2, 1fr);\r\n  }\r\n\r\n  @include mixin.medium {\r\n    grid-template-columns: repeat(3, 1fr);\r\n  }\r\n\r\n  @include mixin.large {\r\n    grid-template-columns: repeat(4, 1fr);\r\n  }\r\n\r\n  @include mixin.xlarge {\r\n    grid-template-columns: repeat(5, 1fr);\r\n  }\r\n}\r\n","@use 'functions' as f;\r\n\r\n@mixin base {\r\n  @media screen and (min-width: f.get-break-point('base')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin small {\r\n  @media screen and (min-width: f.get-break-point('small')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n// desktop\r\n@mixin medium {\r\n  @media screen and (min-width: f.get-break-point('medium')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin large {\r\n  @media screen and (min-width: f.get-break-point('large')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin xlarge {\r\n  @media screen and (min-width: f.get-break-point('xlarge')) {\r\n    @content;\r\n  }\r\n}\r\n","@use '../1_abstracts/mixin';\r\n@use '../1_abstracts/functions' as f;\r\n@use '../1_abstracts/variables' as v;\r\n\r\n@mixin border-radius ($card: true) {\r\n  @if $card == true {\r\n    // this porder is for all the body\r\n    border-radius: 5px 5px 30px 5px;\r\n  }\r\n\r\n  @else {\r\n    // i will add also a border radious to the footer\r\n    border-radius: 0 0 30px 5px;\r\n  }\r\n}\r\n\r\n.movie {\r\n  width: 250px;\r\n  height: 500px;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  box-shadow: 2px 2px 5px 2px f.getcolor('accent');\r\n\r\n  @include border-radius();\r\n\r\n  transition: transform 0.5s linear;\r\n\r\n  &:hover {\r\n    cursor: pointer;\r\n    transform: scale(1.01);\r\n  }\r\n\r\n  &__img {\r\n    display: block;\r\n    min-height: 60%;\r\n    padding: 5px;\r\n  }\r\n\r\n  &__body {\r\n    height: 30%;\r\n    padding: 5px;\r\n    text-align: center;\r\n\r\n    &__title {\r\n      color: f.getcolor('primary');\r\n      font-family: v.$fontFamilyTitle;\r\n    }\r\n\r\n    &__description {\r\n      margin-top: 5px;\r\n      font-family: v.$fontFamilyPharagraph;\r\n      color: lighten(f.getcolor('primary'), 5%);\r\n    }\r\n  }\r\n\r\n  &__footer {\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: space-evenly;\r\n    height: 10%;\r\n    width: 100%;\r\n    background-color: transparentize(f.getcolor('accent'), 0.7);\r\n\r\n    @include border-radius(false);\r\n\r\n    &:hover {\r\n      cursor: default;\r\n    }\r\n\r\n    div {\r\n      width: 100%;\r\n\r\n      & span {\r\n        text-align: end;\r\n        display: inline-block;\r\n        width: 42%;\r\n        font-family: v.$fontFamilyPharagraph;\r\n        margin: 0 10px 0 0;\r\n        color: f.getcolor('accent');\r\n        font-weight: 600;\r\n        transition: all 0.2s ease-in-out;\r\n      }\r\n\r\n      & .like-btn {\r\n        transition: all 0.5s ease-in-out;\r\n\r\n        &.active {\r\n          color: f.getcolor('accent');\r\n          cursor: pointer;\r\n        }\r\n\r\n        &:hover {\r\n          color: f.getcolor('accent');\r\n          cursor: pointer;\r\n          transform: scale(1.2);\r\n        }\r\n      }\r\n\r\n      .star-btn {\r\n        @extend .star-btn;\r\n      }\r\n    }\r\n  }\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nhtml {\n  scroll-behavior: smooth;\n}\n\nul {\n  padding-inline-start: 0;\n  list-style: none;\n  margin-block-start: 0;\n  margin-block-end: 0;\n}\n\na {\n  text-decoration: none;\n  word-wrap: break-word;\n}\n\n::before {\n  box-sizing: border-box;\n}\n\n::after {\n  box-sizing: border-box;\n}\n\nheader {\n  display: flex;\n  align-items: center;\n  background-color: #003049;\n  height: 80px;\n}\nheader .logo {\n  margin-left: 5%;\n  display: inline-block;\n  height: 80%;\n}\n\nheader .menu {\n  display: flex;\n  margin-left: 5%;\n  height: 100%;\n}\nheader .menu ul {\n  display: flex;\n}\nheader .menu ul a {\n  display: flex;\n  align-items: center;\n  height: 100%;\n  padding: 5px;\n  color: #eae2b7;\n  font-family: \"Roboto\", sans-serif;\n  transition: all 0.5s linear;\n}\nheader .menu ul a:hover {\n  background-color: #d62828;\n}\n\nfooter {\n  font-family: \"Roboto\", sans-serif;\n  height: 80px;\n  background-color: #003049;\n  color: #eae2b7;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding-left: 5%;\n}\nfooter a {\n  font-weight: bold;\n  color: #fcbf49;\n}\n\n#modal-generator .modal-container {\n  font-family: \"Roboto\", sans-serif;\n  position: fixed;\n  z-index: 1;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  overflow: auto;\n  background-color: rgb(0, 0, 0);\n  background-color: rgba(0, 0, 0, 0.6);\n}\n#modal-generator .modal-container .comments-modal {\n  background-color: #eae2b7;\n  margin: 5% auto;\n  padding: 20px;\n  border: 1px solid #888;\n  width: 70%;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 1rem;\n}\n#modal-generator .modal-container .comments-modal .close-modal {\n  position: absolute;\n  top: 15%;\n  right: 20%;\n  padding: 0.5rem 0.8rem;\n  border: none;\n  background-color: #fcbf49;\n  color: #003049;\n  font-weight: bolder;\n  border-radius: 5px;\n  font-size: larger;\n}\n#modal-generator .modal-container .comments-modal img {\n  width: 50%;\n}\n#modal-generator .modal-container .comments-modal ul.details {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  row-gap: 1rem;\n  column-gap: 5rem;\n}\n#modal-generator .modal-container .comments-modal ul.comments {\n  display: flex;\n  flex-direction: column;\n  gap: 0.8rem;\n}\n#modal-generator .modal-container .comments-modal form {\n  margin-top: 1rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.8rem;\n}\n#modal-generator .modal-container h1,\n#modal-generator .modal-container h2 {\n  font-family: \"Roboto Slab\", serif;\n}\n\n.movies-section {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-gap: 30px 30px;\n  margin: 30px 10px;\n  justify-items: center;\n}\n@media screen and (min-width: 480px) {\n  .movies-section {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n@media screen and (min-width: 768px) {\n  .movies-section {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n@media screen and (min-width: 960px) {\n  .movies-section {\n    grid-template-columns: repeat(4, 1fr);\n  }\n}\n@media screen and (min-width: 1200px) {\n  .movies-section {\n    grid-template-columns: repeat(5, 1fr);\n  }\n}\n\n.movie {\n  width: 250px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  box-shadow: 2px 2px 5px 2px #d62828;\n  transition: transform 0.8s linear;\n  border-radius: 5px 5px 30px 5px;\n}\n.movie:hover {\n  cursor: pointer;\n  transform: scale(1.01);\n}\n.movie.animationOut {\n  transform: translateX(-1500px);\n}\n.movie__img {\n  display: block;\n  min-height: 60%;\n  padding: 5px;\n}\n.movie__body {\n  height: 30%;\n  padding: 5px;\n  text-align: center;\n}\n.movie__body__title {\n  color: #003049;\n  font-family: \"Roboto Slab\", serif;\n}\n.movie__body__description {\n  margin-top: 5px;\n  font-family: \"Roboto\", sans-serif;\n  color: #004163;\n}\n.movie__footer {\n  display: flex;\n  align-items: center;\n  justify-content: space-evenly;\n  height: 10%;\n  width: 100%;\n  background-color: rgba(214, 40, 40, 0.3);\n  border-radius: 0 0 30px 5px;\n}\n.movie__footer:hover {\n  cursor: default;\n}\n.movie__footer div {\n  width: 100%;\n  pointer-events: none;\n}\n.movie__footer div span {\n  text-align: end;\n  display: inline-block;\n  width: 42%;\n  font-family: \"Roboto\", sans-serif;\n  margin: 0 10px 0 0;\n  color: #d62828;\n  font-weight: 600;\n  transition: all 0.2s ease-in-out;\n}\n.movie__footer div .like-btn {\n  transition: all 0.5s ease-in-out;\n  pointer-events: auto;\n}\n.movie__footer div .like-btn.active {\n  color: #d62828;\n  cursor: pointer;\n}\n.movie__footer div .like-btn:hover {\n  color: #d62828;\n  cursor: pointer;\n  transform: scale(1.2);\n}\n.paginator {\n  margin: 10px;\n  height: 40px;\n  background-color: #eae2b7;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 0.7em;\n  display: flex;\n  align-items: center;\n}\n.paginator__info {\n  margin: 0 10px;\n}\n.paginator__info > span {\n  display: block;\n}\n.paginator__list {\n  height: 100%;\n  display: flex;\n}\n.paginator .li-page {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n  padding: 5px;\n  min-width: 30px;\n  transition: all 0.5s linear;\n  padding: auto 0;\n}\n.paginator .li-page.active {\n  background-color: #f77f00;\n}\n.paginator .li-page:hover {\n  background-color: #f77f00;\n  cursor: pointer;\n}", "",{"version":3,"sources":["webpack://./src/styles/2_base/_config.scss","webpack://./src/styles/main.scss","webpack://./src/styles/3_layout/_header.scss","webpack://./src/styles/1_abstracts/_variables.scss","webpack://./src/styles/3_layout/_footer.scss","webpack://./src/styles/3_layout/_comments-modal.scss","webpack://./src/styles/3_layout/_movies-section.scss","webpack://./src/styles/1_abstracts/_mixin.scss","webpack://./src/styles/4_components/_cards.scss","webpack://./src/styles/4_components/_paginator.scss"],"names":[],"mappings":"AAEA;EACE,SAAA;EACA,UAAA;EACA,sBAAA;ACAF;;ADGA;EACE,uBAAA;ACAF;;ADIA;EACE,uBAAA;EACA,gBAAA;EACA,qBAAA;EACA,mBAAA;ACDF;;ADIA;EACE,qBAAA;EACA,qBAAA;ACDF;;ADIA;EACE,sBAAA;ACDF;;ADIA;EACE,sBAAA;ACDF;;AC1BA;EACE,aAAA;EACA,mBAAA;EACA,yBAAA;EACA,YCWU;AFkBZ;AC3BE;EACE,eAAA;EACA,qBAAA;EACA,WAAA;AD6BJ;;ACzBA;EACE,aAAA;EACA,eAAA;EACA,YAAA;AD4BF;AC1BE;EACE,aAAA;AD4BJ;AC1BI;EACE,aAAA;EACA,mBAAA;EACA,YAAA;EACA,YAAA;EACA,cAAA;EACA,iCCdiB;EDejB,2BAAA;AD4BN;AC1BM;EACE,yBAAA;AD4BR;;AG3DA;EACE,iCDYqB;ECXrB,YDaU;ECZV,yBAAA;EACA,cAAA;EACA,aAAA;EACA,mBAAA;EACA,QAAA;EACA,gBAAA;AH8DF;AG5DE;EACE,iBAAA;EACA,cAAA;AH8DJ;;AIzEE;EACE,iCFWmB;EEVnB,eAAA;EACA,UAAA;EACA,OAAA;EACA,MAAA;EACA,WAAA;EACA,YAAA;EACA,cAAA;EACA,8BAAA;EACA,oCAAA;AJ4EJ;AI1EI;EACE,yBAAA;EACA,eAAA;EACA,aAAA;EACA,sBAAA;EACA,UAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,SAAA;AJ4EN;AI1EM;EACE,kBAAA;EACA,QAAA;EACA,UAAA;EACA,sBAAA;EACA,YAAA;EACA,yBAAA;EACA,cAAA;EACA,mBAAA;EACA,kBAAA;EACA,iBAAA;AJ4ER;AIzEM;EACE,UAAA;AJ2ER;AIxEM;EACE,aAAA;EACA,qCAAA;EACA,aAAA;EACA,gBAAA;AJ0ER;AIvEM;EACE,aAAA;EACA,sBAAA;EACA,WAAA;AJyER;AItEM;EACE,gBAAA;EACA,aAAA;EACA,sBAAA;EACA,WAAA;AJwER;AIpEI;;EAEE,iCFlDY;AFwHlB;;AKvIA;EACE,aAAA;EACA,0BAAA;EACA,mBAAA;EACA,iBAAA;EACA,qBAAA;AL0IF;AMxIE;EDPF;IAQI,qCAAA;EL2IF;AACF;AMtIE;EDdF;IAYI,qCAAA;EL4IF;AACF;AMrIE;EDpBF;IAgBI,qCAAA;EL6IF;AACF;AMpIE;ED1BF;IAoBI,qCAAA;EL8IF;AACF;;AOrJA;EACE,YAAA;EACA,aAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,mCAAA;EACA,iCAAA;EAhBE,+BAAA;APyKJ;AOrJE;EACE,eAAA;EACA,sBAAA;APuJJ;AOpJE;EACE,8BAAA;APsJJ;AOnJE;EACE,cAAA;EACA,eAAA;EACA,YAAA;APqJJ;AOlJE;EACE,WAAA;EACA,YAAA;EACA,kBAAA;APoJJ;AOlJI;EACE,cAAA;EACA,iCLhCY;AFoLlB;AOjJI;EACE,eAAA;EACA,iCLtCiB;EKuCjB,cAAA;APmJN;AO/IE;EACE,aAAA;EACA,mBAAA;EACA,6BAAA;EACA,WAAA;EACA,WAAA;EACA,wCAAA;EArDA,2BAAA;APuMJ;AO9II;EACE,eAAA;APgJN;AO7II;EACE,WAAA;EACA,oBAAA;AP+IN;AO7IM;EACE,eAAA;EACA,qBAAA;EACA,UAAA;EACA,iCLjEe;EKkEf,kBAAA;EACA,cAAA;EACA,gBAAA;EACA,gCAAA;AP+IR;AO5IM;EACE,gCAAA;EACA,oBAAA;AP8IR;AO5IQ;EACE,cAAA;EACA,eAAA;AP8IV;AO3IQ;EACE,cAAA;EACA,eAAA;EACA,qBAAA;AP6IV;AQ7OA;EACE,YAAA;EACA,YAAA;EACA,yBAAA;EACA,iCNQqB;EMPrB,gBAAA;EACA,aAAA;EACA,mBAAA;AR+OF;AQ7OE;EACE,cAAA;AR+OJ;AQ5OE;EACE,cAAA;AR8OJ;AQ3OE;EACE,YAAA;EACA,aAAA;AR6OJ;AQ1OE;EACE,aAAA;EACA,mBAAA;EACA,uBAAA;EACA,YAAA;EACA,YAAA;EACA,eAAA;EACA,2BAAA;EACA,eAAA;AR4OJ;AQ1OI;EACE,yBAAA;AR4ON;AQzOI;EACE,yBAAA;EACA,eAAA;AR2ON","sourcesContent":["@use '../1_abstracts/functions' as f;\r\n\r\n* {\r\n  margin: 0;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\nhtml {\r\n  scroll-behavior: smooth;\r\n}\r\n\r\n//yeah I get ride of that hideous padding once and for all for all my ul!!\r\nul {\r\n  padding-inline-start: 0;\r\n  list-style: none;\r\n  margin-block-start: 0;\r\n  margin-block-end: 0;\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  word-wrap: break-word;\r\n}\r\n\r\n::before {\r\n  box-sizing: border-box;\r\n}\r\n\r\n::after {\r\n  box-sizing: border-box;\r\n}\r\n","@import url(\"https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,700&display=swap\");\n* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nhtml {\n  scroll-behavior: smooth;\n}\n\nul {\n  padding-inline-start: 0;\n  list-style: none;\n  margin-block-start: 0;\n  margin-block-end: 0;\n}\n\na {\n  text-decoration: none;\n  word-wrap: break-word;\n}\n\n::before {\n  box-sizing: border-box;\n}\n\n::after {\n  box-sizing: border-box;\n}\n\nheader {\n  display: flex;\n  align-items: center;\n  background-color: #003049;\n  height: 80px;\n}\nheader .logo {\n  margin-left: 5%;\n  display: inline-block;\n  height: 80%;\n}\n\nheader .menu {\n  display: flex;\n  margin-left: 5%;\n  height: 100%;\n}\nheader .menu ul {\n  display: flex;\n}\nheader .menu ul a {\n  display: flex;\n  align-items: center;\n  height: 100%;\n  padding: 5px;\n  color: #eae2b7;\n  font-family: \"Roboto\", sans-serif;\n  transition: all 0.5s linear;\n}\nheader .menu ul a:hover {\n  background-color: #d62828;\n}\n\nfooter {\n  font-family: \"Roboto\", sans-serif;\n  height: 80px;\n  background-color: #003049;\n  color: #eae2b7;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding-left: 5%;\n}\nfooter a {\n  font-weight: bold;\n  color: #fcbf49;\n}\n\n#modal-generator .modal-container {\n  font-family: \"Roboto\", sans-serif;\n  position: fixed;\n  z-index: 1;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  overflow: auto;\n  background-color: rgb(0, 0, 0);\n  background-color: rgba(0, 0, 0, 0.6);\n}\n#modal-generator .modal-container .comments-modal {\n  background-color: #eae2b7;\n  margin: 5% auto;\n  padding: 20px;\n  border: 1px solid #888;\n  width: 70%;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 1rem;\n}\n#modal-generator .modal-container .comments-modal .close-modal {\n  position: absolute;\n  top: 15%;\n  right: 20%;\n  padding: 0.5rem 0.8rem;\n  border: none;\n  background-color: #fcbf49;\n  color: #003049;\n  font-weight: bolder;\n  border-radius: 5px;\n  font-size: larger;\n}\n#modal-generator .modal-container .comments-modal img {\n  width: 50%;\n}\n#modal-generator .modal-container .comments-modal ul.details {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  row-gap: 1rem;\n  column-gap: 5rem;\n}\n#modal-generator .modal-container .comments-modal ul.comments {\n  display: flex;\n  flex-direction: column;\n  gap: 0.8rem;\n}\n#modal-generator .modal-container .comments-modal form {\n  margin-top: 1rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.8rem;\n}\n#modal-generator .modal-container h1,\n#modal-generator .modal-container h2 {\n  font-family: \"Roboto Slab\", serif;\n}\n\n.movies-section {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-gap: 30px 30px;\n  margin: 30px 10px;\n  justify-items: center;\n}\n@media screen and (min-width: 480px) {\n  .movies-section {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n@media screen and (min-width: 768px) {\n  .movies-section {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n@media screen and (min-width: 960px) {\n  .movies-section {\n    grid-template-columns: repeat(4, 1fr);\n  }\n}\n@media screen and (min-width: 1200px) {\n  .movies-section {\n    grid-template-columns: repeat(5, 1fr);\n  }\n}\n\n.movie {\n  width: 250px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  box-shadow: 2px 2px 5px 2px #d62828;\n  transition: transform 0.8s linear;\n  border-radius: 5px 5px 30px 5px;\n}\n.movie:hover {\n  cursor: pointer;\n  transform: scale(1.01);\n}\n.movie.animationOut {\n  transform: translateX(-1500px);\n}\n.movie__img {\n  display: block;\n  min-height: 60%;\n  padding: 5px;\n}\n.movie__body {\n  height: 30%;\n  padding: 5px;\n  text-align: center;\n}\n.movie__body__title {\n  color: #003049;\n  font-family: \"Roboto Slab\", serif;\n}\n.movie__body__description {\n  margin-top: 5px;\n  font-family: \"Roboto\", sans-serif;\n  color: #004163;\n}\n.movie__footer {\n  display: flex;\n  align-items: center;\n  justify-content: space-evenly;\n  height: 10%;\n  width: 100%;\n  background-color: rgba(214, 40, 40, 0.3);\n  border-radius: 0 0 30px 5px;\n}\n.movie__footer:hover {\n  cursor: default;\n}\n.movie__footer div {\n  width: 100%;\n  pointer-events: none;\n}\n.movie__footer div span {\n  text-align: end;\n  display: inline-block;\n  width: 42%;\n  font-family: \"Roboto\", sans-serif;\n  margin: 0 10px 0 0;\n  color: #d62828;\n  font-weight: 600;\n  transition: all 0.2s ease-in-out;\n}\n.movie__footer div .like-btn {\n  transition: all 0.5s ease-in-out;\n  pointer-events: auto;\n}\n.movie__footer div .like-btn.active {\n  color: #d62828;\n  cursor: pointer;\n}\n.movie__footer div .like-btn:hover {\n  color: #d62828;\n  cursor: pointer;\n  transform: scale(1.2);\n}\n.paginator {\n  margin: 10px;\n  height: 40px;\n  background-color: #eae2b7;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 0.7em;\n  display: flex;\n  align-items: center;\n}\n.paginator__info {\n  margin: 0 10px;\n}\n.paginator__info > span {\n  display: block;\n}\n.paginator__list {\n  height: 100%;\n  display: flex;\n}\n.paginator .li-page {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n  padding: 5px;\n  min-width: 30px;\n  transition: all 0.5s linear;\n  padding: auto 0;\n}\n.paginator .li-page.active {\n  background-color: #f77f00;\n}\n.paginator .li-page:hover {\n  background-color: #f77f00;\n  cursor: pointer;\n}","@use '../1_abstracts/functions' as f;\r\n@use '../1_abstracts/variables' as v;\r\n\r\nheader {\r\n  display: flex;\r\n  align-items: center;\r\n  background-color: f.getcolor('primary');\r\n  height: v.$navHeight;\r\n\r\n  .logo {\r\n    margin-left: 5%;\r\n    display: inline-block;\r\n    height: 80%;\r\n  }\r\n}\r\n\r\nheader .menu {\r\n  display: flex;\r\n  margin-left: 5%;\r\n  height: 100%;\r\n\r\n  ul {\r\n    display: flex;\r\n\r\n    a {\r\n      display: flex;\r\n      align-items: center;\r\n      height: 100%;\r\n      padding: 5px;\r\n      color: f.getcolor('background');\r\n      font-family: v.$fontFamilyPharagraph;\r\n      transition: all 0.5s linear;\r\n\r\n      &:hover {\r\n        background-color: f.getcolor('accent');\r\n      }\r\n    }\r\n  }\r\n}\r\n","$brand-color: (\r\n  'primary':    #003049,\r\n  'secondary':  #fcbf49,\r\n  'accent':     #d62828,\r\n  'background': #eae2b7,\r\n  'hover':      #f77f00,\r\n);\r\n\r\n$break-points: (\r\n  'base': 0,\r\n  'small': 480px,\r\n  'medium': 768px,\r\n  'large': 960px,\r\n  'xlarge': 1200px,\r\n);\r\n\r\n$fontFamilyPharagraph: 'Roboto', sans-serif;\r\n$fontFamilyTitle: 'Roboto Slab', serif;\r\n$navHeight: 80px;\r\n","@use '../1_abstracts/functions' as f;\r\n@use '../1_abstracts/variables' as v;\r\n\r\nfooter {\r\n  font-family: $fontFamilyPharagraph;\r\n  height: v.$navHeight;\r\n  background-color: f.getcolor('primary');\r\n  color: f.getcolor('background');\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 5px;\r\n  padding-left: 5%;\r\n\r\n  a {\r\n    font-weight: bold;\r\n    color: f.getcolor('secondary');\r\n  }\r\n}\r\n","@use '../1_abstracts/functions' as f;\n@use '../1_abstracts/variables' as v;\n\n#modal-generator {\n  .modal-container {\n    font-family: v.$fontFamilyPharagraph;\n    position: fixed;\n    z-index: 1;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    overflow: auto;\n    background-color: rgb(0, 0, 0);\n    background-color: rgba(0, 0, 0, 0.6);\n\n    .comments-modal {\n      background-color: f.getcolor('background');\n      margin: 5% auto;\n      padding: 20px;\n      border: 1px solid #888;\n      width: 70%;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      gap: 1rem;\n\n      .close-modal {\n        position: absolute;\n        top: 15%;\n        right: 20%;\n        padding: 0.5rem 0.8rem;\n        border: none;\n        background-color: f.getcolor('secondary');\n        color: f.getcolor('primary');\n        font-weight: bolder;\n        border-radius: 5px;\n        font-size: larger;\n      }\n\n      img {\n        width: 50%;\n      }\n\n      ul.details {\n        display: grid;\n        grid-template-columns: repeat(2, 1fr);\n        row-gap: 1rem;\n        column-gap: 5rem;\n      }\n\n      ul.comments {\n        display: flex;\n        flex-direction: column;\n        gap: 0.8rem;\n      }\n\n      form {\n        margin-top: 1rem;\n        display: flex;\n        flex-direction: column;\n        gap: 0.8rem;\n      }\n    }\n\n    h1,\n    h2 {\n      font-family: v.$fontFamilyTitle;\n    }\n  }\n}\n","@use '../1_abstracts/mixin';\r\n\r\n.movies-section {\r\n  display: grid;\r\n  grid-template-columns: 1fr;\r\n  grid-gap: 30px 30px;\r\n  margin: 30px 10px;\r\n  justify-items: center;\r\n\r\n  @include mixin.small {\r\n    grid-template-columns: repeat(2, 1fr);\r\n  }\r\n\r\n  @include mixin.medium {\r\n    grid-template-columns: repeat(3, 1fr);\r\n  }\r\n\r\n  @include mixin.large {\r\n    grid-template-columns: repeat(4, 1fr);\r\n  }\r\n\r\n  @include mixin.xlarge {\r\n    grid-template-columns: repeat(5, 1fr);\r\n  }\r\n}\r\n","@use 'functions' as f;\r\n\r\n@mixin base {\r\n  @media screen and (min-width: f.get-break-point('base')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin small {\r\n  @media screen and (min-width: f.get-break-point('small')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n// desktop\r\n@mixin medium {\r\n  @media screen and (min-width: f.get-break-point('medium')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin large {\r\n  @media screen and (min-width: f.get-break-point('large')) {\r\n    @content;\r\n  }\r\n}\r\n\r\n@mixin xlarge {\r\n  @media screen and (min-width: f.get-break-point('xlarge')) {\r\n    @content;\r\n  }\r\n}\r\n","@use '../1_abstracts/mixin';\r\n@use '../1_abstracts/functions' as f;\r\n@use '../1_abstracts/variables' as v;\r\n\r\n@mixin border-radius ($card: true) {\r\n  @if $card == true {\r\n    // this porder is for all the body\r\n    border-radius: 5px 5px 30px 5px;\r\n  }\r\n\r\n  @else {\r\n    // i will add also a border radious to the footer\r\n    border-radius: 0 0 30px 5px;\r\n  }\r\n}\r\n\r\n.movie {\r\n  width: 250px;\r\n  height: 500px;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  box-shadow: 2px 2px 5px 2px f.getcolor('accent');\r\n  transition: transform 0.8s linear;\r\n\r\n  @include border-radius();\r\n\r\n  &:hover {\r\n    cursor: pointer;\r\n    transform: scale(1.01);\r\n  }\r\n\r\n  &.animationOut {\r\n    transform: translateX(-1500px);\r\n  }\r\n\r\n  &__img {\r\n    display: block;\r\n    min-height: 60%;\r\n    padding: 5px;\r\n  }\r\n\r\n  &__body {\r\n    height: 30%;\r\n    padding: 5px;\r\n    text-align: center;\r\n\r\n    &__title {\r\n      color: f.getcolor('primary');\r\n      font-family: v.$fontFamilyTitle;\r\n    }\r\n\r\n    &__description {\r\n      margin-top: 5px;\r\n      font-family: v.$fontFamilyPharagraph;\r\n      color: lighten(f.getcolor('primary'), 5%);\r\n    }\r\n  }\r\n\r\n  &__footer {\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: space-evenly;\r\n    height: 10%;\r\n    width: 100%;\r\n    background-color: transparentize(f.getcolor('accent'), 0.7);\r\n\r\n    @include border-radius(false);\r\n\r\n    &:hover {\r\n      cursor: default;\r\n    }\r\n\r\n    div {\r\n      width: 100%;\r\n      pointer-events: none;\r\n\r\n      & span {\r\n        text-align: end;\r\n        display: inline-block;\r\n        width: 42%;\r\n        font-family: v.$fontFamilyPharagraph;\r\n        margin: 0 10px 0 0;\r\n        color: f.getcolor('accent');\r\n        font-weight: 600;\r\n        transition: all 0.2s ease-in-out;\r\n      }\r\n\r\n      & .like-btn {\r\n        transition: all 0.5s ease-in-out;\r\n        pointer-events: auto;\r\n\r\n        &.active {\r\n          color: f.getcolor('accent');\r\n          cursor: pointer;\r\n        }\r\n\r\n        &:hover {\r\n          color: f.getcolor('accent');\r\n          cursor: pointer;\r\n          transform: scale(1.2);\r\n        }\r\n      }\r\n\r\n      .star-btn {\r\n        @extend .star-btn;\r\n      }\r\n    }\r\n  }\r\n}\r\n","@use '../1_abstracts/functions' as f;\n@use '../1_abstracts/mixin';\n@use '../1_abstracts/variables' as v;\n\n.paginator {\n  margin: 10px;\n  height: 40px;\n  background-color: f.getcolor('background');\n  font-family: v.$fontFamilyPharagraph;\n  font-size: 0.7em;\n  display: flex;\n  align-items: center;\n\n  &__info {\n    margin: 0 10px;\n  }\n\n  &__info > span {\n    display: block;\n  }\n\n  &__list {\n    height: 100%;\n    display: flex;\n  }\n  \n  .li-page {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    height: 100%;\n    padding: 5px;\n    min-width: 30px;\n    transition: all 0.5s linear;\n    padding: auto 0;\n\n    &.active {\n      background-color: f.getcolor('hover');\n    }\n    \n    &:hover {\n      background-color: f.getcolor('hover');\n      cursor: pointer;\n    }\n  }\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
