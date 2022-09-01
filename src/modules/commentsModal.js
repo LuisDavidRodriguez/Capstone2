@@ -1,8 +1,7 @@
 import getShowData from './getShowData.js';
 import { getComments, addComment, printComments } from './getShowComments.js';
 
-const BASE_URL =
-  'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/';
+const BASE_URL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/';
 const GAME_ID = '3bifdQ3qgzMtAvx1V3Pc';
 
 const generateModal = (id) => {
@@ -69,7 +68,7 @@ const generateModal = (id) => {
     summary.innerHTML = showData.summary;
     const genresText = document.createTextNode(`Genre: ${showData.genres[0]}`);
     const premieredText = document.createTextNode(
-      `Premiered: ${showData.premiered}`
+      `Premiered: ${showData.premiered}`,
     );
     const statusText = document.createTextNode(`Status: ${showData.status}`);
     const urlText = document.createTextNode('More information');
@@ -80,10 +79,7 @@ const generateModal = (id) => {
     // Appends text nodes to the elements
     closeBtn.appendChild(closeBtnText);
     title.appendChild(titleText);
-    ulDetails.appendChild(genres);
-    ulDetails.appendChild(premiered);
-    ulDetails.appendChild(status);
-    ulDetails.appendChild(url);
+    ulDetails.append(genres, premiered, status, url);
     genres.appendChild(genresText);
     premiered.appendChild(premieredText);
     status.appendChild(statusText);
@@ -94,18 +90,18 @@ const generateModal = (id) => {
   });
 
   // Appends elements to the modal
-  commentsModal.appendChild(closeBtn);
-  commentsModal.appendChild(img);
-  commentsModal.appendChild(title);
-  commentsModal.appendChild(summary);
-  commentsModal.appendChild(ulDetails);
-  commentsModal.appendChild(h2Comments);
-  commentsModal.appendChild(ulComments);
-  commentsModal.appendChild(h2AddComment);
-  commentsModal.appendChild(form);
-  form.appendChild(nameInput);
-  form.appendChild(commentTextArea);
-  form.appendChild(submitBtn);
+  commentsModal.append(
+    closeBtn,
+    img,
+    title,
+    summary,
+    ulDetails,
+    h2Comments,
+    ulComments,
+    h2AddComment,
+    form,
+  );
+  form.append(nameInput, commentTextArea, submitBtn);
   modalContainer.appendChild(commentsModal);
 
   // Appends modalContainer to the modalGenerator
