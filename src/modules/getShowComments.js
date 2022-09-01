@@ -9,6 +9,26 @@ const getComments = async (id) => {
   return data;
 };
 
+const printComments = (commentsPromise, id, commentsContainer) => {
+  commentsPromise(id).then((comments) => {
+    if (comments.error) {
+      const li = document.createElement('li');
+      const liText = document.createTextNode('No comments yet, be the first!');
+      li.appendChild(liText);
+      commentsContainer.appendChild(li);
+    } else {
+      comments.forEach((comment) => {
+        const li = document.createElement('li');
+        const liText = document.createTextNode(
+          `${comment.username} on ${comment.creation_date}: ${comment.comment}`,
+        );
+        li.appendChild(liText);
+        commentsContainer.appendChild(li);
+      });
+    }
+  });
+};
+
 const addComment = async (username, comment, itemId) => {
   const body = JSON.stringify({
     item_id: `item${itemId}`,
@@ -25,4 +45,4 @@ const addComment = async (username, comment, itemId) => {
   return result;
 };
 
-export { getComments, addComment };
+export { getComments, addComment, printComments };

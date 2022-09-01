@@ -1,8 +1,7 @@
 import getShowData from './getShowData.js';
-import { getComments, addComment } from './getShowComments.js';
+import { getComments, addComment, printComments } from './getShowComments.js';
 
-const BASE_URL =
-  'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/';
+const BASE_URL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/';
 const GAME_ID = '3bifdQ3qgzMtAvx1V3Pc';
 
 const generateModal = (id) => {
@@ -69,7 +68,7 @@ const generateModal = (id) => {
     summary.innerHTML = showData.summary;
     const genresText = document.createTextNode(`Genre: ${showData.genres[0]}`);
     const premieredText = document.createTextNode(
-      `Premiered: ${showData.premiered}`
+      `Premiered: ${showData.premiered}`,
     );
     const statusText = document.createTextNode(`Status: ${showData.status}`);
     const urlText = document.createTextNode('More information');
@@ -112,25 +111,7 @@ const generateModal = (id) => {
   modalGenerator.appendChild(modalContainer);
 
   // fetch comments from the API
-  const promiseComments = getComments(id);
-
-  promiseComments.then((comments) => {
-    if (comments.error) {
-      const li = document.createElement('li');
-      const liText = document.createTextNode('No comments yet, be the first!');
-      li.appendChild(liText);
-      ulComments.appendChild(li);
-    } else {
-      comments.forEach((comment) => {
-        const li = document.createElement('li');
-        const liText = document.createTextNode(
-          `${comment.username} on ${comment.creation_date}: ${comment.comment}`
-        );
-        li.appendChild(liText);
-        ulComments.appendChild(li);
-      });
-    }
-  });
+  printComments(getComments, id, ulComments);
 
   // Event listener for the submit button
   submitBtn.addEventListener('click', () => {
@@ -148,14 +129,14 @@ const generateModal = (id) => {
     nameInput.value = '';
     commentTextArea.value = '';
     const promise = addComment(nameValue, commentValue, id);
-    promise.then((response) => {
+    promise.then(() => {
       ulComments.innerHTML = '';
       const promiseComments = getComments(id);
       promiseComments.then((comments) => {
         comments.forEach((comment) => {
           const li = document.createElement('li');
           const liText = document.createTextNode(
-            `${comment.username} on ${comment.creation_date}: ${comment.comment}`
+            `${comment.username} on ${comment.creation_date}: ${comment.comment}`,
           );
           li.appendChild(liText);
           ulComments.appendChild(li);
