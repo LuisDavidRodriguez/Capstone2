@@ -55,7 +55,10 @@ moviesContainer.addEventListener('click', (event) => {
 
 // An event listener for the close modal button
 modalGenerator.addEventListener('click', (event) => {
-  if (event.target.classList.contains('close-modal') || event.target.classList.contains('modal-container')) {
+  if (
+    event.target.classList.contains('close-modal')
+    || event.target.classList.contains('modal-container')
+  ) {
     const modalContainer = document.querySelector('.modal-container');
     modalContainer.remove();
   }
