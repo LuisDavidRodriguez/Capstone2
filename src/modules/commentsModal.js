@@ -1,5 +1,8 @@
 import getShowData from './getShowData.js';
-import { getComments } from './getShowComments.js';
+import { getComments, addComment, printComments } from './getShowComments.js';
+
+const BASE_URL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/';
+const GAME_ID = '3bifdQ3qgzMtAvx1V3Pc';
 
 const generateModal = (id) => {
   // Grabs the modal generator
@@ -33,6 +36,7 @@ const generateModal = (id) => {
   closeBtn.classList.add('close-modal');
   ulDetails.classList.add('details');
   ulComments.classList.add('comments');
+  submitBtn.classList.add(`${id}`);
 
   const promiseImg = getShowData(id);
   promiseImg.then((showData) => {
@@ -42,16 +46,18 @@ const generateModal = (id) => {
   });
   url.target = '_blank';
   url.rel = 'noopener noreferrer';
-  form.setAttribute('action', '#');
+  form.setAttribute('action', `${BASE_URL}${GAME_ID}/comments`);
   form.setAttribute('method', 'POST');
   nameInput.setAttribute('type', 'text');
-  nameInput.setAttribute('name', 'name');
+  nameInput.setAttribute('name', 'username');
   nameInput.setAttribute('placeholder', 'Your name');
+  nameInput.setAttribute('required', 'required');
   nameInput.id = 'name-input';
   commentTextArea.setAttribute('name', 'comment');
   commentTextArea.setAttribute('placeholder', 'Your comment');
+  commentTextArea.setAttribute('required', 'required');
   commentTextArea.id = 'comment-textarea';
-  submitBtn.setAttribute('type', 'submit');
+  submitBtn.setAttribute('type', 'button');
   submitBtn.id = 'submit-btn';
 
   const promise = getShowData(id);
@@ -73,10 +79,7 @@ const generateModal = (id) => {
     // Appends text nodes to the elements
     closeBtn.appendChild(closeBtnText);
     title.appendChild(titleText);
-    ulDetails.appendChild(genres);
-    ulDetails.appendChild(premiered);
-    ulDetails.appendChild(status);
-    ulDetails.appendChild(url);
+    ulDetails.append(genres, premiered, status, url);
     genres.appendChild(genresText);
     premiered.appendChild(premieredText);
     status.appendChild(statusText);
@@ -87,43 +90,45 @@ const generateModal = (id) => {
   });
 
   // Appends elements to the modal
-  commentsModal.appendChild(closeBtn);
-  commentsModal.appendChild(img);
-  commentsModal.appendChild(title);
-  commentsModal.appendChild(summary);
-  commentsModal.appendChild(ulDetails);
-  commentsModal.appendChild(h2Comments);
-  commentsModal.appendChild(ulComments);
-  commentsModal.appendChild(h2AddComment);
-  commentsModal.appendChild(form);
-  form.appendChild(nameInput);
-  form.appendChild(commentTextArea);
-  form.appendChild(submitBtn);
+  commentsModal.append(
+    closeBtn,
+    img,
+    title,
+    summary,
+    ulDetails,
+    h2Comments,
+    ulComments,
+    h2AddComment,
+    form,
+  );
+  form.append(nameInput, commentTextArea, submitBtn);
   modalContainer.appendChild(commentsModal);
 
   // Appends modalContainer to the modalGenerator
   modalGenerator.appendChild(modalContainer);
 
-  // fetch comments from the API
-  const promiseComments = getComments(id);
+  // fetch and prints comments from the API
+  printComments(getComments, id, ulComments);
 
-  promiseComments.then((comments) => {
-    if (comments.error) {
-      const li = document.createElement('li');
-      const liText = document.createTextNode('No comments yet, be the first!');
-      li.appendChild(liText);
-      ulComments.appendChild(li);
-    } else {
-      comments.forEach((comment) => {
-        const li = document.createElement('li');
-        const liText = document.createTextNode(
-          `${comment.username} on ${comment.creation_date}: ${comment.comment}`,
-        );
-        li.appendChild(liText);
-        ulComments.appendChild(li);
-      });
-      // <li>Luis on Aug 30: Comment 3</li>
+  // Event listener for the submit button
+  submitBtn.addEventListener('click', () => {
+    if (nameInput.value === '' || commentTextArea.value === '') {
+      nameInput.classList.add('empty-input');
+      commentTextArea.classList.add('empty-input');
+      setTimeout(() => {
+        nameInput.classList.remove('empty-input');
+        commentTextArea.classList.remove('empty-input');
+      }, 1000);
+      return;
     }
+    const nameValue = nameInput.value;
+    const commentValue = commentTextArea.value;
+    nameInput.value = '';
+    commentTextArea.value = '';
+
+    addComment(nameValue, commentValue, id).then(() => {
+      printComments(getComments, id, ulComments);
+    });
   });
 };
 
