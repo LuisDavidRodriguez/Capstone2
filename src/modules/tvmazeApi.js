@@ -9,7 +9,6 @@ const getShows = async () => {
     if (status !== 200) throw new Error('The pitition did not return 200');
 
     return data;
-    // moviesManager.display(data);
   } catch (error) {
     console.log(error);
     return [];
