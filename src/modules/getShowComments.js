@@ -17,6 +17,7 @@ const printComments = (commentsPromise, id, commentsContainer) => {
       li.appendChild(liText);
       commentsContainer.appendChild(li);
     } else {
+      commentsContainer.innerHTML = '';
       comments.forEach((comment) => {
         const li = document.createElement('li');
         const liText = document.createTextNode(
