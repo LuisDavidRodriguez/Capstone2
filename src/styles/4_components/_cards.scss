@@ -21,14 +21,17 @@
   flex-direction: column;
   align-items: center;
   box-shadow: 2px 2px 5px 2px f.getcolor('accent');
+  transition: transform 0.8s linear;
 
   @include border-radius();
-
-  transition: transform 0.5s linear;
 
   &:hover {
     cursor: pointer;
     transform: scale(1.01);
+  }
+
+  &.animationOut {
+    transform: translateX(-1500px);
   }
 
   &__img {
@@ -70,6 +73,7 @@
 
     div {
       width: 100%;
+      pointer-events: none;
 
       & span {
         text-align: end;
@@ -84,6 +88,7 @@
 
       & .like-btn {
         transition: all 0.5s ease-in-out;
+        pointer-events: auto;
 
         &.active {
           color: f.getcolor('accent');

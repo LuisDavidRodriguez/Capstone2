@@ -1,29 +1,138 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-await-in-loop */
 export default class MoviesManager {
   #parentContainer;
 
   #callBackAddLikeAsync;
 
-  constructor(container, addLikeAsync) {
+  #totalItems = 0;
+
+  #actualPage = 1;
+
+  #rangeDisplayed = '';
+
+  #itemsDisplayed = 0;
+
+  #totalPages = 0;
+
+  #pageStep = 30;
+
+  #movies = [];
+
+  #likes = [];
+
+  constructor(container, callBackAddLikeAsync) {
     this.#parentContainer = container;
-    this.#callBackAddLikeAsync = addLikeAsync;
+    this.#callBackAddLikeAsync = callBackAddLikeAsync;
   }
 
-  display(data, likes) {
-    data.forEach((item) => {
-      const { id: movieID } = item;
-      // eslint-disable-next-line camelcase
-      const movieLikes = likes.filter(({ item_id }) => item_id === movieID);
-      const movie = this.#createMovie(item, movieLikes);
+  set movies(movies) {
+    this.#movies = movies;
+    this.#totalItems = movies.length;
+  }
+
+  set likes(likes) {
+    this.#likes = likes;
+  }
+
+  set pageStep(step) {
+    this.#pageStep = step;
+  }
+
+  get parentContainer() {
+    return this.#parentContainer;
+  }
+
+  get totalItems() {
+    return this.#totalItems;
+  }
+
+  get totalPages() {
+    return this.#totalPages;
+  }
+
+  get actualPage() {
+    return this.#actualPage;
+  }
+
+  get itemsDisplayed() {
+    return this.#itemsDisplayed;
+  }
+
+  get rangeDisplayed() {
+    return this.#rangeDisplayed;
+  }
+
+  * getArrPages() {
+    for (let i = 1; i <= this.#totalPages; i++) {
+      yield i;
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  // moviesReady() {
+  //   // check if we have already receive data and we are ready to display
+
+  //   this
+
+  //   // const wait = () => new Promise((resolve) => {
+  //   //   setTimeout(() => {
+  //   //     resolve();
+  //   //   }, 1000);
+  //   // });
+
+  //   // (async () => {
+  //   //   let result;
+  //   //   for (let i = 0; i < 100; i++) {
+  //   //     if (this.#totalItems > 500) {
+  //   //       return true;
+  //   //     }
+  //   //     console.log('iterval');
+  //   //     result = await wait;
+  //   //   }
+  //   // })();
+  //   return result;
+  // }
+
+  display(page = 1) {
+    const arr = this.#paginate(page);
+
+    arr.forEach((item) => {
+      const movie = this.#createMovie(item);
       this.#parentContainer.append(movie);
     });
   }
 
+  clearParent() {
+    this.#parentContainer.textContent = '';
+  }
+
+  #paginate(page = 1) {
+    let initialIndex = 0;
+    let finalIndex = 0;
+
+    finalIndex = this.#pageStep * page;
+    initialIndex = finalIndex - this.#pageStep;
+
+    // in case final index is out of the boundaries of the arr
+    if (finalIndex > this.#totalItems) {
+      finalIndex = this.#totalItems;
+    }
+
+    this.#actualPage = page;
+    this.#itemsDisplayed = finalIndex - initialIndex;
+    this.#rangeDisplayed = `${initialIndex} to ${finalIndex}`;
+    this.#totalPages = Math.ceil(this.#totalItems / this.#pageStep) || 0;
+    console.log('paginate from: ', initialIndex, 'to: ', finalIndex, 'actual page: ', this.#actualPage);
+    return this.#movies.slice(initialIndex, finalIndex);
+  }
+
   // eslint-disable-next-line class-methods-use-this
-  #createMovie(data, movieLikes) {
+  #createMovie(data) {
     const movieContainer = document.createElement('article');
     const img = document.createElement('img');
     const movieBody = this.#createMovieBody(data);
-    const footerMovie = this.#createFooter(data, movieLikes);
+    const footerMovie = this.#createFooter(data.id);
 
     movieContainer.className = 'movie';
     img.className = 'movie__img';
@@ -62,7 +171,10 @@ export default class MoviesManager {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  #createFooter({ id }, arrLikes) {
+  #createFooter(id) {
+    // eslint-disable-next-line camelcase
+    const arrLikes = this.#likes.filter(({ item_id }) => item_id === id);
+
     const footer = document.createElement('section');
     const auxiliarDiv1 = document.createElement('div');
     const auxiliarDiv2 = document.createElement('div');

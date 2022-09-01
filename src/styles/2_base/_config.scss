@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 //yeah I get ride of that hideous padding once and for all for all my ul!!
 ul {
   padding-inline-start: 0;
