@@ -7,7 +7,6 @@ import generateModal from './modules/commentsModal.js';
 const moviesContainer = document.getElementById('moviesSection');
 const moviesManager = new MoviesManager(moviesContainer, invApi.addLike);
 const modalGenerator = document.getElementById('modal-generator');
-// const submitBtn = document.getElementById('submit-btn');
 
 tvMazeApi.getShows().then((movies) => {
   invApi.getLikesHome().then((likes) => {
@@ -34,7 +33,6 @@ moviesContainer.addEventListener('click', (event) => {
     || /likeBtn-\d+/.test(event.target.id)
     || event.target.classList.contains('movie__footer')
   ) {
-    console.log('click on icons or footer');
     return;
   }
 
@@ -51,7 +49,10 @@ moviesContainer.addEventListener('click', (event) => {
 
 // An event listener for the close modal button
 modalGenerator.addEventListener('click', (event) => {
-  if (event.target.classList.contains('close-modal') || event.target.classList.contains('modal-container')) {
+  if (
+    event.target.classList.contains('close-modal')
+    || event.target.classList.contains('modal-container')
+  ) {
     const modalContainer = document.querySelector('.modal-container');
     modalContainer.remove();
   }
