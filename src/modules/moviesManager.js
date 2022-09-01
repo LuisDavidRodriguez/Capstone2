@@ -1,5 +1,5 @@
+/* eslint-disable max-len */
 /* eslint-disable no-plusplus */
-/* eslint-disable no-await-in-loop */
 export default class MoviesManager {
   #parentContainer;
 
@@ -69,31 +69,6 @@ export default class MoviesManager {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  // moviesReady() {
-  //   // check if we have already receive data and we are ready to display
-
-  //   this
-
-  //   // const wait = () => new Promise((resolve) => {
-  //   //   setTimeout(() => {
-  //   //     resolve();
-  //   //   }, 1000);
-  //   // });
-
-  //   // (async () => {
-  //   //   let result;
-  //   //   for (let i = 0; i < 100; i++) {
-  //   //     if (this.#totalItems > 500) {
-  //   //       return true;
-  //   //     }
-  //   //     console.log('iterval');
-  //   //     result = await wait;
-  //   //   }
-  //   // })();
-  //   return result;
-  // }
-
   display(page = 1) {
     const arr = this.#paginate(page);
 
@@ -123,7 +98,7 @@ export default class MoviesManager {
     this.#itemsDisplayed = finalIndex - initialIndex;
     this.#rangeDisplayed = `${initialIndex} to ${finalIndex}`;
     this.#totalPages = Math.ceil(this.#totalItems / this.#pageStep) || 0;
-    console.log('paginate from: ', initialIndex, 'to: ', finalIndex, 'actual page: ', this.#actualPage);
+    // console.log('paginate from: ', initialIndex, 'to: ', finalIndex, 'actual page: ', this.#actualPage);
     return this.#movies.slice(initialIndex, finalIndex);
   }
 
