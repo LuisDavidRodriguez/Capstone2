@@ -136,9 +136,15 @@ const generateModal = (id) => {
     if (nameInput.value === '' || commentTextArea.value === '') {
       nameInput.classList.add('empty-input');
       commentTextArea.classList.add('empty-input');
+      setTimeout(() => {
+        nameInput.classList.remove('empty-input');
+        commentTextArea.classList.remove('empty-input');
+      }, 1000);
     } else {
       const nameValue = nameInput.value;
       const commentValue = commentTextArea.value;
+      nameInput.value = '';
+      commentTextArea.value = '';
       const promise = addComment(nameValue, commentValue, id);
       promise.then((response) => {
         if (response.status === 201) {
@@ -153,10 +159,6 @@ const generateModal = (id) => {
               );
               li.appendChild(liText);
               ulComments.appendChild(li);
-              nameInput.value = '';
-              commentTextArea.value = '';
-              nameInput.classList.remove('empty-input');
-              commentTextArea.classList.remove('empty-input');
             });
           });
         }
