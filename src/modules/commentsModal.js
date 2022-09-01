@@ -149,21 +149,18 @@ const generateModal = (id) => {
     commentTextArea.value = '';
     const promise = addComment(nameValue, commentValue, id);
     promise.then((response) => {
-      if (response.status === 201) {
-        ulComments.innerHTML = '';
-        const promiseComments = getComments(id);
-
-        promiseComments.then((comments) => {
-          comments.forEach((comment) => {
-            const li = document.createElement('li');
-            const liText = document.createTextNode(
-              `${comment.username} on ${comment.creation_date}: ${comment.comment}`
-            );
-            li.appendChild(liText);
-            ulComments.appendChild(li);
-          });
+      ulComments.innerHTML = '';
+      const promiseComments = getComments(id);
+      promiseComments.then((comments) => {
+        comments.forEach((comment) => {
+          const li = document.createElement('li');
+          const liText = document.createTextNode(
+            `${comment.username} on ${comment.creation_date}: ${comment.comment}`
+          );
+          li.appendChild(liText);
+          ulComments.appendChild(li);
         });
-      }
+      });
     });
   });
 };
