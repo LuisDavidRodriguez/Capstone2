@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.55% </span>
+                <span class="strong">73.68% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/18</span>
+                <span class='fraction'>14/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.55% </span>
+                <span class="strong">73.68% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/18</span>
+                <span class='fraction'>14/19</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -94,65 +94,68 @@
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const printComments = <span class="fstat-no" title="function not covered" >(</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const printComments = (
   commentsPromise,
   id,
   commentsContainer,
   callback,
   commentsTitle,
 ) =&gt; {
-<span class="cstat-no" title="statement not covered" >  commentsPromise(id).then(<span class="fstat-no" title="function not covered" >(c</span>omments) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (comments.error) {</span>
+  commentsPromise(id).then((comments) =&gt; {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (comments.error) {
       const li = <span class="cstat-no" title="statement not covered" >document.createElement('li');</span>
       const liText = <span class="cstat-no" title="statement not covered" >document.createTextNode('No comments yet, be the first!');</span>
 <span class="cstat-no" title="statement not covered" >      li.appendChild(liText);</span>
 <span class="cstat-no" title="statement not covered" >      commentsContainer.appendChild(li);</span>
 <span class="cstat-no" title="statement not covered" >      return 0;</span>
     }
-    let commentsCounter = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >    commentsContainer.innerHTML = '';</span>
-<span class="cstat-no" title="statement not covered" >    comments.forEach(<span class="fstat-no" title="function not covered" >(c</span>omment) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      commentsCounter += 1;</span>
-      const li = <span class="cstat-no" title="statement not covered" >document.createElement('li');</span>
-      const liText = <span class="cstat-no" title="statement not covered" >document.createTextNode(</span>
+    let commentsCounter = 0;
+    commentsContainer.innerHTML = '';
+    comments.forEach((comment) =&gt; {
+      commentsCounter += 1;
+      const li = document.createElement('li');
+      const liText = document.createTextNode(
         `${comment.username} on ${comment.creation_date}: ${comment.comment}`,
       );
-<span class="cstat-no" title="statement not covered" >      li.appendChild(liText);</span>
-<span class="cstat-no" title="statement not covered" >      commentsContainer.appendChild(li);</span>
+      li.classList.add('comment');
+      li.appendChild(liText);
+      commentsContainer.appendChild(li);
     });
-<span class="cstat-no" title="statement not covered" >    callback(commentsCounter, commentsTitle);</span>
-<span class="cstat-no" title="statement not covered" >    return commentsCounter;</span>
+    callback(commentsCounter, commentsTitle);
+    return commentsCounter;
   });
 };
 &nbsp;
@@ -163,7 +166,7 @@ export default printComments;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-02T13:20:16.333Z
+                at 2022-09-02T15:52:49.526Z
             </div>
         <script src="prettify.js"></script>
         <script>

@@ -21,6 +21,7 @@ const printComments = (
       const liText = document.createTextNode(
         `${comment.username} on ${comment.creation_date}: ${comment.comment}`,
       );
+      li.classList.add('comment');
       li.appendChild(liText);
       commentsContainer.appendChild(li);
     });
