@@ -1,13 +1,12 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# WebPack template!
+# Capstone2!
 
-> Description the project.
-
-
+> This capstone shows you movies and shows using 2 APIs, one from whence we retreive the shows, and the other one Involvement API which stores and deliver comments and likes for each movie!
 
 
-- Demostrate abilities using WebPack.
+![image](https://user-images.githubusercontent.com/105079888/188209234-34bc4895-88d2-45a3-922c-438ff1cac638.png)
+![image](https://user-images.githubusercontent.com/105079888/188209331-b6fe6d19-83c7-4319-8366-fa8a8b9e11a1.png)
 
 
 
@@ -17,6 +16,7 @@
 - SASS
 - HTML
 - WebPack
+- GitFlow
 
 ## Live Demo
 [You can see the demo here]()
