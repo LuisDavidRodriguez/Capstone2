@@ -397,7 +397,6 @@ var getShowData = /*#__PURE__*/function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addLike": () => (/* binding */ addLike),
-/* harmony export */   "getLikes": () => (/* binding */ getLikes),
 /* harmony export */   "getLikesHome": () => (/* binding */ getLikesHome)
 /* harmony export */ });
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -411,93 +410,60 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var BASE_URL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/';
 var GAME_ID = '3bifdQ3qgzMtAvx1V3Pc';
 
-var getLikes = /*#__PURE__*/function () {
+var getLikesHome = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var result, data;
+    var result, data, status;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
-            return fetch("".concat(BASE_URL).concat(GAME_ID, "/likes"));
-
-          case 2:
-            result = _context.sent;
-            _context.next = 5;
-            return result.json();
-
-          case 5:
-            data = _context.sent;
-            console.log(data);
-
-          case 7:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function getLikes() {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-var getLikesHome = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-    var result, data, status;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
+            _context.prev = 0;
+            _context.next = 3;
             return fetch("".concat(BASE_URL).concat(GAME_ID, "/likes"));
 
           case 3:
-            result = _context2.sent;
-            _context2.next = 6;
+            result = _context.sent;
+            _context.next = 6;
             return result.json();
 
           case 6:
-            data = _context2.sent;
+            data = _context.sent;
             status = result.status;
 
             if (!(status !== 200)) {
-              _context2.next = 10;
+              _context.next = 10;
               break;
             }
 
             throw new Error('The pitition did not return 200');
 
           case 10:
-            return _context2.abrupt("return", data);
+            return _context.abrupt("return", data);
 
           case 13:
-            _context2.prev = 13;
-            _context2.t0 = _context2["catch"](0);
-            console.log(_context2.t0);
-            return _context2.abrupt("return", []);
+            _context.prev = 13;
+            _context.t0 = _context["catch"](0);
+            return _context.abrupt("return", []);
 
-          case 17:
+          case 16:
           case "end":
-            return _context2.stop();
+            return _context.stop();
         }
       }
-    }, _callee2, null, [[0, 13]]);
+    }, _callee, null, [[0, 13]]);
   }));
 
   return function getLikesHome() {
-    return _ref2.apply(this, arguments);
+    return _ref.apply(this, arguments);
   };
 }();
 
 var addLike = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(id) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(id) {
     var body, headers, result;
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context2.prev = _context2.next) {
           case 0:
             body = JSON.stringify({
               item_id: id
@@ -505,7 +471,7 @@ var addLike = /*#__PURE__*/function () {
             headers = {
               'Content-type': 'application/json; charset=UTF-8'
             };
-            _context3.next = 4;
+            _context2.next = 4;
             return fetch("".concat(BASE_URL).concat(GAME_ID, "/likes"), {
               method: 'POST',
               body: body,
@@ -513,20 +479,19 @@ var addLike = /*#__PURE__*/function () {
             });
 
           case 4:
-            result = _context3.sent;
-            console.log(result);
-            return _context3.abrupt("return", result);
+            result = _context2.sent;
+            return _context2.abrupt("return", result);
 
-          case 7:
+          case 6:
           case "end":
-            return _context3.stop();
+            return _context2.stop();
         }
       }
-    }, _callee3);
+    }, _callee2);
   }));
 
   return function addLike(_x) {
-    return _ref3.apply(this, arguments);
+    return _ref2.apply(this, arguments);
   };
 }();
 
@@ -1088,10 +1053,9 @@ var getShows = /*#__PURE__*/function () {
           case 13:
             _context.prev = 13;
             _context.t0 = _context["catch"](0);
-            console.log(_context.t0);
             return _context.abrupt("return", []);
 
-          case 17:
+          case 16:
           case "end":
             return _context.stop();
         }
