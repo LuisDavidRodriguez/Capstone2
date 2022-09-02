@@ -2,10 +2,9 @@
  * @jest-environment jsdom
  */
 
-import printComments from '../printComments.js';
-import getComments from '../__mocks__/getCommentsMock.js'
+import getComments from '../__mocks__/getCommentsMock.js';
 import getShowData from '../__mocks__/getShowDataMock.js';
-import generateModal from '../generateModal.js'
+import generateModal from '../generateModal.js';
 
 /* eslint-disable*/
 describe.only('Comments Counter Tests', () => {

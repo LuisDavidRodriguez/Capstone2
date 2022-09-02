@@ -129,7 +129,6 @@ const generateModal = (id, getShowDataFn, getCommentsFn) => {
 
     addComment(nameValue, commentValue, id).then(() => {
       printComments(
-        getComments,
         id,
         ulComments,
         updateCommentsCounter,

@@ -4,8 +4,8 @@ import * as invApi from './modules/involvementApi.js';
 import MoviesManager from './modules/moviesManager.js';
 import generateModal from './modules/generateModal.js';
 import createPages from './modules/paginator.js';
-import getShowData from './modules/__mocks__/getShowDataMock.js';
-import getComments from './modules/__mocks__/getCommentsMock.js';
+import getShowData from './modules/getShowData.js';
+import getComments from './modules/getComments.js';
 
 const moviesContainer = document.getElementById('moviesSection');
 const modalGenerator = document.getElementById('modal-generator');

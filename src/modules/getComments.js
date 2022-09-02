@@ -9,4 +9,4 @@ const getComments = async (id) => {
   return data;
 };
 
-export default getComments
+export default getComments;
