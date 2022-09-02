@@ -1,11 +1,11 @@
-import getShowData from './getShowData.js';
-import { getComments, addComment, printComments } from './getShowComments.js';
-import updateCommentsCounter from './commentsCounter.js';
+import updateCommentsCounter from './updateCommentsCounter.js';
+import printComments from './printComments.js';
+import addComment from './addComment.js';
 
 const BASE_URL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/';
 const GAME_ID = '3bifdQ3qgzMtAvx1V3Pc';
 
-const generateModal = (id) => {
+const generateModal = (id, getShowDataFn, getCommentsFn) => {
   // Grabs the modal generator
   const modalGenerator = document.querySelector('#modal-generator');
 
@@ -39,7 +39,7 @@ const generateModal = (id) => {
   ulComments.classList.add('comments');
   submitBtn.classList.add(`${id}`);
 
-  const promiseImg = getShowData(id);
+  const promiseImg = getShowDataFn(id);
   promiseImg.then((showData) => {
     // Adds attributes to the elements
     img.src = showData.image.medium;
@@ -61,7 +61,7 @@ const generateModal = (id) => {
   submitBtn.setAttribute('type', 'button');
   submitBtn.id = 'submit-btn';
 
-  const promise = getShowData(id);
+  const promise = getShowDataFn(id);
   promise.then((showData) => {
     // Creates text nodes
     const closeBtnText = document.createTextNode('X');
@@ -109,7 +109,7 @@ const generateModal = (id) => {
   modalGenerator.appendChild(modalContainer);
 
   // fetch and prints comments from the API
-  printComments(getComments, id, ulComments, updateCommentsCounter, h2Comments);
+  printComments(getCommentsFn, id, ulComments, updateCommentsCounter, h2Comments);
 
   // Event listener for the submit button
   submitBtn.addEventListener('click', () => {
@@ -129,7 +129,6 @@ const generateModal = (id) => {
 
     addComment(nameValue, commentValue, id).then(() => {
       printComments(
-        getComments,
         id,
         ulComments,
         updateCommentsCounter,

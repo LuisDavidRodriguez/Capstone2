@@ -2,8 +2,10 @@ import './styles/main.scss';
 import * as tvMazeApi from './modules/tvmazeApi.js';
 import * as invApi from './modules/involvementApi.js';
 import MoviesManager from './modules/moviesManager.js';
-import generateModal from './modules/commentsModal.js';
+import generateModal from './modules/generateModal.js';
 import createPages from './modules/paginator.js';
+import getShowData from './modules/getShowData.js';
+import getComments from './modules/getComments.js';
 
 const moviesContainer = document.getElementById('moviesSection');
 const modalGenerator = document.getElementById('modal-generator');
@@ -49,7 +51,7 @@ moviesContainer.addEventListener('click', (event) => {
 
     // call your modal here my friend
     // openModal(id);    or openModal(parseInt(id, 10)) to assure tha it is a num.
-    generateModal(id);
+    generateModal(id, getShowData, getComments);
   }
 });
 
