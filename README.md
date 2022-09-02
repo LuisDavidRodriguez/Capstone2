@@ -48,7 +48,11 @@ git clone https://github.com/LuisDavidRodriguez/capstone-1.git
 - LinkedIn: [profile](https://www.linkedin.com/in/luis-david-rodriguez-valades-24a0a8239)
 - Youtube: [chanel](https://www.youtube.com/channel/UChuA4SgdDYk2DHStsy7HEgQ)
 
+👤 **Fábio Vinícius Dias Lima**
 
+- GitHub: [@limavfabio](https://github.com/limavfabio)
+- LinkedIn: [Fábio Lima](https://www.linkedin.com/in/f%C3%A1bio-lima-a28b16182/)
+- Twitter: [@limavfabio](https://twitter.com/limavfabio)
 
 
 ## 🤝 Contributing
