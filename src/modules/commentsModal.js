@@ -1,5 +1,6 @@
 import getShowData from './getShowData.js';
 import { getComments, addComment, printComments } from './getShowComments.js';
+import updateCommentsCounter from './commentsCounter.js';
 
 const BASE_URL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/';
 const GAME_ID = '3bifdQ3qgzMtAvx1V3Pc';
@@ -72,7 +73,7 @@ const generateModal = (id) => {
     );
     const statusText = document.createTextNode(`Status: ${showData.status}`);
     const urlText = document.createTextNode('More information');
-    const h2CommentsText = document.createTextNode('Comments (n)');
+    const h2CommentsText = document.createTextNode('Comments (0)');
     const h2AddCommentText = document.createTextNode('Add a comment');
     const submitBtnText = document.createTextNode('Submit');
 
@@ -108,7 +109,7 @@ const generateModal = (id) => {
   modalGenerator.appendChild(modalContainer);
 
   // fetch and prints comments from the API
-  printComments(getComments, id, ulComments);
+  printComments(getComments, id, ulComments, updateCommentsCounter, h2Comments);
 
   // Event listener for the submit button
   submitBtn.addEventListener('click', () => {
@@ -127,7 +128,13 @@ const generateModal = (id) => {
     commentTextArea.value = '';
 
     addComment(nameValue, commentValue, id).then(() => {
-      printComments(getComments, id, ulComments);
+      printComments(
+        getComments,
+        id,
+        ulComments,
+        updateCommentsCounter,
+        h2Comments,
+      );
     });
   });
 };
