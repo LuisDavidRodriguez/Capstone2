@@ -1,0 +1,110 @@
+@use '../1_abstracts/mixin';
+@use '../1_abstracts/functions' as f;
+@use '../1_abstracts/variables' as v;
+
+@mixin border-radius ($card: true) {
+  @if $card == true {
+    // this porder is for all the body
+    border-radius: 5px 5px 30px 5px;
+  }
+
+  @else {
+    // i will add also a border radious to the footer
+    border-radius: 0 0 30px 5px;
+  }
+}
+
+.movie {
+  width: 250px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 2px 2px 5px 2px f.getcolor('accent');
+  transition: transform 0.8s linear;
+
+  @include border-radius();
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.01);
+  }
+
+  &.animationOut {
+    transform: translateX(-1500px);
+  }
+
+  &__img {
+    display: block;
+    min-height: 60%;
+    padding: 5px;
+  }
+
+  &__body {
+    height: 30%;
+    padding: 5px;
+    text-align: center;
+
+    &__title {
+      color: f.getcolor('primary');
+      font-family: v.$fontFamilyTitle;
+    }
+
+    &__description {
+      margin-top: 5px;
+      font-family: v.$fontFamilyPharagraph;
+      color: lighten(f.getcolor('primary'), 5%);
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 10%;
+    width: 100%;
+    background-color: transparentize(f.getcolor('accent'), 0.7);
+
+    @include border-radius(false);
+
+    &:hover {
+      cursor: default;
+    }
+
+    div {
+      width: 100%;
+      pointer-events: none;
+
+      & span {
+        text-align: end;
+        display: inline-block;
+        width: 42%;
+        font-family: v.$fontFamilyPharagraph;
+        margin: 0 10px 0 0;
+        color: f.getcolor('accent');
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+      }
+
+      & .like-btn {
+        transition: all 0.5s ease-in-out;
+        pointer-events: auto;
+
+        &.active {
+          color: f.getcolor('accent');
+          cursor: pointer;
+        }
+
+        &:hover {
+          color: f.getcolor('accent');
+          cursor: pointer;
+          transform: scale(1.2);
+        }
+      }
+
+      .star-btn {
+        @extend .star-btn;
+      }
+    }
+  }
+}

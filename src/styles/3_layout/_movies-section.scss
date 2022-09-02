@@ -1,0 +1,25 @@
+@use '../1_abstracts/mixin';
+
+.movies-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 30px 30px;
+  margin: 30px 10px;
+  justify-items: center;
+
+  @include mixin.small {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mixin.medium {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include mixin.large {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @include mixin.xlarge {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

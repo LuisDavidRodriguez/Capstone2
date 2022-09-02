@@ -1,7 +1,13 @@
+@use '../1_abstracts/functions' as f;
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 //yeah I get ride of that hideous padding once and for all for all my ul!!
