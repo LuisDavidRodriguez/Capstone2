@@ -27,7 +27,7 @@
 ## Setup
 If you installed git you can clone the code to your machine, or download a ZIP of all the files directly.
 
-[Download the ZIP from this location](https://github.com/LuisDavidRodriguez/capstone-1/archive/refs/heads/main.zip), or run the following [git](https://git-scm.com/downloads)
+[Download the ZIP from this location](https://github.com/LuisDavidRodriguez/Capstone2/archive/refs/heads/main.zip), or run the following [git](https://git-scm.com/downloads)
  command to clone the files to your machine:
 
 ```bash
