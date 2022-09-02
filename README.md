@@ -1,6 +1,7 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# Capstone2!
+# Capstone2 Fabio and Luis shows! ![image](https://user-images.githubusercontent.com/105079888/188215335-759094ca-5dfb-4d3c-91a3-1e47ac3b1ca5.png)
+
 
 > This capstone shows you movies and shows using 2 APIs, one from whence we retreive the shows, and the other one Involvement API which stores and deliver comments and likes for each movie!
 
@@ -14,7 +15,7 @@
 - GitFlow
 
 ## Live Demo
-[You can see the demo here]()
+[You can see the demo here](https://luisdavidrodriguez.github.io/Capstone2/)
 
 ![image](https://user-images.githubusercontent.com/105079888/188209234-34bc4895-88d2-45a3-922c-438ff1cac638.png)
 ![image](https://user-images.githubusercontent.com/105079888/188209331-b6fe6d19-83c7-4319-8366-fa8a8b9e11a1.png)
