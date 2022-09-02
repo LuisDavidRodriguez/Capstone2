@@ -1,6 +1,8 @@
 import getShowData from './getShowData.js';
-import { getComments, addComment, printComments } from './getShowComments.js';
 import updateCommentsCounter from './commentsCounter.js';
+import printComments from './printComments.js';
+import addComment from './addComment.js';
+import getComments from './getComments.js';
 
 const BASE_URL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/';
 const GAME_ID = '3bifdQ3qgzMtAvx1V3Pc';

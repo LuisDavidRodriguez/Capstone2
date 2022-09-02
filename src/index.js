@@ -2,7 +2,7 @@ import './styles/main.scss';
 import * as tvMazeApi from './modules/tvmazeApi.js';
 import * as invApi from './modules/involvementApi.js';
 import MoviesManager from './modules/moviesManager.js';
-import generateModal from './modules/commentsModal.js';
+import generateModal from './modules/generateModal.js';
 import createPages from './modules/paginator.js';
 
 const moviesContainer = document.getElementById('moviesSection');
