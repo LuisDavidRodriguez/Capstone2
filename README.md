@@ -17,9 +17,7 @@
 ## Live Demo
 [You can see the demo here](https://luisdavidrodriguez.github.io/Capstone2/)
 
-![image](https://user-images.githubusercontent.com/105079888/188209234-34bc4895-88d2-45a3-922c-438ff1cac638.png)
-![image](https://user-images.githubusercontent.com/105079888/188209331-b6fe6d19-83c7-4319-8366-fa8a8b9e11a1.png)
-![image](https://user-images.githubusercontent.com/105079888/188214563-504c39a4-f747-4c94-8f4c-d9eeb77b653f.png)
+![Mi video-11](https://user-images.githubusercontent.com/105079888/188218135-269bb007-183b-47a1-b854-a1280973361e.gif)
 
 
 ## Getting Started
